@@ -6,6 +6,14 @@ Web de captación estática para un servicio freelance de diseño web dirigido a
 
 Requiere Node.js 22.12.0 o superior.
 
+Copia `.env.example` a `.env.local` y añade tu access key de Web3Forms:
+
+```dotenv
+WEB3FORMS_ACCESS_KEY=tu_access_key
+```
+
+`.env.local` está ignorado por Git y no debe confirmarse en el repositorio.
+
 ```bash
 npm install
 npm run dev
@@ -21,7 +29,7 @@ npm run preview
 
 ## Antes de publicar
 
-1. Sustituye `TU_ACCESS_KEY` en `src/components/ContactForm.astro` por la access key de Web3Forms.
+1. Añade `WEB3FORMS_ACCESS_KEY` en **Vercel → Project Settings → Environment Variables** y vuelve a desplegar. No uses el prefijo `PUBLIC_`.
 2. Verifica en Web3Forms que el correo de destino sea `hola@jordisanchezweb.es` y activa la restricción de dominio si tu plan lo permite.
 3. Revisa los datos identificativos del aviso legal y añade el NIF y el domicilio profesional completo si resultan exigibles para tu actividad.
 4. Importa el repositorio en Vercel, asigna `jordisanchezweb.es` y configura la redirección de `www` desde el panel.

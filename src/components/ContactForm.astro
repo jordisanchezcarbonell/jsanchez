@@ -1,9 +1,17 @@
+---
+const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
+
+if (!accessKey) {
+  throw new Error('Falta la variable de entorno WEB3FORMS_ACCESS_KEY.');
+}
+---
+
 <form
   action="https://api.web3forms.com/submit"
   method="POST"
   aria-labelledby="contact-form-title"
 >
-  <input type="hidden" name="access_key" value="TU_ACCESS_KEY" />
+  <input type="hidden" name="access_key" value={accessKey} />
   <input type="hidden" name="subject" value="Nueva consulta desde jordisanchezweb.es" />
   <input type="hidden" name="from_name" value="jordisanchezweb.es" />
   <input type="hidden" name="redirect" value="https://jordisanchezweb.es/gracias/" />
