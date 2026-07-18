@@ -1,0 +1,22 @@
+<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="960" fill="#D9D1C3"/>
+  <rect x="54" y="62" width="1332" height="836" fill="#F7F4EE"/>
+  <rect x="54" y="62" width="1332" height="60" fill="#FFFCF7"/>
+  <circle cx="91" cy="92" r="7" fill="#8A3B2F"/>
+  <circle cx="115" cy="92" r="7" fill="#D8D1C4"/>
+  <circle cx="139" cy="92" r="7" fill="#D8D1C4"/>
+  <text x="120" y="206" fill="#17130D" font-family="Georgia" font-size="38" font-style="italic">Llum</text>
+  <text x="1110" y="202" fill="#5C554B" font-family="Arial" font-size="14" letter-spacing="2">SERVICIOS</text>
+  <text x="1250" y="202" fill="#5C554B" font-family="Arial" font-size="14" letter-spacing="2">RESERVA</text>
+  <text x="120" y="395" fill="#17130D" font-family="Georgia" font-size="104">Tu pelo, con</text>
+  <text x="120" y="505" fill="#8A3B2F" font-family="Georgia" font-size="104" font-style="italic">su propia luz.</text>
+  <text x="126" y="588" fill="#5C554B" font-family="Arial" font-size="19">Peluquería honesta en el corazón de Gràcia.</text>
+  <rect x="126" y="650" width="240" height="64" fill="#17130D"/>
+  <text x="170" y="690" fill="#F7F4EE" font-family="Arial" font-size="16" font-weight="700" letter-spacing="2">PEDIR CITA</text>
+  <rect x="875" y="270" width="384" height="510" fill="#CBC1B2"/>
+  <path d="M875 270L1259 780" stroke="#F7F4EE" stroke-width="40"/>
+  <circle cx="1065" cy="515" r="112" fill="#8A3B2F"/>
+  <path d="M1012 515C1012 467 1036 436 1065 436C1094 436 1118 467 1118 515C1118 563 1094 594 1065 594C1036 594 1012 563 1012 515Z" fill="#17130D"/>
+  <path d="M120 824H1315" stroke="#D8D1C4" stroke-width="2"/>
+  <text x="120" y="859" fill="#5C554B" font-family="Arial" font-size="14" letter-spacing="2">COLOR · CORTE · CUIDADO</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F7F4EE"/>
+  <rect x="42" y="42" width="1116" height="546" stroke="#D8D1C4" stroke-width="2"/>
+  <circle cx="100" cy="100" r="31" fill="#17130D"/>
+  <text x="83" y="108" fill="#F7F4EE" font-family="Georgia" font-size="19" font-weight="700">JS</text>
+  <text x="158" y="106" fill="#17130D" font-family="Arial" font-size="18" font-weight="700" letter-spacing="3">JORDI SÁNCHEZ · WEB</text>
+  <text x="94" y="273" fill="#17130D" font-family="Georgia" font-size="75">Webs claras para</text>
+  <text x="94" y="356" fill="#17130D" font-family="Georgia" font-size="75">negocios que trabajan</text>
+  <text x="94" y="439" fill="#8A3B2F" font-family="Georgia" font-size="75" font-style="italic">de verdad.</text>
+  <path d="M94 505H1106" stroke="#D8D1C4" stroke-width="2"/>
+  <text x="94" y="548" fill="#5C554B" font-family="Arial" font-size="18" letter-spacing="2">DISEÑO WEB · RESERVAS ONLINE · BARCELONA</text>
+  <path d="M1086 92V140M1062 116H1110" stroke="#8A3B2F" stroke-width="2"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="960" fill="#DED7CA"/>
+  <rect x="54" y="62" width="1332" height="836" fill="#EFEAE1"/>
+  <rect x="54" y="62" width="1332" height="60" fill="#F9F6F1"/>
+  <circle cx="91" cy="92" r="7" fill="#8A3B2F"/>
+  <circle cx="115" cy="92" r="7" fill="#D8D1C4"/>
+  <circle cx="139" cy="92" r="7" fill="#D8D1C4"/>
+  <text x="112" y="206" fill="#17130D" font-family="Arial" font-size="19" font-weight="700" letter-spacing="7">CALMA</text>
+  <rect x="112" y="272" width="500" height="498" fill="#B8A999"/>
+  <circle cx="366" cy="478" r="156" fill="#E6D8CB"/>
+  <path d="M235 589C280 522 338 492 409 498C456 502 501 526 530 566V670H235V589Z" fill="#8A3B2F"/>
+  <path d="M330 412C330 359 354 325 383 325C412 325 436 359 436 412C436 465 412 499 383 499C354 499 330 465 330 412Z" fill="#5C554B"/>
+  <text x="730" y="367" fill="#17130D" font-family="Georgia" font-size="88">Cuidarte</text>
+  <text x="730" y="455" fill="#17130D" font-family="Georgia" font-size="88" font-style="italic">también es</text>
+  <text x="730" y="543" fill="#8A3B2F" font-family="Georgia" font-size="88">parar.</text>
+  <text x="736" y="605" fill="#5C554B" font-family="Arial" font-size="18">Tratamientos faciales y corporales</text>
+  <text x="736" y="636" fill="#5C554B" font-family="Arial" font-size="18">en un espacio pensado para ti.</text>
+  <rect x="736" y="690" width="258" height="66" fill="#17130D"/>
+  <text x="780" y="731" fill="#F7F4EE" font-family="Arial" font-size="16" font-weight="700" letter-spacing="2">VER TRATAMIENTOS</text>
+  <path d="M112 824H1315" stroke="#C9C0B2" stroke-width="2"/>
+  <text x="112" y="859" fill="#5C554B" font-family="Arial" font-size="14" letter-spacing="2">SANT ANTONI · BARCELONA</text>
+</svg>

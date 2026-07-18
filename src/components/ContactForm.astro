@@ -1,0 +1,183 @@
+<form
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  aria-labelledby="contact-form-title"
+>
+  <input type="hidden" name="access_key" value="TU_ACCESS_KEY" />
+  <input type="hidden" name="subject" value="Nueva consulta desde jordisanchezweb.es" />
+  <input type="hidden" name="from_name" value="jordisanchezweb.es" />
+  <input type="hidden" name="redirect" value="https://jordisanchezweb.es/gracias/" />
+
+  <div class="field-grid">
+    <div class="field">
+      <label for="nombre">Tu nombre</label>
+      <input id="nombre" name="nombre" type="text" autocomplete="name" required />
+    </div>
+
+    <div class="field">
+      <label for="negocio">Nombre del negocio</label>
+      <input id="negocio" name="negocio" type="text" autocomplete="organization" required />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="datos-contacto">Email o teléfono</label>
+    <input
+      id="datos-contacto"
+      name="contacto"
+      type="text"
+      autocomplete="email"
+      inputmode="email"
+      aria-describedby="datos-contacto-ayuda"
+      required
+    />
+    <small id="datos-contacto-ayuda">El que prefieras para que pueda responderte.</small>
+  </div>
+
+  <div class="field">
+    <label for="mensaje">Cuéntame qué necesitas</label>
+    <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+  </div>
+
+  <input
+    type="checkbox"
+    name="botcheck"
+    class="visually-hidden"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+
+  <label class="consent" for="privacidad-contacto">
+    <input id="privacidad-contacto" name="acepta_privacidad" type="checkbox" required />
+    <span>
+      He leído y acepto la <a href="/privacidad/">política de privacidad</a>.
+    </span>
+  </label>
+
+  <button class="submit-button" type="submit">
+    Enviar consulta
+    <span aria-hidden="true">→</span>
+  </button>
+</form>
+
+<style>
+  form {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .field-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  label {
+    color: #f7f4ee;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #6c645a;
+    border-radius: 0;
+    background: transparent;
+    color: #fffaf3;
+    outline: 0;
+    transition: border-color 180ms ease;
+  }
+
+  input {
+    min-height: 3rem;
+  }
+
+  textarea {
+    min-height: 8rem;
+    padding-block: 0.7rem;
+    resize: vertical;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #c77b6d;
+  }
+
+  small {
+    color: #aaa197;
+    font-size: 0.76rem;
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: #aaa197;
+    font-size: 0.74rem;
+    font-weight: 450;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .consent input {
+    width: 1rem;
+    min-height: 1rem;
+    margin-top: 0.2rem;
+    accent-color: #aa5547;
+  }
+
+  .consent a {
+    color: #f7f4ee;
+  }
+
+  .submit-button {
+    display: flex;
+    width: 100%;
+    min-height: 4.2rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.3rem;
+    border: 1px solid #f7f4ee;
+    background: #f7f4ee;
+    color: #17130d;
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .submit-button span {
+    font-size: 1.25rem;
+    font-weight: 400;
+    transition: transform 180ms ease;
+  }
+
+  .submit-button:hover {
+    background: transparent;
+    color: #f7f4ee;
+  }
+
+  .submit-button:hover span {
+    transform: translateX(0.3rem);
+  }
+
+  @media (min-width: 38rem) {
+    .field-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

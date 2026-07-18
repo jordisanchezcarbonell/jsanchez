@@ -1,0 +1,16 @@
+{
+  "name": "Jordi Sánchez Web",
+  "short_name": "JS Web",
+  "description": "Diseño web para negocios locales en Barcelona",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ee",
+  "theme_color": "#f7f4ee",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

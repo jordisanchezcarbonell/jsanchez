@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada | Jordi Sánchez Web"
+  description="La página que buscas no existe o ha cambiado de dirección."
+  noindex={true}
+>
+  <section class="not-found container">
+    <p class="number" aria-hidden="true">404</p>
+    <div>
+      <p class="eyebrow">Página no encontrada</p>
+      <h1>Por aquí no es.</h1>
+      <p class="lede">La página que buscas no existe o ha cambiado de dirección.</p>
+      <a class="button button--accent" href="/">Volver al inicio</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: 70vh;
+    gap: 2rem;
+    align-items: center;
+    padding-block: var(--section-space);
+  }
+
+  .number {
+    color: var(--line);
+    font-family: var(--serif);
+    font-size: clamp(9rem, 30vw, 25rem);
+    line-height: 0.65;
+    letter-spacing: -0.08em;
+  }
+
+  h1 {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .lede {
+    margin-top: 1.5rem;
+  }
+
+  .button {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 52rem) {
+    .not-found {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    }
+  }
+</style>

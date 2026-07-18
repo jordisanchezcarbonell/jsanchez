@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Mensaje enviado | Jordi Sánchez Web"
+  description="Tu consulta se ha enviado correctamente."
+  canonicalPath="/gracias/"
+  noindex={true}
+>
+  <section class="thanks container">
+    <p class="eyebrow">Mensaje enviado</p>
+    <h1>Gracias. Ya tengo tu consulta.</h1>
+    <p class="lede">
+      La leeré personalmente y te responderé lo antes posible en el contacto que me has dejado.
+    </p>
+    <div class="thanks-actions">
+      <a class="button button--accent" href="/">Volver al inicio</a>
+      <a class="text-link" href="/ejemplos/">Ver ejemplos</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks {
+    display: grid;
+    min-height: 68vh;
+    align-content: center;
+    padding-block: var(--section-space);
+  }
+
+  h1 {
+    max-width: 10ch;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+  }
+
+  .lede {
+    margin-top: 2rem;
+  }
+
+  .thanks-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2rem;
+    margin-top: 2.5rem;
+  }
+</style>

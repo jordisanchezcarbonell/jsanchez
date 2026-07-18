@@ -1,0 +1,137 @@
+---
+const currentPath = Astro.url.pathname;
+
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Jordi Sánchez Web, inicio">
+      <span class="brand-mark" aria-hidden="true">JS</span>
+      <span class="brand-name">Jordi Sánchez <small>Web</small></span>
+    </a>
+
+    <nav aria-label="Navegación principal">
+      <a href="/ejemplos/" aria-current={isActive('/ejemplos') ? 'page' : undefined}>
+        Ejemplos
+      </a>
+      <a href="/blog/" aria-current={isActive('/blog') ? 'page' : undefined}>Blog</a>
+      <a class="nav-cta" href="/#contacto">Hablemos</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+  }
+
+  .header-inner {
+    display: flex;
+    width: min(100%, var(--max-width));
+    min-height: 5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    font-family: var(--serif);
+    font-size: 0.86rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+  }
+
+  .brand-name {
+    display: none;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .brand-name small {
+    color: var(--accent);
+    font: inherit;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.9rem, 3vw, 2.5rem);
+  }
+
+  nav a {
+    position: relative;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  nav a:not(.nav-cta)::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.45rem;
+    left: 0;
+    height: 1px;
+    background: var(--accent);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 180ms ease;
+  }
+
+  nav a:hover::after,
+  nav a[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .nav-cta {
+    padding: 0.72rem 0.9rem;
+    border: 1px solid var(--ink);
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .nav-cta:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  @media (min-width: 40rem) {
+    .brand-name {
+      display: inline;
+    }
+
+    nav a {
+      font-size: 0.76rem;
+    }
+
+    .nav-cta {
+      padding-inline: 1.15rem;
+    }
+  }
+</style>

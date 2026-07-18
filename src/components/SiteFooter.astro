@@ -1,0 +1,82 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-main container">
+    <div>
+      <p class="footer-name">Jordi Sánchez</p>
+      <p class="footer-note">Webs claras para negocios que trabajan de verdad.</p>
+    </div>
+
+    <nav aria-label="Navegación del pie">
+      <a href="/ejemplos/">Ejemplos</a>
+      <a href="/blog/">Blog</a>
+      <a href="/aviso-legal/">Aviso legal</a>
+      <a href="/privacidad/">Privacidad</a>
+    </nav>
+  </div>
+
+  <div class="footer-bottom container">
+    <p>© {year} Jordi Sánchez</p>
+    <a href="mailto:hola@jordisanchezweb.es">hola@jordisanchezweb.es</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  .footer-main {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+
+  .footer-name {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .footer-note {
+    max-width: 28rem;
+    margin-top: 0.8rem;
+    color: var(--muted);
+  }
+
+  nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem 1.5rem;
+  }
+
+  nav a {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-block: 1.35rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 48rem) {
+    .footer-main {
+      grid-template-columns: minmax(0, 1.5fr) minmax(22rem, 0.5fr);
+      align-items: end;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+<svg width="1440" height="960" viewBox="0 0 1440 960" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="960" fill="#E7E0D4"/>
+  <rect x="54" y="62" width="1332" height="836" fill="#17130D"/>
+  <rect x="54" y="62" width="1332" height="60" fill="#F7F4EE"/>
+  <circle cx="91" cy="92" r="7" fill="#8A3B2F"/>
+  <circle cx="115" cy="92" r="7" fill="#D8D1C4"/>
+  <circle cx="139" cy="92" r="7" fill="#D8D1C4"/>
+  <path d="M1130 202H1300" stroke="#F7F4EE" stroke-width="2"/>
+  <text x="126" y="206" fill="#F7F4EE" font-family="Georgia" font-size="28" letter-spacing="6">TALLER 33</text>
+  <text x="124" y="412" fill="#F7F4EE" font-family="Georgia" font-size="110">Corte limpio.</text>
+  <text x="124" y="528" fill="#F7F4EE" font-family="Georgia" font-size="110" font-style="italic">Sin esperas.</text>
+  <rect x="126" y="625" width="246" height="68" fill="#8A3B2F"/>
+  <text x="171" y="668" fill="#FFF9F0" font-family="Arial" font-size="18" font-weight="700" letter-spacing="2">RESERVAR HORA</text>
+  <rect x="910" y="296" width="310" height="475" fill="#2C2721"/>
+  <rect x="944" y="330" width="242" height="305" fill="#8A3B2F"/>
+  <circle cx="1065" cy="454" r="84" fill="#17130D"/>
+  <path d="M1004 543H1126" stroke="#E7E0D4" stroke-width="8"/>
+  <path d="M1004 570H1126" stroke="#E7E0D4" stroke-width="8"/>
+  <text x="952" y="695" fill="#F7F4EE" font-family="Arial" font-size="17" letter-spacing="3">BARCELONA · 08012</text>
+  <path d="M125 823H1300" stroke="#514A41" stroke-width="2"/>
+  <text x="125" y="860" fill="#8F877C" font-family="Arial" font-size="15" letter-spacing="2">CORTE · BARBA · RITUAL</text>
+</svg>
