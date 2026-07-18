@@ -3,6 +3,17 @@
   "framework": "astro",
   "redirects": [
     {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.jordisanchezweb.es"
+        }
+      ],
+      "destination": "https://jordisanchezweb.es/$1",
+      "permanent": true
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": true

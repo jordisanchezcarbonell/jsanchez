@@ -13,6 +13,8 @@ const projects = [
     description: 'Una presencia directa y sobria, con la reserva siempre a un paso.',
     image: barberiaDemo,
     alt: 'Concepto de página web oscura y editorial para la barbería ficticia Taller 33',
+    href: '/demos/taller-33/',
+    status: 'Ver demo interactiva',
   },
   {
     number: '02',
@@ -21,6 +23,7 @@ const projects = [
     description: 'Un diseño luminoso para transmitir cuidado, oficio y cercanía.',
     image: peluqueriaDemo,
     alt: 'Concepto de página web clara para la peluquería ficticia Llum',
+    status: 'Concepto visual',
   },
   {
     number: '03',
@@ -29,6 +32,7 @@ const projects = [
     description: 'Información y tratamientos ordenados con una estética serena y precisa.',
     image: esteticaDemo,
     alt: 'Concepto de página web en tonos naturales para el centro de estética ficticio Calma',
+    status: 'Concepto visual',
   },
 ];
 ---
@@ -43,7 +47,7 @@ const projects = [
     <h1>Webs con personalidad para negocios con oficio.</h1>
     <div class="page-intro__footer">
       <p class="lede">
-        Tres direcciones visuales para enseñar cómo puede verse un negocio local cuando su web cuenta bien lo que hace. Las tres propuestas que siguen son conceptos de demostración, no trabajos realizados para clientes.
+        Tres direcciones visuales para enseñar cómo puede verse un negocio local cuando su web cuenta bien lo que hace. Taller 33 ya puede recorrerse como demo; todas son propuestas ficticias, no trabajos realizados para clientes.
       </p>
       <p class="meta-line"><span>Barcelona</span><span>2026</span></p>
     </div>
@@ -89,12 +93,25 @@ const projects = [
               quality={86}
               loading={index === 0 ? 'eager' : 'lazy'}
             />
+            {project.href && (
+              <a
+                class="preview-link"
+                href={project.href}
+                aria-label={`Explorar la demo interactiva de ${project.title}`}
+              >
+                <span>Explorar demo <span aria-hidden="true">↗</span></span>
+              </a>
+            )}
           </figure>
 
           <div class="work-copy">
             <h2>{project.title}</h2>
             <p>{project.description}</p>
-            <span>Demo en preparación</span>
+            {project.href ? (
+              <a class="work-status" href={project.href}>{project.status} <span aria-hidden="true">↗</span></a>
+            ) : (
+              <span>{project.status}</span>
+            )}
           </div>
         </article>
       ))}
@@ -176,6 +193,7 @@ const projects = [
   }
 
   figure {
+    position: relative;
     margin: 0;
     overflow: hidden;
     border: 1px solid var(--line);
@@ -190,6 +208,26 @@ const projects = [
 
   .work-item:hover figure :global(img) {
     transform: scale(1.012);
+  }
+
+  .preview-link {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+    text-decoration: none;
+  }
+
+  .preview-link > span {
+    padding: 0.75rem 0.9rem;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 0.67rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .work-copy {
@@ -207,11 +245,13 @@ const projects = [
     color: var(--muted);
   }
 
-  .work-copy span {
+  .work-copy > span,
+  .work-status {
     color: var(--accent);
     font-size: 0.68rem;
     font-weight: 750;
     letter-spacing: 0.11em;
+    text-decoration: none;
     text-transform: uppercase;
   }
 
@@ -253,7 +293,8 @@ const projects = [
       align-items: end;
     }
 
-    .work-copy span {
+    .work-copy > span,
+    .work-status {
       justify-self: end;
       padding-bottom: 0.35rem;
     }

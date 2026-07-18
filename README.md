@@ -32,7 +32,7 @@ npm run preview
 1. Añade `WEB3FORMS_ACCESS_KEY` en **Vercel → Project Settings → Environment Variables** y vuelve a desplegar. No uses el prefijo `PUBLIC_`.
 2. Verifica en Web3Forms que el correo de destino sea `jordigw@gmail.com` y activa la restricción de dominio si tu plan lo permite.
 3. Revisa los datos identificativos del aviso legal y añade el NIF y el domicilio profesional completo si resultan exigibles para tu actividad.
-4. Importa el repositorio en Vercel, asigna `jordisanchezweb.es` y configura la redirección de `www` desde el panel.
+4. Importa el repositorio en Vercel y asigna `jordisanchezweb.es` y `www.jordisanchezweb.es`. `vercel.json` redirige `www` al dominio principal; comprueba el 308 después de desplegar.
 5. Activa Web Analytics y Speed Insights en el proyecto de Vercel y vuelve a desplegar.
 
 ## Contenido del blog

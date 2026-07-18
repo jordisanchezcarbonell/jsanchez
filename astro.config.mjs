@@ -7,7 +7,9 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => page !== 'https://jordisanchezweb.es/gracias/',
+      filter: (page) =>
+        page !== 'https://jordisanchezweb.es/gracias/' &&
+        !page.startsWith('https://jordisanchezweb.es/demos/'),
       namespaces: {
         news: false,
         video: false,
