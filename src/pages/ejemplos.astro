@@ -34,20 +34,40 @@ const projects = [
 ---
 
 <BaseLayout
-  title="Ejemplos de webs para negocios locales | Jordi Sánchez"
-  description="Conceptos de diseño web para barberías, peluquerías y centros de estética con reserva online. Ejemplos del servicio de Jordi Sánchez."
+  title="Conceptos de webs para negocios locales | Jordi Sánchez"
+  description="Portfolio de desarrollo y conceptos de diseño web para barberías, peluquerías y centros de estética con reserva online."
   canonicalPath="/ejemplos/"
 >
   <header class="page-intro container">
-    <p class="eyebrow">Ejemplos</p>
+    <p class="eyebrow">Conceptos</p>
     <h1>Webs con personalidad para negocios con oficio.</h1>
     <div class="page-intro__footer">
       <p class="lede">
-        Tres direcciones visuales para enseñar cómo puede verse un negocio local cuando su web cuenta bien lo que hace. Son conceptos de demostración; los proyectos reales se diseñan desde cero.
+        Tres direcciones visuales para enseñar cómo puede verse un negocio local cuando su web cuenta bien lo que hace. Las tres propuestas que siguen son conceptos de demostración, no trabajos realizados para clientes.
       </p>
       <p class="meta-line"><span>Barcelona</span><span>2026</span></p>
     </div>
   </header>
+
+  <section class="portfolio-section" aria-labelledby="portfolio-heading">
+    <div class="container portfolio-grid">
+      <p class="eyebrow">Portfolio de desarrollo</p>
+      <h2 id="portfolio-heading">Proyectos reales, producto y código.</h2>
+      <div class="portfolio-copy">
+        <p>
+          Una selección de aplicaciones y webs en las que he trabajado como desarrollador full stack.
+        </p>
+        <a
+          class="text-link"
+          href="https://jordi-sanchez-portafolio.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver mi portfolio
+        </a>
+      </div>
+    </div>
+  </section>
 
   <section class="work-section" aria-label="Galería de conceptos web">
     <div class="container work-list">
@@ -96,6 +116,31 @@ const projects = [
 </BaseLayout>
 
 <style>
+  .portfolio-section {
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+    border-top: 1px solid var(--line);
+    background: #eee9e0;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .portfolio-grid h2 {
+    max-width: 11ch;
+    font-size: clamp(2.55rem, 5vw, 5rem);
+  }
+
+  .portfolio-copy > p {
+    max-width: 31rem;
+    color: var(--muted);
+  }
+
+  .portfolio-copy .text-link {
+    margin-top: 2rem;
+  }
+
   .work-section {
     padding-bottom: var(--section-space);
     border-top: 1px solid var(--line);
@@ -194,6 +239,15 @@ const projects = [
   }
 
   @media (min-width: 48rem) {
+    .portfolio-grid {
+      grid-template-columns: 0.25fr minmax(0, 0.9fr) minmax(20rem, 0.45fr);
+      align-items: start;
+    }
+
+    .portfolio-grid .eyebrow {
+      margin: 0;
+    }
+
     .work-copy {
       grid-template-columns: minmax(12rem, 0.55fr) minmax(18rem, 0.35fr) minmax(8rem, 0.1fr);
       align-items: end;
