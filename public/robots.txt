@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jordisanchezweb.es/sitemap-index.xml
+Sitemap: https://www.jordisanchezweb.es/sitemap-index.xml

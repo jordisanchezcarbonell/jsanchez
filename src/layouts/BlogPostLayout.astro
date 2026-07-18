@@ -21,19 +21,19 @@ const articleJsonLd = {
   '@type': 'Article',
   headline: post.data.title,
   description: post.data.description,
-  image: 'https://jordisanchezweb.es/og-image.png',
+  image: 'https://www.jordisanchezweb.es/og-image.png',
   datePublished: publishedTime,
   dateModified: modifiedTime ?? publishedTime,
-  mainEntityOfPage: `https://jordisanchezweb.es${canonicalPath}`,
+  mainEntityOfPage: `https://www.jordisanchezweb.es${canonicalPath}`,
   author: {
     '@type': 'Person',
     name: post.data.author,
-    url: 'https://jordisanchezweb.es/',
+    url: 'https://www.jordisanchezweb.es/',
   },
   publisher: {
     '@type': 'Person',
     name: 'Jordi Sánchez',
-    url: 'https://jordisanchezweb.es/',
+    url: 'https://www.jordisanchezweb.es/',
   },
   inLanguage: 'es-ES',
 };

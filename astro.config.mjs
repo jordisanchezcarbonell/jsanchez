@@ -2,14 +2,14 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://jordisanchezweb.es',
+  site: 'https://www.jordisanchezweb.es',
   output: 'static',
   trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) =>
-        page !== 'https://jordisanchezweb.es/gracias/' &&
-        !page.startsWith('https://jordisanchezweb.es/demos/'),
+        page !== 'https://www.jordisanchezweb.es/gracias/' &&
+        !page.startsWith('https://www.jordisanchezweb.es/demos/'),
       namespaces: {
         news: false,
         video: false,
