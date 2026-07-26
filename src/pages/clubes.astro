@@ -1,0 +1,584 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const title = 'Webs para clubes deportivos en Barcelona | Jordi Sánchez';
+const description =
+  'Webs para clubes de fútbol americano, rugby y deportes de equipo: inscripción online por categorías, calendario, tienda del club y patrocinadores. Trato directo y precio cerrado.';
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': 'https://www.jordisanchezweb.es/clubes/#servicio',
+  name: 'Jordi Sánchez Web · Webs para clubes deportivos',
+  url: 'https://www.jordisanchezweb.es/clubes/',
+  email: 'jordigw@gmail.com',
+  founder: {
+    '@type': 'Person',
+    name: 'Jordi Sánchez',
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'España',
+  },
+  priceRange: 'Precio cerrado',
+  knowsLanguage: ['es', 'ca'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de diseño web para clubes deportivos',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Página de socios e inscripción online por categorías',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Calendario y resultados actualizables por el club',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Tienda del club y página de patrocinadores',
+        },
+      },
+    ],
+  },
+};
+
+const problems = [
+  {
+    title: 'El calendario es una imagen',
+    text: 'Se cambia a mano cada jornada, no se lee bien en el móvil y Google no puede leerlo. Cuando llega la temporada, nadie lo actualiza.',
+  },
+  {
+    title: 'No hay forma de apuntarse',
+    text: 'La web dice «ven a un entrenamiento». El que se lo está pensando no aparece: hace falta que deje su nombre y le escribáis vosotros.',
+  },
+  {
+    title: 'El merchandising lo vende otro',
+    text: 'O no se vende. Cada camiseta que pasa por una tienda ajena es margen que se va del club.',
+  },
+];
+
+const services = [
+  {
+    number: '01',
+    title: 'Página de socios y de inscripción',
+    text: 'Un formulario por categoría que llega al correo del club con los datos ya ordenados. Se acabó el «mándame un WhatsApp y te digo».',
+  },
+  {
+    number: '02',
+    title: 'Calendario que se actualiza en un minuto',
+    text: 'Texto de verdad, no un JPG. Se lee en el móvil, lo indexa Google y lo puede cambiar cualquiera de la junta.',
+  },
+  {
+    number: '03',
+    title: 'Tienda del club',
+    text: 'Camisetas, sudaderas, abonos. Pago con tarjeta o Bizum, y el dinero se queda en el club.',
+  },
+  {
+    number: '04',
+    title: 'Patrocinadores que sirven para vender',
+    text: 'Con los paquetes, lo que recibe cada empresa y los logos de quienes ya están. Es la página que enseñáis cuando pedís un patrocinio.',
+  },
+  {
+    number: '05',
+    title: 'Categorías que se actualizan solas',
+    text: 'Las edades de cada equipo se recalculan cada temporada sin que nadie toque nada. Ningún cadete se irá pensando que ya no tiene edad.',
+  },
+];
+
+const process = [
+  {
+    number: '1',
+    title: 'Precio cerrado desde el principio',
+    text: 'Os digo lo que cuesta antes de empezar y no cambia.',
+  },
+  {
+    number: '2',
+    title: 'Empezamos por lo pequeño',
+    text: 'No hace falta rehacer la web entera. Si lo que os está costando socios es la página de inscripción, empezamos por ahí.',
+  },
+  {
+    number: '3',
+    title: 'Os lo dejo para que lo llevéis vosotros',
+    text: 'El calendario, las noticias y la tienda los cambia cualquiera de la junta sin llamarme.',
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/clubes/"
+  jsonLd={serviceJsonLd}
+>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">Webs para clubes deportivos</p>
+      <h1>Tu club ya existe. Que su web esté a la altura.</h1>
+
+      <div class="hero-bottom">
+        <p class="hero-index" aria-hidden="true">Clubes</p>
+        <div class="hero-copy">
+          <p class="lede">
+            Webs para clubes de fútbol americano, rugby y deportes de equipo: que la gente encuentre cómo apuntarse, que el merchandising se venda solo y que los patrocinadores vean lo que pagan.
+          </p>
+          <div class="hero-actions">
+            <a class="button button--accent" href="/demo-club" target="_blank" rel="noopener">
+              Ver la demostración <span aria-hidden="true">↗</span>
+            </a>
+            <a class="text-link" href="#contacto">Escríbeme</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section problems" aria-labelledby="problema-title">
+    <div class="container problem-grid">
+      <header class="problem-intro">
+        <p class="eyebrow">El patrón</p>
+        <h2 id="problema-title">Casi todos los clubes que he revisado fallan en lo mismo.</h2>
+      </header>
+
+      <ol class="problem-list">
+        {problems.map((problem, index) => (
+          <li>
+            <span class="list-number">0{index + 1}</span>
+            <div>
+              <h3>{problem.title}</h3>
+              <p>{problem.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section services" aria-labelledby="servicios-title">
+    <div class="container">
+      <SectionHeading
+        id="servicios-title"
+        eyebrow="Qué hago"
+        title="Las piezas que de verdad mueven la aguja."
+        description="Lo que hace que un club sume socios, venda su ropa y enseñe a un patrocinador algo que merezca la pena pagar."
+      />
+
+      <ol class="service-list">
+        {services.map((service) => (
+          <li>
+            <p class="service-number" aria-hidden="true">{service.number}</p>
+            <div>
+              <h3>{service.title}</h3>
+              <p>{service.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section featured-demo" aria-labelledby="featured-demo-title">
+    <div class="container featured-demo-grid">
+      <div class="featured-demo-copy">
+        <p class="eyebrow">Ejemplo</p>
+        <h2 id="featured-demo-title">Una web de club, funcionando.</h2>
+        <p class="lede">
+          He montado la web de un club ficticio para que veáis cómo funcionaría: inscripción por categorías, calendario, tienda, socios y patrocinadores.
+        </p>
+        <div class="featured-demo-actions">
+          <a class="button button--accent" href="/demo-club" target="_blank" rel="noopener">Ver la demostración</a>
+        </div>
+      </div>
+
+      <div class="featured-demo-card" aria-hidden="true">
+        <span class="card-tag">Demo</span>
+        <p class="card-club">Vallès Bisons</p>
+        <p class="card-sub">Fútbol americano · Sabadell</p>
+        <ul class="card-list">
+          <li>Inscripción por categorías</li>
+          <li>Calendario y resultados</li>
+          <li>Tienda con carrito</li>
+          <li>Socios y patrocinadores</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process" aria-labelledby="proceso-title">
+    <div class="container">
+      <SectionHeading
+        id="proceso-title"
+        eyebrow="Cómo trabajo"
+        title="Directo, sin sorpresas y para que lo llevéis vosotros."
+        description="No os ato a nada. Empezamos por lo que más falta os hace y os lo dejo listo para gestionarlo desde la junta."
+      />
+
+      <ol class="process-list">
+        {process.map((step) => (
+          <li>
+            <span class="process-number" aria-hidden="true">{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto" aria-labelledby="contact-title">
+    <div class="container contact-grid">
+      <div class="contact-copy">
+        <p class="eyebrow">Hablemos</p>
+        <h2 id="contact-title">¿Miramos vuestra web?</h2>
+        <p>
+          Escríbeme y os digo, sin compromiso, qué tres cosas cambiaría y qué costaría. Si no veo nada que merezca la pena tocar, os lo digo también.
+        </p>
+        <a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    padding-block: clamp(4.5rem, 10vw, 9rem) clamp(4rem, 8vw, 7rem);
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+  }
+
+  .hero h1::first-line {
+    font-style: italic;
+  }
+
+  .hero-bottom {
+    display: grid;
+    gap: 2rem;
+    margin-top: clamp(3rem, 7vw, 7rem);
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .hero-index {
+    color: var(--muted);
+    font-family: var(--serif);
+    font-size: 0.92rem;
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-copy {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+  }
+
+  .problem-grid {
+    display: grid;
+    gap: clamp(3rem, 8vw, 8rem);
+  }
+
+  .problem-intro h2 {
+    max-width: 12ch;
+    font-size: clamp(2.8rem, 6.5vw, 6.3rem);
+  }
+
+  .problem-list,
+  .service-list,
+  .process-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .problem-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .problem-list li {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 1.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .list-number {
+    padding-top: 0.25rem;
+    color: var(--accent);
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  .problem-list h3 {
+    font-family: var(--sans);
+    font-size: clamp(1.12rem, 2vw, 1.35rem);
+    font-weight: 650;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  .problem-list p {
+    max-width: 39rem;
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+
+  .services {
+    background: #f0ece4;
+  }
+
+  .service-list {
+    border-top: 1px solid var(--ink);
+  }
+
+  .service-list li {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 5vw, 3.8rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service-number {
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: clamp(3.3rem, 7vw, 6.5rem);
+    font-weight: 430;
+    line-height: 0.75;
+    letter-spacing: -0.06em;
+  }
+
+  .service-list h3 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .service-list li > div > p {
+    max-width: 37rem;
+    margin-top: 1rem;
+    color: var(--muted);
+  }
+
+  .featured-demo {
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .featured-demo-grid {
+    display: grid;
+    gap: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .featured-demo-copy {
+    align-self: center;
+  }
+
+  .featured-demo-copy .eyebrow {
+    color: #c77b6d;
+  }
+
+  .featured-demo-copy h2 {
+    max-width: 12ch;
+    font-size: clamp(3rem, 6.5vw, 6rem);
+  }
+
+  .featured-demo-copy .lede {
+    max-width: 35rem;
+    margin-top: 2rem;
+    color: #aaa197;
+  }
+
+  .featured-demo-actions {
+    margin-top: 2.5rem;
+  }
+
+  .featured-demo-card {
+    align-self: center;
+    padding: clamp(2rem, 4vw, 3rem);
+    border: 1px solid #39342d;
+    background: #2b2620;
+  }
+
+  .card-tag {
+    display: inline-block;
+    padding: 0.4rem 0.7rem;
+    background: #c77b6d;
+    color: #1a1710;
+    font-size: 0.62rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .card-club {
+    margin-top: 1.5rem;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .card-sub {
+    margin-top: 0.6rem;
+    color: #aaa197;
+    font-size: 0.82rem;
+    font-weight: 650;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .card-list {
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .card-list li {
+    padding-top: 0.85rem;
+    border-top: 1px solid #39342d;
+    color: #d7d0c6;
+    font-size: 0.92rem;
+  }
+
+  .process-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .process-list li {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .process-number {
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    place-items: center;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: 1.35rem;
+  }
+
+  .process-list h3 {
+    font-size: clamp(2.1rem, 5vw, 4.2rem);
+  }
+
+  .process-list p {
+    max-width: 31rem;
+    color: var(--muted);
+  }
+
+  .contact {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: clamp(4rem, 10vw, 9rem);
+  }
+
+  .contact .eyebrow {
+    color: #c77b6d;
+  }
+
+  .contact h2 {
+    max-width: 10ch;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+  }
+
+  .contact-copy > p:not(.eyebrow) {
+    max-width: 32rem;
+    margin-top: 2rem;
+    color: #aaa197;
+    font-size: 1.05rem;
+  }
+
+  .contact-copy > a {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #f7f4ee;
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+  }
+
+  @media (min-width: 52rem) {
+    .hero-bottom {
+      grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 0.6fr);
+    }
+
+    .problem-grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(28rem, 1.15fr);
+      align-items: start;
+    }
+
+    .problem-intro {
+      position: sticky;
+      top: 3rem;
+    }
+
+    .service-list li {
+      grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 0.65fr);
+      align-items: start;
+    }
+
+    .featured-demo-grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr);
+      align-items: center;
+    }
+
+    .process-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .process-list li {
+      min-height: 22rem;
+      padding: 2rem;
+      border-right: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .process-list li:first-child {
+      padding-left: 0;
+    }
+
+    .process-list li:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    .process-list h3 {
+      align-self: end;
+    }
+  }
+</style>
