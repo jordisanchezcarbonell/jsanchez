@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
@@ -35,6 +35,39 @@ test('the home presents Jordi as a Full-Stack Developer without the retired port
 
   assert.match(home, /<h1[^>]*>[^<]*Jordi Sánchez[^<]*Full-Stack Developer[^<]*<\/h1>/);
   assert.doesNotMatch(home, /jordi-sanchez-portafolio\.vercel\.app/);
+});
+
+test('display typography keeps names legible without whimsical letter alternates', () => {
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /font-variation-settings:\s*"SOFT"\s+0,\s*"WONK"\s+0/);
+  assert.doesNotMatch(compiledCss, /font-variation-settings:\s*"SOFT"\s+\d+,\s*"WONK"\s+1/);
+});
+
+test('the home name uses the neutral sans display face', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(home, /<h1 class="hero-title"[^>]*>Jordi Sánchez — Full-Stack Developer<\/h1>/);
+  assert.match(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
+});
+
+test('the footer name uses the same neutral sans face', () => {
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /\.footer-name\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
 });
 
 test('the primary navigation reaches every professional area', () => {

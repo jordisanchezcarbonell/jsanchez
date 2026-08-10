@@ -104,7 +104,7 @@ h2,
 h3 {
   margin-block: 0;
   font-family: var(--serif);
-  font-variation-settings: 'SOFT' 50, 'WONK' 1;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0;
   font-weight: 520;
   line-height: 0.98;
   letter-spacing: -0.035em;

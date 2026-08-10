@@ -77,7 +77,7 @@ const jsonLd = {
         <p class="availability"><span aria-hidden="true"></span> Disponible para colaboraciones</p>
       </div>
 
-      <h1>Jordi Sánchez — Full-Stack Developer</h1>
+      <h1 class="hero-title">Jordi Sánchez — Full-Stack Developer</h1>
 
       <div class="hero-bottom">
         <p class="hero-label" aria-hidden="true">Web · móvil · APIs</p>
@@ -271,8 +271,13 @@ const jsonLd = {
     background: var(--accent);
   }
 
-  .hero h1 {
-    max-width: 10.5ch;
+  .hero-title {
+    max-width: 12.5ch;
+    font-family: var(--sans);
+    font-variation-settings: normal;
+    font-weight: 620;
+    line-height: 0.92;
+    letter-spacing: -0.055em;
   }
 
   .hero-bottom {
