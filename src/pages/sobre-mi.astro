@@ -1,0 +1,318 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { experience } from '../data/experience';
+
+const stackGroups = [
+  {
+    title: 'Frontend y móvil',
+    items: ['React', 'Next.js', 'TypeScript', 'React Native', 'Expo', 'Angular', 'Sass', 'CSS'],
+  },
+  {
+    title: 'Backend y contenido',
+    items: ['Node.js', 'NestJS', 'APIs REST', 'Strapi', 'Drupal 7/8', 'Autenticación'],
+  },
+  {
+    title: 'Calidad y entrega',
+    items: ['Jest', 'Selenium', 'New Relic', 'Docker', 'CI/CD', 'Testing', 'Bug fixing'],
+  },
+  {
+    title: 'Integraciones',
+    items: ['SAP', 'Pagos', '3D Secure', 'CMS headless', 'Python', 'Automatización'],
+  },
+];
+---
+
+<BaseLayout
+  title="Sobre mí | Jordi Sánchez — Full-Stack Developer"
+  description="Experiencia, tecnologías y perfil profesional de Jordi Sánchez, Full-Stack Developer en Barcelona."
+  canonicalPath="/sobre-mi/"
+>
+  <header class="page-intro container">
+    <p class="eyebrow">Sobre mí</p>
+    <h1>Desarrollo producto digital desde Barcelona.</h1>
+    <div class="page-intro__footer">
+      <p class="lede">
+        Soy Jordi Sánchez, Full-Stack Developer. Llevo más de cuatro años trabajando en aplicaciones web y móviles con React, Next.js y TypeScript, desde la interfaz hasta las APIs y las integraciones.
+      </p>
+      <p class="meta-line"><span>Barcelona</span><span>Español · Català</span></p>
+    </div>
+  </header>
+
+  <section class="profile-section" aria-labelledby="profile-title">
+    <div class="container profile-grid">
+      <div>
+        <p class="eyebrow">Perfil</p>
+        <h2 id="profile-title">Me interesa el software que resuelve trabajo real.</h2>
+      </div>
+      <div class="profile-copy">
+        <p>
+          Trabajo bien en el punto donde se encuentran producto, frontend y sistemas. Puedo construir una interfaz, entender el contrato de una API, seguir un error entre servicios y acompañar una funcionalidad hasta producción.
+        </p>
+        <p>
+          Mi experiencia combina desarrollo de nuevas capacidades con mantenimiento, testing, resolución de incidencias y colaboración con equipos multidisciplinares.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience-section" aria-labelledby="experience-title">
+    <div class="container">
+      <header class="section-header">
+        <p class="eyebrow">Experiencia profesional</p>
+        <h2 id="experience-title">Trayectoria</h2>
+      </header>
+      <ol class="experience-list">
+        {experience.map((item, index) => (
+          <li>
+            <p class="experience-number">{String(index + 1).padStart(2, '0')}</p>
+            <div>
+              <p class="experience-period">{item.period}</p>
+              <h3>{item.company}</h3>
+              <p class="experience-role">{item.role}</p>
+            </div>
+            <div>
+              <p>{item.summary}</p>
+              <ul aria-label={`Tecnologías utilizadas en ${item.company}`}>
+                {item.technologies.map((technology) => <li>{technology}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="stack-section" aria-labelledby="stack-title">
+    <div class="container">
+      <header class="section-header">
+        <p class="eyebrow">Tecnologías</p>
+        <h2 id="stack-title">Herramientas que forman parte del trabajo.</h2>
+      </header>
+      <div class="stack-grid">
+        {stackGroups.map((group) => (
+          <section>
+            <h3>{group.title}</h3>
+            <ul>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="education-section" aria-labelledby="education-title">
+    <div class="container education-grid">
+      <div>
+        <p class="eyebrow">Formación</p>
+        <h2 id="education-title">Base técnica y aprendizaje continuo.</h2>
+      </div>
+      <div>
+        <article>
+          <p>2020 · Centro de Estudios Politécnicos</p>
+          <h3>Desarrollo de Aplicaciones Web</h3>
+        </article>
+        <article>
+          <p>2020 · Centro de Estudios Politécnicos</p>
+          <h3>Desarrollo de Aplicaciones Multiplataforma</h3>
+        </article>
+        <article>
+          <p>Cisco</p>
+          <h3>Certificación en Ethical Hacking</h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <div class="container cta-grid">
+      <h2>¿Buscas experiencia Full-Stack para tu equipo o producto?</h2>
+      <div>
+        <p>Puedo colaborar en una entrega concreta o integrarme en la evolución continuada de una aplicación.</p>
+        <a class="button button--accent" href="/contacto/">Contactar</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .profile-section,
+  .experience-section,
+  .stack-section,
+  .education-section {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--line);
+  }
+
+  .profile-grid,
+  .education-grid {
+    display: grid;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .profile-grid h2,
+  .education-grid h2,
+  .section-header h2 {
+    max-width: 11ch;
+  }
+
+  .profile-copy {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+
+  .section-header {
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+  }
+
+  .experience-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    list-style: none;
+  }
+
+  .experience-list > li {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .experience-number,
+  .experience-period,
+  .experience-role,
+  .education-section article > p {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .experience-number,
+  .experience-role {
+    color: var(--accent);
+  }
+
+  .experience-list h3 {
+    margin-top: 0.75rem;
+    font-size: clamp(2.3rem, 5vw, 4.2rem);
+  }
+
+  .experience-role {
+    margin-top: 0.8rem;
+  }
+
+  .experience-list > li > div:last-child > p {
+    max-width: 40rem;
+    color: var(--muted);
+  }
+
+  .experience-list ul,
+  .stack-grid ul {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .experience-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .experience-list ul li {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--line);
+    font-size: 0.68rem;
+    font-weight: 650;
+  }
+
+  .stack-section {
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .stack-section .eyebrow {
+    color: #c77b6d;
+  }
+
+  .stack-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .stack-grid section {
+    padding-top: 1.25rem;
+    border-top: 1px solid #514940;
+  }
+
+  .stack-grid h3 {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .stack-grid li {
+    padding-block: 0.55rem;
+    border-bottom: 1px solid #39342d;
+    color: #cfc7bc;
+  }
+
+  .education-section article {
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .education-section article h3 {
+    max-width: 22ch;
+    margin-top: 0.65rem;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  }
+
+  .about-cta {
+    padding-block: var(--section-space);
+    background: #eee9e0;
+  }
+
+  .cta-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .cta-grid h2 {
+    max-width: 11ch;
+  }
+
+  .cta-grid p {
+    max-width: 32rem;
+    color: var(--muted);
+  }
+
+  .cta-grid .button {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 52rem) {
+    .profile-grid,
+    .education-grid,
+    .cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.72fr);
+      align-items: start;
+    }
+
+    .experience-list > li {
+      grid-template-columns: 3rem minmax(18rem, 0.65fr) minmax(23rem, 1fr);
+    }
+
+    .stack-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,27 +1,51 @@
 ---
 const currentPath = Astro.url.pathname;
 
-const isActive = (href: string) =>
-  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+const links = [
+  { href: '/proyectos/', label: 'Proyectos' },
+  { href: '/servicios/', label: 'Servicios' },
+  { href: '/clubes/', label: 'Clubes' },
+  { href: '/sobre-mi/', label: 'Sobre mí' },
+];
+
+const isActive = (href: string) => currentPath.startsWith(href);
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="Jordi Sánchez Web, inicio">
+    <a class="brand" href="/" aria-label="Jordi Sánchez, inicio">
       <span class="brand-mark" aria-hidden="true">JS</span>
-      <span class="brand-name">Jordi Sánchez <small>Web</small></span>
+      <span class="brand-name">Jordi Sánchez <small>Full-Stack</small></span>
     </a>
 
-    <nav aria-label="Navegación principal">
-      <a href="/ejemplos/" aria-current={isActive('/ejemplos') ? 'page' : undefined}>
-        Conceptos
+    <nav class="desktop-navigation" aria-label="Navegación principal">
+      {links.map((link) => (
+        <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+          {link.label}
+        </a>
+      ))}
+      <a
+        class="nav-cta"
+        href="/contacto/"
+        aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}
+      >
+        Contacto
       </a>
-      <a href="/clubes/" aria-current={isActive('/clubes') ? 'page' : undefined}>
-        Clubes
-      </a>
-      <a href="/blog/" aria-current={isActive('/blog') ? 'page' : undefined}>Blog</a>
-      <a class="nav-cta" href="/#contacto">Hablemos</a>
     </nav>
+
+    <details class="mobile-navigation">
+      <summary>Menú</summary>
+      <nav aria-label="Navegación móvil">
+        {links.map((link) => (
+          <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))}
+        <a href="/contacto/" aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}>
+          Contacto
+        </a>
+      </nav>
+    </details>
   </div>
 </header>
 
@@ -30,10 +54,11 @@ const isActive = (href: string) =>
     position: relative;
     z-index: 20;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
   }
 
   .header-inner {
+    position: relative;
     display: flex;
     width: min(100%, var(--max-width));
     min-height: 5rem;
@@ -55,6 +80,7 @@ const isActive = (href: string) =>
     display: grid;
     width: 2.25rem;
     height: 2.25rem;
+    flex: 0 0 auto;
     place-items: center;
     border: 1px solid var(--ink);
     border-radius: 50%;
@@ -66,75 +92,125 @@ const isActive = (href: string) =>
 
   .brand-name {
     display: none;
-    font-size: 0.76rem;
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 750;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .brand-name small {
+    display: block;
+    margin-top: 0.15rem;
     color: var(--accent);
     font: inherit;
+    font-size: 0.58rem;
   }
 
-  nav {
-    display: flex;
-    align-items: center;
-    gap: clamp(0.9rem, 3vw, 2.5rem);
+  .desktop-navigation {
+    display: none;
   }
 
-  nav a {
-    position: relative;
-    font-size: 0.72rem;
-    font-weight: 700;
+  .desktop-navigation a,
+  .mobile-navigation a,
+  .mobile-navigation summary {
+    font-size: 0.7rem;
+    font-weight: 750;
     letter-spacing: 0.08em;
     text-decoration: none;
     text-transform: uppercase;
   }
 
-  nav a:not(.nav-cta)::after {
+  .mobile-navigation summary {
+    padding: 0.7rem 0;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .mobile-navigation summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-navigation summary::after {
+    margin-left: 0.65rem;
+    color: var(--accent);
+    content: '+';
+    font-size: 1rem;
+  }
+
+  .mobile-navigation[open] summary::after {
+    content: '−';
+  }
+
+  .mobile-navigation nav {
     position: absolute;
+    top: calc(100% + 1px);
     right: 0;
-    bottom: -0.45rem;
     left: 0;
-    height: 1px;
-    background: var(--accent);
-    content: '';
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 180ms ease;
+    display: grid;
+    padding: 1rem var(--gutter) 1.5rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
   }
 
-  nav a:hover::after,
-  nav a[aria-current='page']::after {
-    transform: scaleX(1);
-    transform-origin: left;
+  .mobile-navigation nav a {
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--line);
   }
 
-  .nav-cta {
-    padding: 0.72rem 0.9rem;
-    border: 1px solid var(--ink);
-    transition:
-      color 180ms ease,
-      background-color 180ms ease;
-  }
-
-  .nav-cta:hover {
-    background: var(--ink);
-    color: var(--paper);
+  .mobile-navigation nav a[aria-current='page'] {
+    color: var(--accent);
   }
 
   @media (min-width: 40rem) {
     .brand-name {
       display: inline;
     }
+  }
 
-    nav a {
-      font-size: 0.76rem;
+  @media (min-width: 68rem) {
+    .mobile-navigation {
+      display: none;
+    }
+
+    .desktop-navigation {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 2.1vw, 2rem);
+    }
+
+    .desktop-navigation a {
+      position: relative;
+    }
+
+    .desktop-navigation a:not(.nav-cta)::after {
+      position: absolute;
+      right: 0;
+      bottom: -0.45rem;
+      left: 0;
+      height: 1px;
+      background: var(--accent);
+      content: '';
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 180ms ease;
+    }
+
+    .desktop-navigation a:hover::after,
+    .desktop-navigation a[aria-current='page']::after {
+      transform: scaleX(1);
+      transform-origin: left;
     }
 
     .nav-cta {
-      padding-inline: 1.15rem;
+      padding: 0.72rem 1rem;
+      border: 1px solid var(--ink);
+      transition: color 180ms ease, background-color 180ms ease;
+    }
+
+    .nav-cta:hover,
+    .nav-cta[aria-current='page'] {
+      background: var(--ink);
+      color: var(--paper);
     }
   }
 </style>

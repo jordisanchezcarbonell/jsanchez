@@ -1,285 +1,237 @@
 ---
-import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import ContactForm from '../components/ContactForm.astro';
-import barberiaDemo from '../assets/demos/barberia-concepto.png';
+import { experience } from '../data/experience';
+import { projects } from '../data/projects';
+import { services } from '../data/services';
 
-const title = 'Diseño web para negocios locales en Barcelona | Jordi Sánchez';
+const title = 'Jordi Sánchez — Full-Stack Developer';
 const description =
-  'Webs rápidas y a medida con reserva online para barberías, peluquerías y centros de estética de Barcelona. Trato directo y precio cerrado.';
+  'Full-Stack Developer en Barcelona especializado en React, Next.js, TypeScript, APIs, integraciones y desarrollo de producto.';
 
-const professionalServiceJsonLd = {
+const featuredProjects = projects.filter((project) => project.featured);
+const featuredServices = services.slice(0, 4);
+const stack = [
+  'React',
+  'Next.js',
+  'TypeScript',
+  'React Native',
+  'Node.js',
+  'NestJS',
+  'Strapi',
+  'APIs REST',
+  'Docker',
+  'Testing',
+];
+
+const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  '@id': 'https://www.jordisanchezweb.es/#negocio',
-  name: 'Jordi Sánchez Web',
-  url: 'https://www.jordisanchezweb.es/',
-  image: 'https://www.jordisanchezweb.es/og-image.png',
-  email: 'jordigw@gmail.com',
-  founder: {
-    '@type': 'Person',
-    name: 'Jordi Sánchez',
-  },
-  areaServed: {
-    '@type': 'City',
-    name: 'Barcelona',
-  },
-  priceRange: 'Precio cerrado',
-  knowsLanguage: ['es', 'ca'],
-  sameAs: ['https://jordi-sanchez-portafolio.vercel.app/'],
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Servicios de diseño web para negocios locales',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Diseño y desarrollo web a medida',
-        },
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://www.jordisanchezweb.es/#jordi-sanchez',
+      name: 'Jordi Sánchez',
+      url: 'https://www.jordisanchezweb.es/',
+      email: 'mailto:jordigw@gmail.com',
+      jobTitle: 'Full-Stack Developer',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Barcelona',
+        addressCountry: 'ES',
       },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Integración de reservas online',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'SEO local para negocios de Barcelona',
-        },
-      },
-    ],
-  },
+      knowsLanguage: ['es', 'ca'],
+      knowsAbout: [
+        'React',
+        'Next.js',
+        'TypeScript',
+        'React Native',
+        'Node.js',
+        'APIs REST',
+        'Strapi',
+        'Docker',
+      ],
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://www.jordisanchezweb.es/#servicios',
+      name: 'Jordi Sánchez — Desarrollo Full-Stack',
+      url: 'https://www.jordisanchezweb.es/servicios/',
+      founder: { '@id': 'https://www.jordisanchezweb.es/#jordi-sanchez' },
+      areaServed: { '@type': 'Country', name: 'España' },
+      serviceType: [
+        'Desarrollo React y Next.js',
+        'Desarrollo Full-Stack',
+        'Integraciones API',
+        'React Native',
+      ],
+    },
+  ],
 };
-
-const problems = [
-  {
-    title: 'No te encuentran en Google',
-    text: 'Cuando alguien busca una barbería o peluquería cerca, tu competencia aparece antes.',
-  },
-  {
-    title: 'Las reservas todavía van a mano',
-    text: 'Mensajes, llamadas y huecos que cuadrar mientras intentas atender a quien ya está en el local.',
-  },
-  {
-    title: 'Tu web falla en el móvil',
-    text: 'Carga lenta, textos diminutos o botones que cuesta pulsar justo donde llegan casi todos tus clientes.',
-  },
-  {
-    title: 'Tu escaparate es solo un Linktree',
-    text: 'Sirve para ordenar enlaces, pero no para explicar por qué deberían elegirte ni para posicionarte.',
-  },
-];
-
-const services = [
-  {
-    number: '01',
-    title: 'Una web a tu medida',
-    text: 'Diseñada alrededor de tu negocio, tus servicios y tu forma de trabajar. Sin apariencia de plantilla.',
-  },
-  {
-    number: '02',
-    title: 'Reservas online, 24 h',
-    text: 'Integro un sistema sencillo para que tus clientes reserven sin llamarte ni esperar una respuesta.',
-  },
-  {
-    number: '03',
-    title: 'Que Google te encuentre',
-    text: 'La dejo rápida, bien estructurada y preparada para competir en búsquedas locales relevantes.',
-  },
-];
-
-const process = [
-  {
-    number: '1',
-    title: 'Hablamos',
-    text: 'Me cuentas cómo funciona tu negocio y qué necesitas. Sin reuniones eternas ni jerga técnica.',
-  },
-  {
-    number: '2',
-    title: 'La monto',
-    text: 'Diseño, escribo y construyo la web. Te enseño el avance y afinamos juntos los últimos detalles.',
-  },
-  {
-    number: '3',
-    title: 'Online',
-    text: 'La publico, conecto las reservas y te explico lo necesario para que puedas usarla con tranquilidad.',
-  },
-];
 ---
 
-<BaseLayout title={title} description={description} jsonLd={professionalServiceJsonLd}>
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
   <section class="hero">
     <div class="container hero-inner">
-      <p class="eyebrow">Diseño web · Barcelona</p>
-      <h1>Tu negocio ya funciona. Que su presencia online esté a la altura.</h1>
+      <div class="hero-heading">
+        <p class="eyebrow">Full-Stack Developer · Barcelona</p>
+        <p class="availability"><span aria-hidden="true"></span> Disponible para colaboraciones</p>
+      </div>
+
+      <h1>Jordi Sánchez — Full-Stack Developer</h1>
 
       <div class="hero-bottom">
-        <p class="hero-index" aria-hidden="true">01—25</p>
+        <p class="hero-label" aria-hidden="true">Web · móvil · APIs</p>
         <div class="hero-copy">
           <p class="lede">
-            Soy Jordi. Creo webs sencillas con reserva online para barberías, peluquerías y centros de estética. Trato directo, sin intermediarios y con precio cerrado.
+            Más de 4 años desarrollando aplicaciones web y móviles con React, Next.js y TypeScript. Especializado en APIs, integraciones y desarrollo de producto.
           </p>
-          <a class="button button--accent" href="#contacto">
-            Cuéntame tu proyecto <span aria-hidden="true">↓</span>
-          </a>
+          <div class="hero-actions">
+            <a class="button button--accent" href="/proyectos/">Ver proyectos</a>
+            <a class="text-link" href="/contacto/">Trabajar conmigo</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section problems" aria-labelledby="problema-title">
-    <div class="container problem-grid">
-      <header class="problem-intro">
-        <p class="eyebrow">El problema</p>
-        <h2 id="problema-title">Tu negocio abre cada día. Tu web también debería.</h2>
-      </header>
+  <section class="stack-strip" aria-label="Tecnologías principales">
+    <div class="container">
+      <p>Stack principal</p>
+      <ul>
+        {stack.map((technology) => <li>{technology}</li>)}
+      </ul>
+    </div>
+  </section>
 
-      <ol class="problem-list">
-        {problems.map((problem, index) => (
+  <section class="section experience" aria-labelledby="experiencia-title">
+    <div class="container">
+      <SectionHeading
+        id="experiencia-title"
+        eyebrow="Experiencia"
+        title="Producto digital, desde la interfaz hasta la integración."
+        description="Trabajo entre frontend, backend y sistemas externos para llevar funcionalidades reales a producción y mantenerlas estables."
+      />
+
+      <ol class="experience-list">
+        {experience.map((item, index) => (
           <li>
-            <span class="list-number">0{index + 1}</span>
+            <p class="row-index" aria-hidden="true">0{index + 1}</p>
             <div>
-              <h3>{problem.title}</h3>
-              <p>{problem.text}</p>
+              <p class="row-meta">{item.period}</p>
+              <h3>{item.company}</h3>
+              <p class="row-role">{item.role}</p>
+            </div>
+            <div>
+              <p>{item.summary}</p>
+              <ul aria-label={`Tecnologías utilizadas en ${item.company}`}>
+                {item.technologies.map((technology) => <li>{technology}</li>)}
+              </ul>
             </div>
           </li>
         ))}
       </ol>
+
+      <a class="text-link section-link" href="/sobre-mi/">Ver experiencia completa</a>
     </div>
   </section>
 
-  <section class="section services" aria-labelledby="servicios-title">
+  <section class="section projects" aria-labelledby="projects-title">
     <div class="container">
       <SectionHeading
-        id="servicios-title"
-        eyebrow="Lo que hago"
-        title="Una web que te quite trabajo, no que te dé más."
-        description="Lo esencial para que un negocio local se vea profesional, reciba reservas y pueda crecer sin complicaciones."
+        id="projects-title"
+        eyebrow="Proyectos seleccionados"
+        title="Problemas complejos, explicados sin información confidencial."
+        description="Una selección de áreas en las que he trabajado. Los casos están anonimizados y no incluyen clientes, endpoints ni métricas privadas."
+      />
+
+      <ol class="project-list">
+        {featuredProjects.map((project, index) => (
+          <li>
+            <article>
+              <div class="project-heading">
+                <p class="row-index">{String(index + 1).padStart(2, '0')}</p>
+                <div>
+                  <p class="row-meta">{project.area}</p>
+                  <h3>{project.title}</h3>
+                </div>
+              </div>
+              <p>{project.contribution}</p>
+              <ul aria-label={`Tecnologías de ${project.title}`}>
+                {project.technologies.slice(0, 4).map((technology) => <li>{technology}</li>)}
+              </ul>
+            </article>
+          </li>
+        ))}
+      </ol>
+
+      <a class="button" href="/proyectos/">Ver todos los proyectos</a>
+    </div>
+  </section>
+
+  <section class="section services" aria-labelledby="services-title">
+    <div class="container">
+      <SectionHeading
+        id="services-title"
+        eyebrow="Servicios"
+        title="Capacidad técnica donde el producto la necesita."
+        description="Colaboraciones concretas con empresas, producto y agencias: desde una integración hasta la evolución continuada de una aplicación."
       />
 
       <ol class="service-list">
-        {services.map((service) => (
+        {featuredServices.map((service, index) => (
           <li>
-            <p class="service-number" aria-hidden="true">{service.number}</p>
+            <p class="row-index">{String(index + 1).padStart(2, '0')}</p>
             <div>
               <h3>{service.title}</h3>
-              <p>{service.text}</p>
+              <p>{service.description}</p>
             </div>
+            <span aria-hidden="true">↗</span>
           </li>
         ))}
       </ol>
+
+      <a class="text-link section-link" href="/servicios/">Explorar servicios</a>
     </div>
   </section>
 
-  <section class="section featured-demo" aria-labelledby="featured-demo-title">
-    <div class="container featured-demo-grid">
-      <div class="featured-demo-copy">
-        <p class="eyebrow">Concepto interactivo</p>
-        <h2 id="featured-demo-title">Una barbería ficticia. Una web que sí puedes recorrer.</h2>
-        <p class="lede">
-          Taller 33 es una demostración creada para enseñar cómo podrían presentarse los servicios, horarios y reservas de una barbería real.
-        </p>
-        <div class="featured-demo-actions">
-          <a class="button button--accent" href="/demos/taller-33/">Explorar la demo</a>
-          <a class="text-link" href="/ejemplos/">Ver todos los conceptos</a>
-        </div>
+  <section class="clubs" aria-labelledby="clubs-title">
+    <div class="container clubs-grid">
+      <div>
+        <p class="eyebrow">Vertical especializada</p>
+        <h2 id="clubs-title">Tecnología para clubes y negocios deportivos.</h2>
       </div>
-
-      <a
-        class="featured-demo-preview"
-        href="/demos/taller-33/"
-        aria-label="Abrir la demo interactiva de Taller 33"
-      >
-        <figure>
-          <Image
-            src={barberiaDemo}
-            alt="Portada del concepto ficticio de barbería Taller 33"
-            widths={[560, 840, 1200]}
-            sizes="(min-width: 52rem) 48vw, 100vw"
-            format="webp"
-            quality={86}
-            loading="lazy"
-          />
-          <figcaption>Demo navegable <span aria-hidden="true">↗</span></figcaption>
-        </figure>
-      </a>
-    </div>
-  </section>
-
-  <section class="section process" aria-labelledby="proceso-title">
-    <div class="container">
-      <SectionHeading
-        id="proceso-title"
-        eyebrow="Cómo trabajo"
-        title="De la primera charla a una web publicada."
-        description="Un proceso corto y claro. Tú sigues atendiendo tu negocio; yo me encargo de que la web avance."
-      />
-
-      <ol class="process-list">
-        {process.map((step) => (
-          <li>
-            <span class="process-number" aria-hidden="true">{step.number}</span>
-            <h3>{step.title}</h3>
-            <p>{step.text}</p>
-          </li>
-        ))}
-      </ol>
+      <div>
+        <p>
+          Inscripciones, reservas, socios, calendario, patrocinadores, eventos y automatización en una landing específica, separada del posicionamiento principal.
+        </p>
+        <a class="button button--accent" href="/clubes/">Ver solución para clubes</a>
+      </div>
     </div>
   </section>
 
   <section class="section about" aria-labelledby="about-title">
     <div class="container about-grid">
-      <div class="about-statement">
-        <p class="eyebrow">Por qué conmigo</p>
-        <h2 id="about-title">Trabajas conmigo, no con una agencia.</h2>
-        <p class="lede">
-          La persona con la que hablas es la misma que piensa, diseña y construye tu web. Eso hace el proceso más ágil y el resultado más tuyo.
-        </p>
-        <a
-          class="text-link"
-          href="https://jordi-sanchez-portafolio.vercel.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Ver mi portafolio técnico
-        </a>
+      <div>
+        <p class="eyebrow">Forma de trabajar</p>
+        <h2 id="about-title">Entender el sistema antes de tocarlo.</h2>
       </div>
-
-      <dl class="facts">
-        <div>
-          <dt><span aria-hidden="true">+</span>3</dt>
-          <dd>Años desarrollando productos web</dd>
-        </div>
-        <div>
-          <dt>100<span aria-hidden="true">%</span></dt>
-          <dd>Trato directo conmigo</dd>
-        </div>
-        <div>
-          <dt>1</dt>
-          <dd>Precio cerrado desde el principio</dd>
-        </div>
-      </dl>
+      <div>
+        <p class="lede">
+          Me gusta convertir contexto complejo en decisiones técnicas claras. Investigo el flujo completo, trabajo cerca de producto y dejo el código preparado para que el siguiente cambio sea más sencillo.
+        </p>
+        <a class="text-link" href="/sobre-mi/">Más sobre mí</a>
+      </div>
     </div>
   </section>
 
-  <section class="contact" id="contacto" aria-labelledby="contact-form-title">
-    <div class="container contact-grid">
-      <div class="contact-copy">
-        <p class="eyebrow">Hablemos</p>
-        <h2 id="contact-form-title">¿Tu negocio necesita una web mejor?</h2>
-        <p>
-          Cuéntame en qué punto estás. Te responderé personalmente para ver si puedo ayudarte, sin compromiso.
-        </p>
-        <a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a>
+  <section class="final-cta">
+    <div class="container final-cta-grid">
+      <p class="eyebrow">Siguiente paso</p>
+      <h2>¿Construimos o mejoramos algo que ya importa?</h2>
+      <div>
+        <p>Cuéntame el contexto. Te responderé con preguntas concretas y un siguiente paso realista.</p>
+        <a class="button button--accent" href="/contacto/">Trabajar conmigo</a>
       </div>
-
-      <ContactForm />
     </div>
   </section>
 </BaseLayout>
@@ -293,12 +245,34 @@ const process = [
     padding-block: clamp(4.5rem, 10vw, 9rem) clamp(4rem, 8vw, 7rem);
   }
 
-  .hero h1 {
-    max-width: 11.2ch;
+  .hero-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem 2rem;
   }
 
-  .hero h1::first-line {
-    font-style: italic;
+  .availability {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .availability span {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    max-width: 10.5ch;
   }
 
   .hero-bottom {
@@ -309,11 +283,13 @@ const process = [
     border-top: 1px solid var(--line);
   }
 
-  .hero-index {
+  .hero-label,
+  .stack-strip p {
     color: var(--muted);
-    font-family: var(--serif);
-    font-size: 0.92rem;
-    font-variant-numeric: tabular-nums;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
   }
 
   .hero-copy {
@@ -321,296 +297,227 @@ const process = [
     gap: 2rem;
   }
 
-  .hero-copy .button {
-    justify-self: start;
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
   }
 
-  .problem-grid {
+  .stack-strip {
+    padding-block: 1.35rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: #eee9e0;
+  }
+
+  .stack-strip .container {
     display: grid;
-    gap: clamp(3rem, 8vw, 8rem);
+    gap: 1rem;
   }
 
-  .problem-intro h2 {
-    max-width: 9.5ch;
-    font-size: clamp(2.8rem, 6.5vw, 6.3rem);
-  }
-
-  .problem-list,
-  .service-list,
-  .process-list {
+  .stack-strip ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .problem-list {
-    border-top: 1px solid var(--line);
+  .stack-strip li {
+    font-size: 0.76rem;
+    font-weight: 650;
   }
 
-  .problem-list li {
+  .experience-list,
+  .project-list,
+  .service-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    list-style: none;
+  }
+
+  .experience-list > li {
     display: grid;
-    grid-template-columns: 2rem minmax(0, 1fr);
-    gap: 1.25rem;
-    padding-block: 1.7rem;
+    gap: 1.5rem;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
     border-bottom: 1px solid var(--line);
   }
 
-  .list-number {
-    padding-top: 0.25rem;
-    color: var(--accent);
-    font-size: 0.67rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-  }
-
-  .problem-list h3 {
-    font-family: var(--sans);
-    font-size: clamp(1.12rem, 2vw, 1.35rem);
-    font-weight: 650;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-  }
-
-  .problem-list p {
-    max-width: 39rem;
-    margin-top: 0.65rem;
+  .row-index,
+  .row-meta,
+  .row-role {
     color: var(--muted);
-    font-size: 0.94rem;
-  }
-
-  .services {
-    background: #f0ece4;
-  }
-
-  .featured-demo {
-    background: var(--ink);
-    color: #f7f4ee;
-  }
-
-  .featured-demo-grid {
-    display: grid;
-    gap: clamp(3.5rem, 8vw, 7rem);
-  }
-
-  .featured-demo-copy {
-    align-self: center;
-  }
-
-  .featured-demo-copy .eyebrow {
-    color: #c77b6d;
-  }
-
-  .featured-demo-copy h2 {
-    max-width: 10ch;
-    font-size: clamp(3rem, 6.5vw, 6rem);
-  }
-
-  .featured-demo-copy .lede {
-    max-width: 35rem;
-    margin-top: 2rem;
-    color: #aaa197;
-  }
-
-  .featured-demo-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem 2rem;
-    align-items: center;
-    margin-top: 2.5rem;
-  }
-
-  .featured-demo-actions .text-link {
-    color: #f7f4ee;
-  }
-
-  .featured-demo-preview {
-    display: block;
-    align-self: center;
-    text-decoration: none;
-  }
-
-  .featured-demo-preview figure {
-    position: relative;
-    margin: 0;
-    overflow: hidden;
-    border: 1px solid #39342d;
-    background: #2b2620;
-  }
-
-  .featured-demo-preview :global(img) {
-    width: 100%;
-    height: auto;
-    opacity: 0.94;
-    transition: transform 420ms cubic-bezier(0.2, 0.75, 0.25, 1), opacity 180ms ease;
-  }
-
-  .featured-demo-preview figcaption {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    padding: 0.75rem 0.9rem;
-    background: #f7f4ee;
-    color: var(--ink);
-    font-size: 0.67rem;
+    font-size: 0.68rem;
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .featured-demo-preview:hover :global(img) {
-    opacity: 1;
-    transform: scale(1.015);
-  }
-
-  .service-list {
-    border-top: 1px solid var(--ink);
-  }
-
-  .service-list li {
-    display: grid;
-    gap: 1.5rem;
-    padding-block: clamp(2rem, 5vw, 3.8rem);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .service-number {
+  .row-index,
+  .row-role {
     color: var(--accent);
-    font-family: var(--serif);
-    font-size: clamp(3.3rem, 7vw, 6.5rem);
-    font-weight: 430;
-    line-height: 0.75;
-    letter-spacing: -0.06em;
   }
 
-  .service-list h3 {
-    font-size: clamp(2rem, 4vw, 3.4rem);
+  .experience-list h3,
+  .project-list h3 {
+    margin-top: 0.65rem;
+    font-size: clamp(2.3rem, 5vw, 4rem);
   }
 
-  .service-list li > div > p {
-    max-width: 37rem;
-    margin-top: 1rem;
+  .row-role {
+    margin-top: 0.8rem;
+  }
+
+  .experience-list > li > div:last-child > p {
+    max-width: 39rem;
     color: var(--muted);
   }
 
-  .process-list {
-    counter-reset: step;
-    border-top: 1px solid var(--line);
+  .experience-list ul,
+  .project-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.4rem 0 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .process-list li {
-    position: relative;
-    display: grid;
-    gap: 1rem;
-    padding-block: 2rem;
-    border-bottom: 1px solid var(--line);
+  .experience-list ul li,
+  .project-list ul li {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--line);
+    font-size: 0.66rem;
+    font-weight: 650;
   }
 
-  .process-number {
-    display: grid;
-    width: 2.6rem;
-    height: 2.6rem;
-    place-items: center;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    color: var(--accent);
-    font-family: var(--serif);
-    font-size: 1.35rem;
-  }
-
-  .process-list h3 {
-    font-size: clamp(2.1rem, 5vw, 4.2rem);
-  }
-
-  .process-list p {
-    max-width: 31rem;
-    color: var(--muted);
-  }
-
-  .about-grid {
-    display: grid;
-    gap: clamp(4rem, 10vw, 9rem);
-  }
-
-  .about-statement h2 {
-    max-width: 10ch;
-  }
-
-  .about-statement .lede {
-    margin-top: 2rem;
-  }
-
-  .about-statement .text-link {
+  .section-link {
     margin-top: 2.5rem;
   }
 
-  .facts {
-    margin: 0;
-    border-top: 1px solid var(--ink);
+  .projects {
+    background: var(--ink);
+    color: #f7f4ee;
   }
 
-  .facts div {
-    padding-block: 2rem;
+  .projects :global(.section-heading .eyebrow) {
+    color: #c77b6d;
+  }
+
+  .projects :global(.section-heading p:last-child) {
+    color: #aaa197;
+  }
+
+  .project-list {
+    border-color: #f7f4ee;
+  }
+
+  .project-list > li {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid #39342d;
+  }
+
+  .project-list article {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .project-heading {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .project-list article > p {
+    max-width: 38rem;
+    color: #aaa197;
+  }
+
+  .project-list ul li {
+    border-color: #514940;
+    color: #d7d0c6;
+  }
+
+  .projects > .container > .button {
+    margin-top: 2.5rem;
+    border-color: #f7f4ee;
+    color: #f7f4ee;
+  }
+
+  .services {
+    background: #eee9e0;
+  }
+
+  .service-list > li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: start;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
     border-bottom: 1px solid var(--line);
   }
 
-  .facts dt {
-    font-family: var(--serif);
-    font-size: clamp(4rem, 8vw, 7rem);
-    line-height: 0.9;
-    letter-spacing: -0.06em;
+  .service-list h3 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
   }
 
-  .facts dt span {
-    color: var(--accent);
-  }
-
-  .facts dd {
-    max-width: 17rem;
-    margin: 1rem 0 0;
+  .service-list li > div > p {
+    max-width: 38rem;
+    margin-top: 0.9rem;
     color: var(--muted);
-    font-size: 0.8rem;
-    font-weight: 650;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
   }
 
-  .contact {
+  .service-list li > span {
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  .clubs,
+  .final-cta {
     padding-block: var(--section-space);
     background: var(--ink);
     color: #f7f4ee;
   }
 
-  .contact-grid {
-    display: grid;
-    gap: clamp(4rem, 10vw, 9rem);
-  }
-
-  .contact .eyebrow {
+  .clubs .eyebrow,
+  .final-cta .eyebrow {
     color: #c77b6d;
   }
 
-  .contact h2 {
-    max-width: 10ch;
-    font-size: clamp(3rem, 7vw, 6.5rem);
+  .clubs-grid,
+  .about-grid,
+  .final-cta-grid {
+    display: grid;
+    gap: 2.5rem;
   }
 
-  .contact-copy > p:not(.eyebrow) {
-    max-width: 32rem;
-    margin-top: 2rem;
+  .clubs h2,
+  .about h2,
+  .final-cta h2 {
+    max-width: 11ch;
+  }
+
+  .clubs-grid > div:last-child > p,
+  .final-cta-grid > div > p {
+    max-width: 34rem;
     color: #aaa197;
-    font-size: 1.05rem;
   }
 
-  .contact-copy > a {
-    display: inline-block;
+  .clubs .button,
+  .final-cta .button {
     margin-top: 2rem;
-    color: #f7f4ee;
-    font-size: clamp(0.95rem, 2vw, 1.2rem);
+  }
+
+  .about-grid > div:last-child .text-link {
+    margin-top: 2rem;
   }
 
   @media (min-width: 52rem) {
     .hero-bottom {
-      grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 0.6fr);
+      grid-template-columns: minmax(10rem, 0.35fr) minmax(0, 0.65fr);
     }
 
     .hero-copy {
@@ -618,60 +525,37 @@ const process = [
       align-items: end;
     }
 
-    .hero-copy .button {
-      justify-self: end;
+    .hero-actions {
+      justify-content: flex-end;
     }
 
-    .problem-grid {
-      grid-template-columns: minmax(0, 0.85fr) minmax(28rem, 1.15fr);
-      align-items: start;
-    }
-
-    .problem-intro {
-      position: sticky;
-      top: 3rem;
-    }
-
-    .service-list li {
-      grid-template-columns: minmax(8rem, 0.35fr) minmax(0, 0.65fr);
-      align-items: start;
-    }
-
-    .featured-demo-grid {
-      grid-template-columns: minmax(22rem, 0.75fr) minmax(0, 1.25fr);
+    .stack-strip .container {
+      grid-template-columns: 10rem minmax(0, 1fr);
       align-items: center;
     }
 
-    .process-list {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      border-bottom: 1px solid var(--line);
+    .experience-list > li {
+      grid-template-columns: 3rem minmax(18rem, 0.65fr) minmax(23rem, 1fr);
     }
 
-    .process-list li {
-      min-height: 25rem;
-      padding: 2rem;
-      border-right: 1px solid var(--line);
-      border-bottom: 0;
+    .project-list article {
+      grid-template-columns: minmax(20rem, 1fr) minmax(20rem, 0.72fr) minmax(12rem, 0.35fr);
+      align-items: end;
     }
 
-    .process-list li:first-child {
-      padding-left: 0;
+    .project-list article > ul {
+      justify-content: flex-end;
     }
 
-    .process-list li:last-child {
-      padding-right: 0;
-      border-right: 0;
-    }
-
-    .process-list h3 {
-      align-self: end;
-    }
-
+    .clubs-grid,
     .about-grid,
-    .contact-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(26rem, 0.8fr);
-      align-items: start;
+    .final-cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.65fr);
+      align-items: end;
+    }
+
+    .final-cta-grid .eyebrow {
+      grid-column: 1 / -1;
     }
   }
 </style>

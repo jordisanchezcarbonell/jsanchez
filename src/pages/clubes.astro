@@ -2,15 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 
-const title = 'Webs para clubes deportivos en Barcelona | Jordi Sánchez';
+const title = 'Tecnología para clubes y negocios deportivos | Jordi Sánchez';
 const description =
-  'Webs para clubes de fútbol americano, rugby y deportes de equipo: inscripción online por categorías, calendario, tienda del club y patrocinadores. Trato directo y precio cerrado.';
+  'Inscripciones, reservas, socios, eventos, patrocinadores, merchandising y automatización para clubes, academias, gimnasios y centros deportivos.';
 
 const serviceJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': 'https://www.jordisanchezweb.es/clubes/#servicio',
-  name: 'Jordi Sánchez Web · Webs para clubes deportivos',
+  name: 'Jordi Sánchez · Tecnología para clubes y negocios deportivos',
   url: 'https://www.jordisanchezweb.es/clubes/',
   email: 'jordigw@gmail.com',
   founder: {
@@ -25,27 +25,27 @@ const serviceJsonLd = {
   knowsLanguage: ['es', 'ca'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Servicios de diseño web para clubes deportivos',
+    name: 'Soluciones digitales para clubes y negocios deportivos',
     itemListElement: [
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Página de socios e inscripción online por categorías',
+          name: 'Inscripciones, socios y reservas online',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Calendario y resultados actualizables por el club',
+          name: 'Calendario, resultados y eventos actualizables',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Tienda del club y página de patrocinadores',
+          name: 'Merchandising, pagos y patrocinadores',
         },
       },
     ],
@@ -54,44 +54,49 @@ const serviceJsonLd = {
 
 const problems = [
   {
-    title: 'El calendario es una imagen',
-    text: 'Se cambia a mano cada jornada, no se lee bien en el móvil y Google no puede leerlo. Cuando llega la temporada, nadie lo actualiza.',
+    title: 'Las inscripciones llegan desordenadas',
+    text: 'Mensajes, hojas distintas y datos incompletos para algo que debería llegar clasificado por actividad, categoría o nivel.',
   },
   {
-    title: 'No hay forma de apuntarse',
-    text: 'La web dice «ven a un entrenamiento». El que se lo está pensando no aparece: hace falta que deje su nombre y le escribáis vosotros.',
+    title: 'Las reservas siguen siendo manuales',
+    text: 'Pistas, clases, pruebas y plazas se coordinan por teléfono mientras el equipo intenta atender la actividad diaria.',
   },
   {
-    title: 'El merchandising lo vende otro',
-    text: 'O no se vende. Cada camiseta que pasa por una tienda ajena es margen que se va del club.',
+    title: 'La web informa, pero no mueve el negocio',
+    text: 'Patrocinadores, eventos y merchandising aparecen como información secundaria en lugar de tener recorridos claros para actuar.',
   },
 ];
 
 const services = [
   {
     number: '01',
-    title: 'Página de socios y de inscripción',
-    text: 'Un formulario por categoría que llega al correo del club con los datos ya ordenados. Se acabó el «mándame un WhatsApp y te digo».',
+    title: 'Inscripciones y captación',
+    text: 'Formularios por actividad o categoría que recogen los datos necesarios y los entregan ya ordenados al equipo responsable.',
   },
   {
     number: '02',
-    title: 'Calendario que se actualiza en un minuto',
-    text: 'Texto de verdad, no un JPG. Se lee en el móvil, lo indexa Google y lo puede cambiar cualquiera de la junta.',
+    title: 'Reservas de clases, pistas o pruebas',
+    text: 'Un recorrido claro para consultar disponibilidad, solicitar plaza o conectar el sistema de reservas que ya utiliza el negocio.',
   },
   {
     number: '03',
-    title: 'Tienda del club',
-    text: 'Camisetas, sudaderas, abonos. Pago con tarjeta o Bizum, y el dinero se queda en el club.',
+    title: 'Calendario y eventos',
+    text: 'Partidos, torneos, campus y actividades en contenido legible, actualizable y preparado para funcionar bien desde el móvil.',
   },
   {
     number: '04',
-    title: 'Patrocinadores que sirven para vender',
-    text: 'Con los paquetes, lo que recibe cada empresa y los logos de quienes ya están. Es la página que enseñáis cuando pedís un patrocinio.',
+    title: 'Patrocinadores y propuestas',
+    text: 'Una sección que explica alcance, formatos y oportunidades para que una empresa entienda qué puede apoyar y qué recibe.',
   },
   {
     number: '05',
-    title: 'Categorías que se actualizan solas',
-    text: 'Las edades de cada equipo se recalculan cada temporada sin que nadie toque nada. Ningún cadete se irá pensando que ya no tiene edad.',
+    title: 'Merchandising y pagos',
+    text: 'Productos, cuotas o entradas con un flujo de compra conectado al sistema de pago adecuado para la organización.',
+  },
+  {
+    number: '06',
+    title: 'Contenido y automatización',
+    text: 'Procesos repetitivos y actualizaciones conectados para que el equipo dedique menos tiempo a copiar datos entre herramientas.',
   },
 ];
 
@@ -122,14 +127,14 @@ const process = [
 >
   <section class="hero">
     <div class="container hero-inner">
-      <p class="eyebrow">Webs para clubes deportivos</p>
-      <h1>Tu club ya existe. Que su web esté a la altura.</h1>
+      <p class="eyebrow">Tecnología para negocios deportivos</p>
+      <h1>Menos gestión manual. Más tiempo para hacer crecer la actividad.</h1>
 
       <div class="hero-bottom">
         <p class="hero-index" aria-hidden="true">Clubes</p>
         <div class="hero-copy">
           <p class="lede">
-            Webs para clubes de fútbol americano, rugby y deportes de equipo: que la gente encuentre cómo apuntarse, que el merchandising se venda solo y que los patrocinadores vean lo que pagan.
+            Soluciones para clubes, academias, gimnasios, centros de pádel y tenis y escuelas deportivas: inscripciones, reservas, socios, eventos, pagos y automatización.
           </p>
           <div class="hero-actions">
             <a class="button button--accent" href="/demo-club" target="_blank" rel="noopener">
@@ -146,7 +151,7 @@ const process = [
     <div class="container problem-grid">
       <header class="problem-intro">
         <p class="eyebrow">El patrón</p>
-        <h2 id="problema-title">Casi todos los clubes que he revisado fallan en lo mismo.</h2>
+        <h2 id="problema-title">Cuando todo acaba en un mensaje, el equipo hace trabajo que el sistema podría resolver.</h2>
       </header>
 
       <ol class="problem-list">
@@ -168,8 +173,8 @@ const process = [
       <SectionHeading
         id="servicios-title"
         eyebrow="Qué hago"
-        title="Las piezas que de verdad mueven la aguja."
-        description="Lo que hace que un club sume socios, venda su ropa y enseñe a un patrocinador algo que merezca la pena pagar."
+        title="Las piezas que convierten la web en una herramienta de trabajo."
+        description="Captación, reservas, comunicación y operaciones conectadas con las necesidades reales de cada organización."
       />
 
       <ol class="service-list">
@@ -243,6 +248,7 @@ const process = [
           Escríbeme y os digo, sin compromiso, qué tres cosas cambiaría y qué costaría. Si no veo nada que merezca la pena tocar, os lo digo también.
         </p>
         <a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a>
+        <a class="button button--accent contact-button" href="/contacto/">Contarme el proyecto</a>
       </div>
     </div>
   </section>
@@ -528,6 +534,12 @@ const process = [
     margin-top: 2rem;
     color: #f7f4ee;
     font-size: clamp(0.95rem, 2vw, 1.2rem);
+  }
+
+  .contact-copy > .contact-button {
+    display: flex;
+    width: max-content;
+    font-size: 0.78rem;
   }
 
   @media (min-width: 52rem) {

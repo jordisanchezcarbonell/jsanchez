@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects } from '../../data/projects';
+---
+
+<BaseLayout
+  title="Proyectos | Jordi Sánchez — Full-Stack Developer"
+  description="Casos de estudio sobre producto, frontend, APIs, pagos e integraciones desarrollados por Jordi Sánchez."
+  canonicalPath="/proyectos/"
+>
+  <header class="page-intro container">
+    <p class="eyebrow">Proyectos</p>
+    <h1>Producto, integraciones y código en producción.</h1>
+    <div class="page-intro__footer">
+      <p class="lede">
+        Casos de estudio anonimizados sobre problemas reales de software. Sin nombres de clientes, métricas inventadas ni información interna.
+      </p>
+      <p class="meta-line"><span>{projects.length} áreas</span><span>Web · móvil · APIs</span></p>
+    </div>
+  </header>
+
+  <section class="case-section" aria-labelledby="case-title">
+    <div class="container">
+      <h2 id="case-title" class="visually-hidden">Casos de estudio</h2>
+      <ol class="case-list">
+        {projects.map((project, index) => (
+          <li>
+            <article>
+              <header class="case-header">
+                <p class="case-number">{String(index + 1).padStart(2, '0')}</p>
+                <div>
+                  <p class="case-area">{project.area}</p>
+                  <h2>{project.title}</h2>
+                </div>
+              </header>
+
+              <div class="case-details">
+                <section>
+                  <h3>Problema</h3>
+                  <p>{project.problem}</p>
+                </section>
+                <section>
+                  <h3>Solución</h3>
+                  <p>{project.solution}</p>
+                </section>
+                <section>
+                  <h3>Mi contribución</h3>
+                  <p>{project.contribution}</p>
+                </section>
+                <section>
+                  <h3>Contexto público</h3>
+                  <p>{project.outcome}</p>
+                </section>
+              </div>
+
+              <ul class="technology-list" aria-label={`Tecnologías de ${project.title}`}>
+                {project.technologies.map((technology) => <li>{technology}</li>)}
+              </ul>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="project-cta">
+    <div class="container cta-grid">
+      <div>
+        <p class="eyebrow">Tu contexto</p>
+        <h2>¿Tienes un producto que necesita avanzar?</h2>
+      </div>
+      <div>
+        <p>Podemos hablar de una funcionalidad concreta, una integración o una colaboración continuada.</p>
+        <a class="button button--accent" href="/contacto/">Contarme el proyecto</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .case-section {
+    padding-bottom: var(--section-space);
+    border-top: 1px solid var(--line);
+  }
+
+  .case-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-list > li {
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case-header {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .case-number,
+  .case-area,
+  .case-details h3 {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .case-number,
+  .case-area {
+    color: var(--accent);
+  }
+
+  .case-header h2 {
+    max-width: 13ch;
+    margin-top: 0.8rem;
+    font-size: clamp(2.7rem, 6vw, 5.5rem);
+  }
+
+  .case-details {
+    display: grid;
+    gap: 2rem;
+    margin-top: clamp(3rem, 7vw, 5rem);
+    padding-left: 4.25rem;
+  }
+
+  .case-details section {
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .case-details section p {
+    max-width: 37rem;
+    margin-top: 0.8rem;
+    color: var(--muted);
+  }
+
+  .technology-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 2.5rem 0 0;
+    padding: 0 0 0 4.25rem;
+    list-style: none;
+  }
+
+  .technology-list li {
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--line);
+    font-size: 0.7rem;
+    font-weight: 650;
+  }
+
+  .project-cta {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .project-cta .eyebrow {
+    color: #c77b6d;
+  }
+
+  .cta-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .cta-grid h2 {
+    max-width: 10ch;
+  }
+
+  .cta-grid > div:last-child > p {
+    max-width: 32rem;
+    color: #aaa197;
+  }
+
+  .cta-grid .button {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 48rem) {
+    .case-details {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.65fr);
+      align-items: end;
+    }
+  }
+</style>

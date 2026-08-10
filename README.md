@@ -1,59 +1,63 @@
-# Jordi Sánchez Web
+# Jordi Sánchez — Full-Stack Developer
 
-Web de captación estática para un servicio freelance de diseño web dirigido a negocios locales de Barcelona. Construida con Astro, sin framework de interfaz ni JavaScript de navegación.
+Web profesional de Jordi Sánchez. Combina portfolio técnico, experiencia profesional y servicios de desarrollo para empresas y agencias, con una vertical específica para clubes y negocios deportivos.
+
+Está construida con Astro y TypeScript, genera HTML estático y evita JavaScript de interfaz salvo en las demostraciones interactivas.
+
+## Rutas principales
+
+- `/`: presentación, experiencia, stack, proyectos y servicios destacados.
+- `/proyectos`: casos de estudio profesionales anonimizados.
+- `/servicios`: servicios de desarrollo y formas de colaboración.
+- `/clubes`: landing para clubes, academias, gimnasios y centros deportivos.
+- `/sobre-mi`: trayectoria, formación y tecnologías.
+- `/contacto`: formulario y vías directas de contacto.
+- `/blog`: contenido editorial secundario.
 
 ## Desarrollo local
 
-Requiere Node.js 22.12.0 o superior.
+Requiere Node.js 22.12.0 o superior. La versión recomendada está fijada en `.nvmrc`.
 
-Copia `.env.example` a `.env.local` y añade tu access key de Web3Forms:
+```bash
+nvm use
+npm install
+npm run dev
+```
+
+Para habilitar el formulario, copia `.env.example` a `.env.local` y añade la clave pública de Web3Forms:
 
 ```dotenv
 WEB3FORMS_ACCESS_KEY=tu_access_key
 ```
 
-`.env.local` está ignorado por Git y no debe confirmarse en el repositorio.
+Sin esta variable el sitio sigue compilando y muestra un enlace de contacto por email como alternativa.
+
+## Validación
 
 ```bash
-npm install
-npm run dev
-```
-
-Para validar una entrega de producción:
-
-```bash
+npm test
 npm run check
 npm run build
-npm run preview
 ```
 
-## Antes de publicar
+Las pruebas construyen el sitio y verifican rutas, posicionamiento, experiencia, proyectos, servicios, formulario, sitemap y consistencia de privacidad.
 
-1. Añade `WEB3FORMS_ACCESS_KEY` en **Vercel → Project Settings → Environment Variables** y vuelve a desplegar. No uses el prefijo `PUBLIC_`.
-2. Verifica en Web3Forms que el correo de destino sea `jordigw@gmail.com` y activa la restricción de dominio si tu plan lo permite.
-3. Revisa los datos identificativos del aviso legal y añade el NIF y el domicilio profesional completo si resultan exigibles para tu actividad.
-4. Importa el repositorio en Vercel y asigna `www.jordisanchezweb.es` como dominio principal. Configura `jordisanchezweb.es` para redirigir a `www` y comprueba el 308 después de desplegar.
-5. Activa Web Analytics y Speed Insights en el proyecto de Vercel y vuelve a desplegar.
+## Contenido
 
-## Contenido del blog
+Los datos compartidos viven en `src/data/`:
 
-Los artículos viven en `src/content/blog/`. Cada Markdown usa este frontmatter:
+- `experience.ts`: experiencia profesional verificada.
+- `projects.ts`: casos de estudio anonimizados.
+- `services.ts`: servicios y alcance técnico.
 
-```yaml
-title: "Título"
-description: "Descripción SEO"
-publishDate: 2026-07-17
-updatedDate: 2026-07-17 # opcional
-author: "Jordi Sánchez"
-category: "SEO local"
-draft: false
-```
+Los artículos viven en `src/content/blog/` y utilizan la colección tipada definida en `src/content.config.ts`.
 
-La ruta, el canonical y los datos estructurados `Article` se generan automáticamente.
+## Despliegue en Vercel
 
-## SEO y privacidad
+1. Configura `WEB3FORMS_ACCESS_KEY` en las variables del proyecto.
+2. Comprueba en Web3Forms el correo de destino y restringe el uso al dominio cuando sea posible.
+3. Asigna `www.jordisanchezweb.es` como dominio principal y redirige la variante sin `www`.
+4. Activa Web Analytics y Speed Insights.
+5. Revisa los datos identificativos del aviso legal antes de publicar la actividad comercial definitiva.
 
-- `@astrojs/sitemap` genera `sitemap-index.xml` y los sitemaps de páginas. `/sitemap.xml` redirige al índice mediante `vercel.json`.
-- `robots.txt`, canonical, Open Graph, Twitter Card y datos estructurados están incluidos.
-- Fraunces e Inter se autoalojan desde paquetes locales; no hay peticiones a Google Fonts.
-- Vercel Analytics no usa cookies. El formulario solo envía datos después de una acción explícita del usuario.
+`@astrojs/sitemap` genera `sitemap-index.xml`; `robots.txt`, canonical, Open Graph, Twitter Cards y JSON-LD están incluidos. Las tipografías se sirven localmente.

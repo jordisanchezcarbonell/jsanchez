@@ -1,7 +1,7 @@
 {
-  "name": "Jordi Sánchez Web",
-  "short_name": "JS Web",
-  "description": "Diseño web para negocios locales en Barcelona",
+  "name": "Jordi Sánchez — Full-Stack Developer",
+  "short_name": "Jordi Sánchez",
+  "description": "Portfolio profesional y servicios de desarrollo Full-Stack en Barcelona",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f7f4ee",
