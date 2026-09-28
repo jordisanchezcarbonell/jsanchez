@@ -42,6 +42,7 @@ const year = new Date().getFullYear();
   .footer-name {
     font-family: var(--sans);
     font-size: clamp(2rem, 4vw, 3.4rem);
+    font-weight: 560;
     line-height: 1;
     letter-spacing: -0.035em;
   }
@@ -59,6 +60,9 @@ const year = new Date().getFullYear();
   }
 
   nav a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
     color: var(--muted);
     font-size: 0.82rem;
   }

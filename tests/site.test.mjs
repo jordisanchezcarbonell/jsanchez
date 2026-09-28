@@ -60,7 +60,7 @@ test('the home name uses the neutral sans display face', () => {
   assert.match(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
 });
 
-test('the footer name uses the same neutral sans face', () => {
+test('personal brand typography stays neutral in the header and footer', () => {
   const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
   const compiledCss = readdirSync(cssDirectory)
     .filter((file) => file.endsWith('.css'))
@@ -68,6 +68,28 @@ test('the footer name uses the same neutral sans face', () => {
     .join('\n');
 
   assert.match(compiledCss, /\.footer-name\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
+  assert.match(compiledCss, /\.footer-name\[[^\]]+\]\{[^}]*font-weight:560/);
+  assert.match(compiledCss, /\.brand-mark\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
+});
+
+test('professional page introductions give long headings enough desktop width', () => {
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /\.page-intro h1\{[^}]*max-width:15ch/);
+});
+
+test('footer navigation links keep a comfortable touch target', () => {
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /nav\[[^\]]+\] a\[[^\]]+\]\{[^}]*min-height:2\.75rem/);
 });
 
 test('the primary navigation reaches every professional area', () => {
@@ -99,6 +121,25 @@ test('the projects page presents anonymized professional case studies', () => {
   assert.match(projects, /Pagos y 3D Secure/);
   assert.match(projects, /Aplicaciones móviles/);
   assert.doesNotMatch(projects, /TODO.*resultado/i);
+});
+
+test('Primer Down appears as a public project on the home and projects pages', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const projects = readFileSync(
+    path.join(process.cwd(), 'dist', 'proyectos', 'index.html'),
+    'utf8',
+  );
+
+  for (const page of [home, projects]) {
+    assert.match(page, /Primer Down/);
+    assert.match(page, /Next\.js/);
+  }
+
+  assert.match(
+    projects,
+    /href="https:\/\/github\.com\/jordisanchezcarbonell\/Gridiron-Spain"/,
+  );
+  assert.match(projects, /archivo editorial bilingüe/i);
 });
 
 test('the services page describes concrete technical collaborations', () => {

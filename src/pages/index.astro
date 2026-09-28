@@ -140,8 +140,8 @@ const jsonLd = {
       <SectionHeading
         id="projects-title"
         eyebrow="Proyectos seleccionados"
-        title="Problemas complejos, explicados sin información confidencial."
-        description="Una selección de áreas en las que he trabajado. Los casos están anonimizados y no incluyen clientes, endpoints ni métricas privadas."
+        title="Producto propio y problemas reales de software."
+        description="Una selección que combina Primer Down, un proyecto público, con casos profesionales anonimizados que no exponen clientes, endpoints ni métricas privadas."
       />
 
       <ol class="project-list">
@@ -159,6 +159,11 @@ const jsonLd = {
               <ul aria-label={`Tecnologías de ${project.title}`}>
                 {project.technologies.slice(0, 4).map((technology) => <li>{technology}</li>)}
               </ul>
+              {project.url && (
+                <a class="text-link project-link" href={project.url} target="_blank" rel="noreferrer">
+                  {project.linkLabel ?? 'Ver proyecto'}
+                </a>
+              )}
             </article>
           </li>
         ))}
@@ -444,6 +449,11 @@ const jsonLd = {
   .project-list ul li {
     border-color: #514940;
     color: #d7d0c6;
+  }
+
+  .project-link {
+    width: fit-content;
+    color: #f7f4ee;
   }
 
   .projects > .container > .button {

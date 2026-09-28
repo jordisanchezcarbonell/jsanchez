@@ -8,9 +8,28 @@ export interface ProjectCase {
   technologies: string[];
   outcome: string;
   featured: boolean;
+  url?: string;
+  linkLabel?: string;
 }
 
 export const projects: ProjectCase[] = [
+  {
+    slug: 'primer-down',
+    title: 'Primer Down',
+    area: 'Producto editorial propio',
+    problem:
+      'Reunir equipos, competiciones, historia y actualidad del fútbol americano en una experiencia fiable, bilingüe y fácil de explorar.',
+    solution:
+      'Un archivo editorial bilingüe con Next.js, contenido estructurado en TypeScript, fichas conectadas, mapa interactivo, cronología, SEO y un sistema explícito de fuentes y verificación.',
+    contribution:
+      'Definición del producto, arquitectura frontend y de contenidos, diseño de la interfaz, modelado editorial, internacionalización, rendimiento y automatización de controles de integridad.',
+    technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'i18n', 'SEO técnico'],
+    outcome:
+      'Proyecto público en evolución: 22 equipos, 11 competiciones, 23 hitos históricos y artículos bilingües respaldados por un registro central de fuentes.',
+    featured: true,
+    url: 'https://github.com/jordisanchezcarbonell/Gridiron-Spain',
+    linkLabel: 'Ver código en GitHub',
+  },
   {
     slug: 'plataforma-reservas',
     title: 'Plataforma de reservas',

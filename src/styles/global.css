@@ -201,7 +201,7 @@ p {
 }
 
 .page-intro h1 {
-  max-width: 12ch;
+  max-width: 15ch;
   font-size: clamp(3.5rem, 8vw, 7.5rem);
 }
 

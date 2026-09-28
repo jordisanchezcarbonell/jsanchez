@@ -13,9 +13,9 @@ import { projects } from '../../data/projects';
     <h1>Producto, integraciones y código en producción.</h1>
     <div class="page-intro__footer">
       <p class="lede">
-        Casos de estudio anonimizados sobre problemas reales de software. Sin nombres de clientes, métricas inventadas ni información interna.
+        Un producto propio y casos de estudio anonimizados sobre problemas reales de software. Sin métricas inventadas ni información interna de clientes.
       </p>
-      <p class="meta-line"><span>{projects.length} áreas</span><span>Web · móvil · APIs</span></p>
+      <p class="meta-line"><span>{projects.length} proyectos y áreas</span><span>Web · móvil · APIs</span></p>
     </div>
   </header>
 
@@ -56,6 +56,11 @@ import { projects } from '../../data/projects';
               <ul class="technology-list" aria-label={`Tecnologías de ${project.title}`}>
                 {project.technologies.map((technology) => <li>{technology}</li>)}
               </ul>
+              {project.url && (
+                <a class="text-link case-link" href={project.url} target="_blank" rel="noreferrer">
+                  {project.linkLabel ?? 'Ver proyecto'}
+                </a>
+              )}
             </article>
           </li>
         ))}
@@ -155,6 +160,11 @@ import { projects } from '../../data/projects';
     font-weight: 650;
   }
 
+  .case-link {
+    display: inline-flex;
+    margin: 1.5rem 0 0 4.25rem;
+  }
+
   .project-cta {
     padding-block: var(--section-space);
     background: var(--ink);
@@ -191,6 +201,20 @@ import { projects } from '../../data/projects';
     .cta-grid {
       grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.65fr);
       align-items: end;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .case-details {
+      padding-left: 0;
+    }
+
+    .technology-list {
+      padding-left: 0;
+    }
+
+    .case-link {
+      margin-left: 0;
     }
   }
 </style>
