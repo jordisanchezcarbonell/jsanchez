@@ -6,6 +6,18 @@ export interface ExperienceItem {
   technologies: string[];
 }
 
+/** First professional role (Ogilvy). Years of experience are derived from it at build time. */
+export const careerStart = new Date('2020-09-01');
+
+export function yearsOfExperience(now: Date = new Date()): number {
+  const years = now.getFullYear() - careerStart.getFullYear();
+  const beforeAnniversary =
+    now.getMonth() < careerStart.getMonth() ||
+    (now.getMonth() === careerStart.getMonth() && now.getDate() < careerStart.getDate());
+
+  return beforeAnniversary ? years - 1 : years;
+}
+
 export const experience: ExperienceItem[] = [
   {
     company: 'Eunoia Digital',

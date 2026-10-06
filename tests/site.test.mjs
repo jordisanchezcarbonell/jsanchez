@@ -4,6 +4,17 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 
+function yearsSince(isoDate) {
+  const start = new Date(isoDate);
+  const now = new Date();
+  const years = now.getFullYear() - start.getFullYear();
+  const beforeAnniversary =
+    now.getMonth() < start.getMonth() ||
+    (now.getMonth() === start.getMonth() && now.getDate() < start.getDate());
+
+  return beforeAnniversary ? years - 1 : years;
+}
+
 test('the production site builds without contact-form credentials', () => {
   const result = spawnSync('npm', ['run', 'build'], {
     cwd: process.cwd(),
@@ -176,6 +187,8 @@ test('the about page includes experience, education, and verified skills', () =>
   assert.match(about, /Desarrollo de Aplicaciones Web/);
   assert.match(about, /Desarrollo de Aplicaciones Multiplataforma/);
   assert.match(about, /Ethical Hacking/);
+  assert.match(about, new RegExp(`Llevo ${yearsSince('2020-09-01')} años trabajando`));
+  assert.doesNotMatch(about, /más de cuatro años/);
 });
 
 test('the contact page accepts professional and commercial enquiries', () => {
@@ -204,7 +217,7 @@ test('the home combines professional positioning, work, and services', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
 
   assert.match(home, /<title>Jordi Sánchez — Full-Stack Developer<\/title>/);
-  assert.match(home, /6 años con React, Next\.js y TypeScript/);
+  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} años con React, Next\\.js y TypeScript`));
   assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver proyectos/);
   assert.match(home, /href="\/contacto\/"[^>]*>\s*Trabajar conmigo/);
   assert.match(home, /Plataforma de reservas/);

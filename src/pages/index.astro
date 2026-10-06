@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { experience } from '../data/experience';
+import { experience, yearsOfExperience } from '../data/experience';
 import { projects } from '../data/projects';
 import { services } from '../data/services';
 
@@ -83,7 +83,7 @@ const jsonLd = {
         <p class="hero-label" aria-hidden="true">Web · móvil · APIs</p>
         <div class="hero-copy">
           <p class="lede">
-            6 años con React, Next.js y TypeScript entre frontend, APIs e integraciones con sistemas como SAP. Colaboro con agencias y equipos de producto.
+            {yearsOfExperience()} años con React, Next.js y TypeScript entre frontend, APIs e integraciones con sistemas como SAP. Colaboro con agencias y equipos de producto.
           </p>
           <div class="hero-actions">
             <a class="button button--accent" href="/contacto/">Trabajar conmigo</a>

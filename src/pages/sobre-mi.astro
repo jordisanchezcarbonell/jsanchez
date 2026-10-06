@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { experience } from '../data/experience';
+import { experience, yearsOfExperience } from '../data/experience';
 
 const stackGroups = [
   {
@@ -32,7 +32,7 @@ const stackGroups = [
     <h1>Desarrollo producto digital desde Barcelona.</h1>
     <div class="page-intro__footer">
       <p class="lede">
-        Soy Jordi Sánchez, Full-Stack Developer. Llevo más de cuatro años trabajando en aplicaciones web y móviles con React, Next.js y TypeScript, desde la interfaz hasta las APIs y las integraciones.
+        Soy Jordi Sánchez, Full-Stack Developer. Llevo {yearsOfExperience()} años trabajando en aplicaciones web y móviles con React, Next.js y TypeScript, desde la interfaz hasta las APIs y las integraciones.
       </p>
       <p class="meta-line"><span>Barcelona</span><span>Español · Català</span></p>
     </div>
