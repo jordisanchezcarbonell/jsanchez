@@ -103,6 +103,18 @@ test('footer navigation links keep a comfortable touch target', () => {
   assert.match(compiledCss, /nav\[[^\]]+\] a\[[^\]]+\]\{[^}]*min-height:2\.75rem/);
 });
 
+test('the header stays reachable while scrolling, with contact always visible', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /\.site-header\[[^\]]+\]\{[^}]*position:sticky/);
+  assert.match(home, /class="mobile-actions[^"]*"[^>]*>\s*<a class="nav-cta[^"]*" href="\/contacto\/"/);
+});
+
 test('the primary navigation reaches every professional area', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
   const destinations = ['/proyectos/', '/servicios/', '/clubes/', '/sobre-mi/', '/contacto/'];

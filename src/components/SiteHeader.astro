@@ -33,35 +33,87 @@ const isActive = (href: string) => currentPath.startsWith(href);
       </a>
     </nav>
 
-    <details class="mobile-navigation">
-      <summary>Menú</summary>
-      <nav aria-label="Navegación móvil">
-        {links.map((link) => (
-          <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
-            {link.label}
-          </a>
-        ))}
-        <a href="/contacto/" aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}>
-          Contacto
-        </a>
-      </nav>
-    </details>
+    <div class="mobile-actions">
+      <a
+        class="nav-cta"
+        href="/contacto/"
+        aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}
+      >
+        Contacto
+      </a>
+      <details class="mobile-navigation">
+        <summary>Menú</summary>
+        <nav aria-label="Navegación móvil">
+          {links.map((link) => (
+            <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
 
+<script>
+  // Hide the header while scrolling down and reveal it on scroll up.
+  // It stays put for reduced-motion users, with the mobile menu open, or while it holds focus.
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const menu = header?.querySelector<HTMLDetailsElement>('.mobile-navigation');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    if (!header) return;
+
+    const y = window.scrollY;
+    const delta = y - lastY;
+    const pinned = reducedMotion.matches || menu?.open || header.contains(document.activeElement);
+
+    if (pinned || y < header.offsetHeight || delta < -4) {
+      header.removeAttribute('data-hidden');
+    } else if (delta > 4) {
+      header.setAttribute('data-hidden', '');
+    }
+
+    if (Math.abs(delta) > 4) lastY = y;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+
+  header?.addEventListener('focusin', () => header.removeAttribute('data-hidden'));
+</script>
+
 <style>
   .site-header {
-    position: relative;
+    position: sticky;
+    top: 0;
     z-index: 20;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--paper) 96%, transparent);
+    background: var(--paper);
+    transition: transform 220ms ease;
+  }
+
+  .site-header[data-hidden] {
+    transform: translateY(-100%);
   }
 
   .header-inner {
     position: relative;
     display: flex;
     width: min(100%, var(--max-width));
-    min-height: 5rem;
+    min-height: 4rem;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
@@ -110,7 +162,26 @@ const isActive = (href: string) => currentPath.startsWith(href);
     display: none;
   }
 
+  .mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .nav-cta {
+    padding: 0.6rem 0.85rem;
+    border: 1px solid var(--ink);
+    transition: color 180ms ease, background-color 180ms ease;
+  }
+
+  .nav-cta:hover,
+  .nav-cta[aria-current='page'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
   .desktop-navigation a,
+  .mobile-actions .nav-cta,
   .mobile-navigation a,
   .mobile-navigation summary {
     font-size: 0.7rem;
@@ -168,7 +239,7 @@ const isActive = (href: string) => currentPath.startsWith(href);
   }
 
   @media (min-width: 68rem) {
-    .mobile-navigation {
+    .mobile-actions {
       display: none;
     }
 
@@ -199,18 +270,6 @@ const isActive = (href: string) => currentPath.startsWith(href);
     .desktop-navigation a[aria-current='page']::after {
       transform: scaleX(1);
       transform-origin: left;
-    }
-
-    .nav-cta {
-      padding: 0.72rem 1rem;
-      border: 1px solid var(--ink);
-      transition: color 180ms ease, background-color 180ms ease;
-    }
-
-    .nav-cta:hover,
-    .nav-cta[aria-current='page'] {
-      background: var(--ink);
-      color: var(--paper);
     }
   }
 </style>
