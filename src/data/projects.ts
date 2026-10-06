@@ -1,5 +1,12 @@
 import primerDownScreenshot from '../assets/projects/primer-down.png';
 
+/** Problema / Qué hice / Resultado. Leave `result` undefined until there is a real, publishable figure. */
+export interface CaseStudy {
+  problem: string;
+  work: string;
+  result?: string;
+}
+
 export interface ProjectCase {
   slug: string;
   title: string;
@@ -13,6 +20,7 @@ export interface ProjectCase {
   url?: string;
   linkLabel?: string;
   demoUrl?: string;
+  caseStudy?: CaseStudy;
   image?: ImageMetadata;
   imageAlt?: string;
 }
@@ -105,6 +113,15 @@ export const projects: ProjectCase[] = [
     outcome:
       'Caso anonimizado: se describe el alcance técnico sin publicar métricas, operaciones ni datos del cliente.',
     featured: true,
+    caseStudy: {
+      problem:
+        'Flujo de reserva con autenticación y disponibilidad repartidas entre varios servicios, lo que generaba errores difíciles de reproducir.',
+      // TODO(Jordi): concretar qué hiciste, p. ej. capa de cliente tipada para la API, manejo de
+      // estados de carga y error, tests E2E del recorrido crítico. Mientras tanto se usa `contribution`.
+      work:
+        'Desarrollo y evolución de interfaces, integración de servicios, resolución de incidencias y coordinación de los flujos entre frontend y backend.',
+      // TODO(Jordi): resultado — métrica o hito real. Sin él se muestra `outcome` como contexto.
+    },
   },
   {
     slug: 'integraciones-empresariales',
@@ -120,6 +137,13 @@ export const projects: ProjectCase[] = [
     outcome:
       'Caso anonimizado: los sistemas, endpoints y datos internos permanecen deliberadamente fuera de esta web.',
     featured: true,
+    caseStudy: {
+      problem:
+        'Datos de marketing y contenido desincronizados entre SAP, el CMS y la web, con correcciones manuales.',
+      work:
+        'Integraciones con Strapi (lifecycle hooks y webhooks), actualizaciones masivas automatizadas y registro de cada sincronización para poder auditarla.',
+      // TODO(Jordi): resultado, p. ej. «eliminadas N horas/semana de trabajo manual».
+    },
   },
   {
     slug: 'pagos-3d-secure',
@@ -135,6 +159,13 @@ export const projects: ProjectCase[] = [
     outcome:
       'Caso anonimizado: no se publican proveedores, volúmenes, credenciales ni reglas internas de negocio.',
     featured: true,
+    caseStudy: {
+      problem:
+        'Checkout con abandonos por errores intermitentes en la verificación 3DS y estados de pago inconsistentes entre frontend y pasarela.',
+      work:
+        'Modelé los estados del pago de forma explícita, gestioné el retorno del challenge 3DS y los reintentos, y añadí trazas para seguir cada transacción de punta a punta.',
+      // TODO(Jordi): resultado, p. ej. «‑X % incidencias en pagos» o «diagnóstico de horas a minutos».
+    },
   },
   {
     slug: 'aplicaciones-moviles',

@@ -156,7 +156,26 @@ const jsonLd = {
                   <h3>{project.title}</h3>
                 </div>
               </div>
-              <p>{project.contribution}</p>
+              {project.caseStudy ? (
+                <dl class="case-summary">
+                  <div>
+                    <dt>Problema</dt>
+                    <dd>{project.caseStudy.problem}</dd>
+                  </div>
+                  <div>
+                    <dt>Qué hice</dt>
+                    <dd>{project.caseStudy.work}</dd>
+                  </div>
+                  {project.caseStudy.result && (
+                    <div>
+                      <dt>Resultado</dt>
+                      <dd>{project.caseStudy.result}</dd>
+                    </div>
+                  )}
+                </dl>
+              ) : (
+                <p>{project.contribution}</p>
+              )}
               <ul aria-label={`Tecnologías de ${project.title}`}>
                 {project.technologies.slice(0, 4).map((technology) => <li>{technology}</li>)}
               </ul>
@@ -474,6 +493,26 @@ const jsonLd = {
     color: #aaa197;
   }
 
+  .case-summary {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  .case-summary dt {
+    color: #d7d0c6;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .case-summary dd {
+    margin: 0.2rem 0 0;
+    color: #aaa197;
+  }
+
   .project-list ul li {
     border-color: #514940;
     color: #d7d0c6;
@@ -655,6 +694,23 @@ const jsonLd = {
 
     .project-media {
       grid-column: 2 / -1;
+    }
+
+    .project-list article:has(.case-summary) {
+      align-items: start;
+    }
+
+    .case-summary {
+      grid-column: 2 / -1;
+      grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+      gap: 0.9rem 2rem;
+      max-width: none;
+    }
+
+    .project-list article:has(.case-summary) > ul {
+      grid-column: 2 / -1;
+      justify-content: flex-start;
+      margin-top: 0;
     }
 
     .clubs-grid,

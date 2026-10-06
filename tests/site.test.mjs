@@ -146,6 +146,21 @@ test('the projects page presents anonymized professional case studies', () => {
   assert.doesNotMatch(projects, /TODO.*resultado/i);
 });
 
+test('anonymized cases follow the problem / work / result format without unpublished placeholders', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const projects = readFileSync(
+    path.join(process.cwd(), 'dist', 'proyectos', 'index.html'),
+    'utf8',
+  );
+
+  for (const page of [home, projects]) {
+    assert.match(page, /Qué hice/);
+    assert.match(page, /errores intermitentes en la verificación 3DS/);
+    assert.match(page, /lifecycle hooks y webhooks/);
+    assert.doesNotMatch(page, /\[?TODO/);
+  }
+});
+
 test('Primer Down appears as a public project on the home and projects pages', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
   const projects = readFileSync(

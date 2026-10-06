@@ -48,24 +48,41 @@ import { projects } from '../../data/projects';
                 </figure>
               )}
 
-              <div class="case-details">
-                <section>
-                  <h3>Problema</h3>
-                  <p>{project.problem}</p>
-                </section>
-                <section>
-                  <h3>Solución</h3>
-                  <p>{project.solution}</p>
-                </section>
-                <section>
-                  <h3>Mi contribución</h3>
-                  <p>{project.contribution}</p>
-                </section>
-                <section>
-                  <h3>Contexto público</h3>
-                  <p>{project.outcome}</p>
-                </section>
-              </div>
+              {project.caseStudy ? (
+                <div class="case-details">
+                  <section>
+                    <h3>Problema</h3>
+                    <p>{project.caseStudy.problem}</p>
+                  </section>
+                  <section>
+                    <h3>Qué hice</h3>
+                    <p>{project.caseStudy.work}</p>
+                  </section>
+                  <section>
+                    <h3>{project.caseStudy.result ? 'Resultado' : 'Contexto público'}</h3>
+                    <p>{project.caseStudy.result ?? project.outcome}</p>
+                  </section>
+                </div>
+              ) : (
+                <div class="case-details">
+                  <section>
+                    <h3>Problema</h3>
+                    <p>{project.problem}</p>
+                  </section>
+                  <section>
+                    <h3>Solución</h3>
+                    <p>{project.solution}</p>
+                  </section>
+                  <section>
+                    <h3>Mi contribución</h3>
+                    <p>{project.contribution}</p>
+                  </section>
+                  <section>
+                    <h3>Contexto público</h3>
+                    <p>{project.outcome}</p>
+                  </section>
+                </div>
+              )}
 
               <ul class="technology-list" aria-label={`Tecnologías de ${project.title}`}>
                 {project.technologies.map((technology) => <li>{technology}</li>)}
@@ -232,6 +249,10 @@ import { projects } from '../../data/projects';
   @media (min-width: 48rem) {
     .case-details {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .case-details:has(> section:nth-child(3):last-child) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .cta-grid {
