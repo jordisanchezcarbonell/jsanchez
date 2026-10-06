@@ -187,7 +187,7 @@ const jsonLd = {
           <li>
             <p class="row-index">{String(index + 1).padStart(2, '0')}</p>
             <div>
-              <h3>{service.title}</h3>
+              <h3><a class="service-link" href={`/servicios/#${service.slug}`}>{service.title}</a></h3>
               <p>{service.description}</p>
             </div>
             <span aria-hidden="true">↗</span>
@@ -473,12 +473,45 @@ const jsonLd = {
   }
 
   .service-list > li {
+    position: relative;
     display: grid;
     grid-template-columns: 2.5rem minmax(0, 1fr) auto;
     gap: 1rem;
     align-items: start;
     padding-block: clamp(2rem, 5vw, 3.5rem);
     border-bottom: 1px solid var(--line);
+    transition: background-color 180ms ease;
+  }
+
+  /* The heading link stretches over the whole card so the entire row is clickable. */
+  .service-link {
+    text-decoration: none;
+  }
+
+  .service-link::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+  }
+
+  .service-link:focus-visible {
+    outline: none;
+  }
+
+  .service-link:focus-visible::after {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .service-list > li:hover {
+    background: #e6e0d5;
+  }
+
+  .service-list > li:hover h3 {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
   }
 
   .service-list h3 {
@@ -494,6 +527,12 @@ const jsonLd = {
   .service-list li > span {
     color: var(--accent);
     font-size: 1.1rem;
+    transition: transform 180ms ease;
+  }
+
+  .service-list > li:hover > span,
+  .service-list > li:focus-within > span {
+    transform: translate(0.2rem, -0.2rem);
   }
 
   .clubs,

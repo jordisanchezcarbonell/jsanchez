@@ -24,7 +24,7 @@ import { services } from '../data/services';
       <h2 id="service-title" class="visually-hidden">Servicios de desarrollo</h2>
       <ol class="service-list">
         {services.map((service, index) => (
-          <li>
+          <li id={service.slug}>
             <p class="service-number">{String(index + 1).padStart(2, '0')}</p>
             <div>
               <h2>{service.title}</h2>

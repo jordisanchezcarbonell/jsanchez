@@ -181,6 +181,17 @@ test('the projects page links to the selected public Vercel deployments', () => 
   }
 });
 
+test('home service cards link to their anchor on the services page', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const services = readFileSync(path.join(process.cwd(), 'dist', 'servicios', 'index.html'), 'utf8');
+  const anchors = [...home.matchAll(/href="\/servicios\/#([a-z0-9-]+)"/g)].map((match) => match[1]);
+
+  assert.equal(anchors.length, 4);
+  for (const anchor of anchors) {
+    assert.match(services, new RegExp(`id="${anchor}"`));
+  }
+});
+
 test('the services page describes concrete technical collaborations', () => {
   const services = readFileSync(path.join(process.cwd(), 'dist', 'servicios', 'index.html'), 'utf8');
 
