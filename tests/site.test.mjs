@@ -30,10 +30,11 @@ test('the professional routes are available in the production output', () => {
   assert.deepEqual(missingRoutes, []);
 });
 
-test('the home presents Jordi as a Full-Stack Developer without the retired portfolio', () => {
+test('the home leads with a value proposition without the retired portfolio', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
 
-  assert.match(home, /<h1[^>]*>[^<]*Jordi Sánchez[^<]*Full-Stack Developer[^<]*<\/h1>/);
+  assert.match(home, /<h1[^>]*>Producto web que llega a producción y se mantiene estable\.<\/h1>/);
+  assert.match(home, /Full-Stack Developer · Barcelona/);
   assert.doesNotMatch(home, /jordi-sanchez-portafolio\.vercel\.app/);
 });
 
@@ -48,16 +49,15 @@ test('display typography keeps names legible without whimsical letter alternates
   assert.doesNotMatch(compiledCss, /font-variation-settings:\s*"SOFT"\s+\d+,\s*"WONK"\s+1/);
 });
 
-test('the home name uses the neutral sans display face', () => {
-  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+test('the hero headline shares the serif display face with the section headings', () => {
   const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
   const compiledCss = readdirSync(cssDirectory)
     .filter((file) => file.endsWith('.css'))
     .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
     .join('\n');
 
-  assert.match(home, /<h1 class="hero-title"[^>]*>Jordi Sánchez — Full-Stack Developer<\/h1>/);
-  assert.match(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
+  assert.doesNotMatch(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-family:var\(--sans\)/);
+  assert.match(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-size:clamp\(2\.5rem,5\.6vw,5\.5rem\)/);
 });
 
 test('personal brand typography stays neutral in the header and footer', () => {
@@ -204,7 +204,7 @@ test('the home combines professional positioning, work, and services', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
 
   assert.match(home, /<title>Jordi Sánchez — Full-Stack Developer<\/title>/);
-  assert.match(home, /Más de 4 años desarrollando aplicaciones web y móviles/);
+  assert.match(home, /6 años con React, Next\.js y TypeScript/);
   assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver proyectos/);
   assert.match(home, /href="\/contacto\/"[^>]*>\s*Trabajar conmigo/);
   assert.match(home, /Plataforma de reservas/);

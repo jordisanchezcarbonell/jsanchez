@@ -77,17 +77,17 @@ const jsonLd = {
         <p class="availability"><span aria-hidden="true"></span> Disponible para colaboraciones</p>
       </div>
 
-      <h1 class="hero-title">Jordi Sánchez — Full-Stack Developer</h1>
+      <h1 class="hero-title">Producto web que llega a producción y se mantiene estable.</h1>
 
       <div class="hero-bottom">
         <p class="hero-label" aria-hidden="true">Web · móvil · APIs</p>
         <div class="hero-copy">
           <p class="lede">
-            Más de 4 años desarrollando aplicaciones web y móviles con React, Next.js y TypeScript. Especializado en APIs, integraciones y desarrollo de producto.
+            6 años con React, Next.js y TypeScript entre frontend, APIs e integraciones con sistemas como SAP. Colaboro con agencias y equipos de producto.
           </p>
           <div class="hero-actions">
-            <a class="button button--accent" href="/proyectos/">Ver proyectos</a>
-            <a class="text-link" href="/contacto/">Trabajar conmigo</a>
+            <a class="button button--accent" href="/contacto/">Trabajar conmigo</a>
+            <a class="text-link" href="/proyectos/">Ver proyectos</a>
           </div>
         </div>
       </div>
@@ -247,7 +247,7 @@ const jsonLd = {
   }
 
   .hero-inner {
-    padding-block: clamp(4.5rem, 10vw, 9rem) clamp(4rem, 8vw, 7rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
   }
 
   .hero-heading {
@@ -256,6 +256,10 @@ const jsonLd = {
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem 2rem;
+  }
+
+  .hero-heading .eyebrow {
+    margin-bottom: 0;
   }
 
   .availability {
@@ -277,18 +281,16 @@ const jsonLd = {
   }
 
   .hero-title {
-    max-width: 12.5ch;
-    font-family: var(--sans);
-    font-variation-settings: normal;
-    font-weight: 620;
-    line-height: 0.92;
-    letter-spacing: -0.055em;
+    max-width: 17ch;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(2.5rem, 5.6vw, 5.5rem);
+    line-height: 1;
   }
 
   .hero-bottom {
     display: grid;
     gap: 2rem;
-    margin-top: clamp(3rem, 7vw, 7rem);
+    margin-top: clamp(1.75rem, 4vw, 3.5rem);
     padding-top: 1.4rem;
     border-top: 1px solid var(--line);
   }
@@ -302,9 +304,13 @@ const jsonLd = {
     text-transform: uppercase;
   }
 
+  .hero-label {
+    display: none;
+  }
+
   .hero-copy {
     display: grid;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .hero-actions {
@@ -531,6 +537,10 @@ const jsonLd = {
   }
 
   @media (min-width: 52rem) {
+    .hero-label {
+      display: block;
+    }
+
     .hero-bottom {
       grid-template-columns: minmax(10rem, 0.35fr) minmax(0, 0.65fr);
     }
