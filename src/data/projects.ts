@@ -1,3 +1,5 @@
+import primerDownScreenshot from '../assets/projects/primer-down.png';
+
 export interface ProjectCase {
   slug: string;
   title: string;
@@ -10,6 +12,9 @@ export interface ProjectCase {
   featured: boolean;
   url?: string;
   linkLabel?: string;
+  demoUrl?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
 }
 
 export const projects: ProjectCase[] = [
@@ -29,6 +34,11 @@ export const projects: ProjectCase[] = [
     featured: true,
     url: 'https://github.com/jordisanchezcarbonell/Gridiron-Spain',
     linkLabel: 'Ver código en GitHub',
+    // TODO(Jordi): confirmar la URL de producción (gridiron-spain.vercel.app también sirve el proyecto).
+    demoUrl: 'https://primer-down.vercel.app/es',
+    image: primerDownScreenshot,
+    imageAlt:
+      'Portada de Primer Down: titular «El fútbol americano también vive aquí» sobre fondo oscuro, navegación por historia, equipos, mapa y competiciones, y botones para explorar equipos e historia.',
   },
   {
     slug: 'damascus-nice-guide',

@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { projects } from '../../data/projects';
 ---
@@ -34,6 +35,19 @@ import { projects } from '../../data/projects';
                 </div>
               </header>
 
+              {project.image && (
+                <figure class="case-media">
+                  <Image
+                    src={project.image}
+                    alt={project.imageAlt ?? ''}
+                    widths={[640, 960, 1280, 1600]}
+                    sizes="(min-width: 60rem) 52rem, calc(100vw - 2.5rem)"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </figure>
+              )}
+
               <div class="case-details">
                 <section>
                   <h3>Problema</h3>
@@ -56,10 +70,19 @@ import { projects } from '../../data/projects';
               <ul class="technology-list" aria-label={`Tecnologías de ${project.title}`}>
                 {project.technologies.map((technology) => <li>{technology}</li>)}
               </ul>
-              {project.url && (
-                <a class="text-link case-link" href={project.url} target="_blank" rel="noreferrer">
-                  {project.linkLabel ?? 'Ver proyecto'}
-                </a>
+              {(project.demoUrl || project.url) && (
+                <div class="case-links">
+                  {project.demoUrl && (
+                    <a class="text-link" href={project.demoUrl} target="_blank" rel="noreferrer">
+                      Ver demo en vivo
+                    </a>
+                  )}
+                  {project.url && (
+                    <a class="text-link" href={project.url} target="_blank" rel="noreferrer">
+                      {project.linkLabel ?? 'Ver proyecto'}
+                    </a>
+                  )}
+                </div>
               )}
             </article>
           </li>
@@ -160,8 +183,21 @@ import { projects } from '../../data/projects';
     font-weight: 650;
   }
 
-  .case-link {
-    display: inline-flex;
+  .case-media {
+    max-width: 52rem;
+    margin: clamp(2rem, 5vw, 3.5rem) 0 0 4.25rem;
+    border: 1px solid var(--line);
+  }
+
+  .case-media img {
+    width: 100%;
+    height: auto;
+  }
+
+  .case-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
     margin: 1.5rem 0 0 4.25rem;
   }
 
@@ -213,7 +249,8 @@ import { projects } from '../../data/projects';
       padding-left: 0;
     }
 
-    .case-link {
+    .case-media,
+    .case-links {
       margin-left: 0;
     }
   }

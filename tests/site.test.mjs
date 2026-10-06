@@ -163,6 +163,11 @@ test('Primer Down appears as a public project on the home and projects pages', (
     /href="https:\/\/github\.com\/jordisanchezcarbonell\/Gridiron-Spain"/,
   );
   assert.match(projects, /archivo editorial bilingüe/i);
+
+  for (const page of [home, projects]) {
+    assert.match(page, /href="https:\/\/primer-down\.vercel\.app\/es"[^>]*>\s*Ver demo en vivo/);
+    assert.match(page, /<img[^>]+alt="Portada de Primer Down[^"]+"[^>]+width="\d+"[^>]+height="\d+"|<img[^>]+width="\d+"[^>]+height="\d+"[^>]+alt="Portada de Primer Down/);
+  }
 });
 
 test('the projects page links to the selected public Vercel deployments', () => {
