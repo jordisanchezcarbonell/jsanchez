@@ -1,3 +1,5 @@
+import type { Locale } from '../i18n';
+
 export interface ExperienceItem {
   company: string;
   role: string;
@@ -45,3 +47,21 @@ export const experience: ExperienceItem[] = [
     technologies: ['Drupal 7/8', 'React', 'Angular', 'Selenium', 'New Relic', 'Sass', 'CSS'],
   },
 ];
+
+const experienceEn: Record<string, Pick<ExperienceItem, 'period' | 'summary'>> = {
+  'Eunoia Digital': {
+    period: 'April 2022 — Present',
+    summary:
+      'Building and evolving web and mobile applications, APIs, integrations and product flows. Cross-cutting work across frontend, backend, quality and deployment.',
+  },
+  Ogilvy: {
+    period: 'September 2020 — April 2022',
+    summary:
+      'Development and maintenance of international web projects, site building, quality assurance and content management on Drupal platforms.',
+  },
+};
+
+export function getExperience(locale: Locale): ExperienceItem[] {
+  if (locale === 'es') return experience;
+  return experience.map((item) => ({ ...item, ...experienceEn[item.company] }));
+}

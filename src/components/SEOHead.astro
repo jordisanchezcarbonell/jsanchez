@@ -1,4 +1,6 @@
 ---
+import { alternatesFor, getLocale, locales, ogLocale } from '../i18n';
+
 interface Props {
   title: string;
   description: string;
@@ -17,7 +19,7 @@ const {
   description,
   canonicalPath = Astro.url.pathname,
   image = '/og-image.png',
-  imageAlt = 'Jordi Sánchez — Full-Stack Developer en Barcelona',
+  imageAlt,
   type = 'website',
   publishedTime,
   modifiedTime,
@@ -25,7 +27,14 @@ const {
   noindex = false,
 } = Astro.props;
 
+const locale = getLocale(Astro.currentLocale);
 const siteUrl = Astro.site ?? new URL('https://www.jordisanchezweb.es');
+const resolvedImageAlt =
+  imageAlt ??
+  (locale === 'en'
+    ? 'Jordi Sánchez — Full-Stack Developer in Barcelona'
+    : 'Jordi Sánchez — Full-Stack Developer en Barcelona');
+const alternates = noindex ? undefined : alternatesFor(Astro.url.pathname);
 const canonicalUrl = new URL(canonicalPath, siteUrl);
 const imageUrl = new URL(image, siteUrl);
 const safeJsonLd = jsonLd
@@ -41,11 +50,18 @@ const safeJsonLd = jsonLd
 <meta name="theme-color" content="#f7f4ee" />
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="canonical" href={canonicalUrl} />
+{alternates && locales.map((lang) => (
+  <link rel="alternate" hreflang={lang} href={new URL(alternates[lang], siteUrl)} />
+))}
+{alternates && <link rel="alternate" hreflang="x-default" href={new URL(alternates.es, siteUrl)} />}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 
-<meta property="og:locale" content="es_ES" />
+<meta property="og:locale" content={ogLocale[locale]} />
+{alternates && locales.filter((lang) => lang !== locale).map((lang) => (
+  <meta property="og:locale:alternate" content={ogLocale[lang]} />
+))}
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content="Jordi Sánchez — Full-Stack Developer" />
 <meta property="og:title" content={title} />
@@ -54,7 +70,7 @@ const safeJsonLd = jsonLd
 <meta property="og:image" content={imageUrl} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content={imageAlt} />
+<meta property="og:image:alt" content={resolvedImageAlt} />
 {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
 
@@ -62,6 +78,6 @@ const safeJsonLd = jsonLd
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageUrl} />
-<meta name="twitter:image:alt" content={imageAlt} />
+<meta name="twitter:image:alt" content={resolvedImageAlt} />
 
 {safeJsonLd && <script is:inline type="application/ld+json" set:html={safeJsonLd} />}

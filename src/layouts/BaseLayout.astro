@@ -6,6 +6,7 @@ import '../styles/global.css';
 import SEOHead from '../components/SEOHead.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { getLocale, htmlLang } from '../i18n';
 
 interface Props {
   title: string;
@@ -23,10 +24,12 @@ interface Props {
 }
 
 const { hideHeader = false, hideFooter = false, ...seoProps } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const skipLabel = locale === 'en' ? 'Skip to content' : 'Saltar al contenido';
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang[locale]}>
   <head>
     <SEOHead {...seoProps} />
     <Font cssVariable="--font-inter" preload />
@@ -34,7 +37,7 @@ const { hideHeader = false, hideFooter = false, ...seoProps } = Astro.props;
     <Analytics />
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <a class="skip-link" href="#contenido">{skipLabel}</a>
     {!hideHeader && <SiteHeader />}
     <main id="contenido">
       <slot />

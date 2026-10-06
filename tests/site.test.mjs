@@ -121,7 +121,8 @@ test('the header stays reachable while scrolling, with contact always visible', 
     .join('\n');
 
   assert.match(compiledCss, /\.site-header\[[^\]]+\]\{[^}]*position:sticky/);
-  assert.match(home, /class="mobile-actions[^"]*"[^>]*>\s*<a class="nav-cta[^"]*" href="\/contacto\/"/);
+  const mobileActions = home.match(/<div class="mobile-actions[^"]*"[^>]*>([\s\S]*?)<details/)[1];
+  assert.match(mobileActions, /<a class="nav-cta[^"]*" href="\/contacto\/"/);
 });
 
 test('compact links get a 44px hit area and dark-block labels stay legible', () => {

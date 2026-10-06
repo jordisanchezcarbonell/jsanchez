@@ -1,31 +1,67 @@
 ---
 import { socialLinks } from '../data/social';
+import { getLocale, localePath } from '../i18n';
 
 const year = new Date().getFullYear();
+const locale = getLocale(Astro.currentLocale);
+
+interface FooterLink {
+  href: string;
+  label: string;
+  /** Set on links to Spanish-only pages from the English site. */
+  lang?: string;
+}
+
+const copy: { note: string; nav: string; profiles: string; links: FooterLink[] } = {
+  es: {
+    note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs e integraciones.',
+    nav: 'Navegación del pie',
+    profiles: 'Perfiles profesionales',
+    links: [
+      { href: localePath('projects', 'es'), label: 'Proyectos' },
+      { href: localePath('services', 'es'), label: 'Servicios' },
+      { href: localePath('about', 'es'), label: 'Sobre mí' },
+      { href: localePath('contact', 'es'), label: 'Contacto' },
+      { href: '/clubes/', label: 'Clubes' },
+      { href: '/blog/', label: 'Blog' },
+      { href: '/aviso-legal/', label: 'Aviso legal' },
+      { href: '/privacidad/', label: 'Privacidad' },
+    ],
+  },
+  en: {
+    note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs and integrations.',
+    nav: 'Footer navigation',
+    profiles: 'Professional profiles',
+    // Clubs and the blog target a Spanish-speaking local audience, so they are not linked here.
+    links: [
+      { href: localePath('projects', 'en'), label: 'Projects' },
+      { href: localePath('services', 'en'), label: 'Services' },
+      { href: localePath('about', 'en'), label: 'About' },
+      { href: localePath('contact', 'en'), label: 'Contact' },
+      { href: '/aviso-legal/', label: 'Legal notice (ES)', lang: 'es' },
+      { href: '/privacidad/', label: 'Privacy (ES)', lang: 'es' },
+    ],
+  },
+}[locale];
 ---
 
 <footer class="site-footer">
   <div class="footer-main container">
     <div>
       <p class="footer-name">Jordi Sánchez</p>
-      <p class="footer-note">Full-Stack Developer · React, Next.js, TypeScript, APIs e integraciones.</p>
+      <p class="footer-note">{copy.note}</p>
     </div>
 
-    <nav aria-label="Navegación del pie">
-      <a href="/proyectos/">Proyectos</a>
-      <a href="/servicios/">Servicios</a>
-      <a href="/sobre-mi/">Sobre mí</a>
-      <a href="/contacto/">Contacto</a>
-      <a href="/clubes/">Clubes</a>
-      <a href="/blog/">Blog</a>
-      <a href="/aviso-legal/">Aviso legal</a>
-      <a href="/privacidad/">Privacidad</a>
+    <nav aria-label={copy.nav}>
+      {copy.links.map((link) => (
+        <a href={link.href} hreflang={link.lang}>{link.label}</a>
+      ))}
     </nav>
   </div>
 
   <div class="footer-bottom container">
     <p>© {year} Jordi Sánchez</p>
-    <ul class="footer-social" aria-label="Perfiles profesionales">
+    <ul class="footer-social" aria-label={copy.profiles}>
       {socialLinks.map((link) => (
         <li><a href={link.url} target="_blank" rel="me noreferrer">{link.label}</a></li>
       ))}

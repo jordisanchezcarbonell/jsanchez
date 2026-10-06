@@ -1,49 +1,85 @@
 ---
+import { alternatesFor, getLocale, localePath } from '../i18n';
+
 const currentPath = Astro.url.pathname;
+const locale = getLocale(Astro.currentLocale);
+const otherLocale = locale === 'es' ? 'en' : 'es';
 
-const links = [
-  { href: '/proyectos/', label: 'Proyectos' },
-  { href: '/servicios/', label: 'Servicios' },
-  { href: '/sobre-mi/', label: 'Sobre mí' },
-];
+const copy = {
+  es: {
+    home: 'Jordi Sánchez, inicio',
+    primary: 'Navegación principal',
+    mobile: 'Navegación móvil',
+    menu: 'Menú',
+    contact: 'Contacto',
+    switchLabel: 'EN · English version',
+    links: [
+      { href: localePath('projects', 'es'), label: 'Proyectos' },
+      { href: localePath('services', 'es'), label: 'Servicios' },
+      { href: localePath('about', 'es'), label: 'Sobre mí' },
+    ],
+  },
+  en: {
+    home: 'Jordi Sánchez, home',
+    primary: 'Main navigation',
+    mobile: 'Mobile navigation',
+    menu: 'Menu',
+    contact: 'Contact',
+    switchLabel: 'ES · Versión en español',
+    links: [
+      { href: localePath('projects', 'en'), label: 'Projects' },
+      { href: localePath('services', 'en'), label: 'Services' },
+      { href: localePath('about', 'en'), label: 'About' },
+    ],
+  },
+}[locale];
 
+const contactHref = localePath('contact', locale);
+// Pages without a translation (clubs, blog, legal) switch to the other language's home.
+const switchHref = alternatesFor(currentPath)?.[otherLocale] ?? localePath('home', otherLocale);
 const isActive = (href: string) => currentPath.startsWith(href);
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="Jordi Sánchez, inicio">
+    <a class="brand" href={localePath('home', locale)} aria-label={copy.home}>
       <span class="brand-mark" aria-hidden="true">JS</span>
       <span class="brand-name">Jordi Sánchez <small>Full-Stack</small></span>
     </a>
 
-    <nav class="desktop-navigation" aria-label="Navegación principal">
-      {links.map((link) => (
+    <nav class="desktop-navigation" aria-label={copy.primary}>
+      {copy.links.map((link) => (
         <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
           {link.label}
         </a>
       ))}
+      <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
+        {otherLocale.toUpperCase()}
+      </a>
       <a
         class="nav-cta"
-        href="/contacto/"
-        aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}
+        href={contactHref}
+        aria-current={currentPath.startsWith(contactHref) ? 'page' : undefined}
       >
-        Contacto
+        {copy.contact}
       </a>
     </nav>
 
     <div class="mobile-actions">
+      <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
+        {otherLocale.toUpperCase()}
+      </a>
       <a
         class="nav-cta"
-        href="/contacto/"
-        aria-current={currentPath.startsWith('/contacto') ? 'page' : undefined}
+        href={contactHref}
+        aria-current={currentPath.startsWith(contactHref) ? 'page' : undefined}
       >
-        Contacto
+        {copy.contact}
       </a>
       <details class="mobile-navigation">
-        <summary>Menú</summary>
-        <nav aria-label="Navegación móvil">
-          {links.map((link) => (
+        <summary>{copy.menu}</summary>
+        <nav aria-label={copy.mobile}>
+          {copy.links.map((link) => (
             <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
               {link.label}
             </a>
@@ -178,6 +214,15 @@ const isActive = (href: string) => currentPath.startsWith(href);
     transition: color 180ms ease, background-color 180ms ease;
   }
 
+  .language-switch {
+    display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
   .nav-cta:hover,
   .nav-cta[aria-current='page'] {
     background: var(--ink);
@@ -186,6 +231,7 @@ const isActive = (href: string) => currentPath.startsWith(href);
 
   .desktop-navigation a,
   .mobile-actions .nav-cta,
+  .mobile-actions .language-switch,
   .mobile-navigation a,
   .mobile-navigation summary {
     font-size: 0.7rem;
@@ -260,7 +306,7 @@ const isActive = (href: string) => currentPath.startsWith(href);
       position: relative;
     }
 
-    .desktop-navigation a:not(.nav-cta)::before {
+    .desktop-navigation a:not(.nav-cta, .language-switch)::before {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -270,7 +316,7 @@ const isActive = (href: string) => currentPath.startsWith(href);
       transform: translate(-50%, -50%);
     }
 
-    .desktop-navigation a:not(.nav-cta)::after {
+    .desktop-navigation a:not(.nav-cta, .language-switch)::after {
       position: absolute;
       right: 0;
       bottom: -0.45rem;

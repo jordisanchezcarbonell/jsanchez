@@ -1,4 +1,5 @@
 import primerDownScreenshot from '../assets/projects/primer-down.png';
+import type { Locale } from '../i18n';
 
 /** Problema / Qué hice / Resultado. Leave `result` undefined until there is a real, publishable figure. */
 export interface CaseStudy {
@@ -198,3 +199,154 @@ export const projects: ProjectCase[] = [
     featured: false,
   },
 ];
+
+type ProjectTranslation = Partial<
+  Pick<
+    ProjectCase,
+    'title' | 'area' | 'problem' | 'solution' | 'contribution' | 'technologies' | 'outcome' | 'linkLabel' | 'imageAlt' | 'caseStudy'
+  >
+>;
+
+/** English copy, keyed by slug. Structural fields (URLs, images, flags) come from the Spanish source above. */
+const projectsEn: Record<string, ProjectTranslation> = {
+  'primer-down': {
+    area: 'Own editorial product',
+    problem:
+      'Bring teams, competitions, history and news of American football in Spain together in a reliable, bilingual experience that is easy to explore.',
+    solution:
+      'A bilingual editorial archive built with Next.js, structured content in TypeScript, linked profiles, an interactive map, a timeline, SEO and an explicit sourcing and verification system.',
+    contribution:
+      'Product definition, frontend and content architecture, interface design, editorial modelling, internationalisation, performance and automated integrity checks.',
+    technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'i18n', 'Technical SEO'],
+    outcome:
+      'Public, evolving project: 22 teams, 11 competitions, 23 historical milestones and bilingual articles backed by a central source registry.',
+    linkLabel: 'View code on GitHub',
+    imageAlt:
+      'Primer Down home page: the headline “El fútbol americano también vive aquí” on a dark background, navigation for history, teams, map and competitions, and buttons to explore teams and history.',
+  },
+  'damascus-nice-guide': {
+    area: 'Multilingual travel guide',
+    problem:
+      'Offer a clear, practical guide to discovering Nice during EVO France without losing the context of each place.',
+    solution:
+      'A web guide in English, Spanish and French with a map of points of interest, recommendations and nearby-place search.',
+    contribution:
+      'Development of the experience, internationalisation, structured content, and map and geolocation features.',
+    technologies: ['Next.js 16', 'TypeScript', 'i18n', 'Maps', 'Geolocation', 'Vercel'],
+    outcome: 'Public guide deployed for EVO France 2026, built for mobile browsing in three languages.',
+    linkLabel: 'View project',
+  },
+  'crypto-trading-dashboard': {
+    area: 'Product observability',
+    problem: 'Check the state of a trading lab without exposing any control that could execute trades.',
+    solution:
+      'A strictly read-only observability dashboard, backed by demo data or a Supabase replica protected by RLS.',
+    contribution:
+      'Design and implementation of the data architecture, the monitoring interface and explicit security boundaries.',
+    outcome: 'Public dashboard that separates data visualisation from any ability to control the system.',
+    linkLabel: 'View project',
+  },
+  reservas: {
+    title: 'Reservas',
+    area: 'SaaS product',
+    problem: 'Give small restaurants a simple way to receive and manage online bookings.',
+    solution:
+      'An MVP with a public page per restaurant, time-slot availability, a private dashboard and email notifications.',
+    contribution: 'End-to-end build of the booking flows, authentication, data and availability validation.',
+    outcome: 'Deployed demo of a booking platform covering both the customer journey and day-to-day operations.',
+    linkLabel: 'View project',
+  },
+  'plataforma-reservas': {
+    title: 'Booking platform',
+    area: 'Web product',
+    problem:
+      'Coordinate availability, user identity, languages and payments within a consistent, maintainable journey.',
+    solution:
+      'A Next.js application connected to business APIs, with authentication, internationalisation and clearly defined booking states.',
+    contribution:
+      'Development and evolution of interfaces, service integration, incident resolution and coordination of frontend–backend flows.',
+    technologies: ['Next.js', 'TypeScript', 'REST APIs', 'Authentication', 'i18n', 'Payments'],
+    outcome:
+      'Anonymised case: the technical scope is described without publishing client metrics, operations or data.',
+    caseStudy: {
+      problem:
+        'A booking flow whose authentication and availability were spread across several services, causing hard-to-reproduce errors.',
+      work: 'Development and evolution of interfaces, service integration, incident resolution and coordination of frontend–backend flows.',
+    },
+  },
+  'integraciones-empresariales': {
+    title: 'Enterprise integrations',
+    area: 'Connected systems',
+    problem:
+      'Connect product applications with corporate systems and structured content without pushing their complexity into the user experience.',
+    solution:
+      'API-based integration layers, controlled processes and content models ready to exchange information between services.',
+    contribution:
+      'Building and maintaining integrations, task automation, error diagnosis and traceability across systems.',
+    technologies: ['SAP', 'Strapi', 'REST APIs', 'Node.js', 'Automation', 'Docker'],
+    outcome:
+      'Anonymised case: internal systems, endpoints and data are deliberately kept off this site.',
+    caseStudy: {
+      problem: 'Marketing data and content out of sync between SAP, the CMS and the website, fixed by hand.',
+      work: 'Strapi integrations (lifecycle hooks and webhooks), automated bulk updates and a log of every sync so it can be audited.',
+    },
+  },
+  'pagos-3d-secure': {
+    title: 'Payments and 3D Secure',
+    area: 'Critical flows',
+    problem:
+      'Handle payments with intermediate states, strong authentication and external redirects without breaking the user journey.',
+    solution:
+      'A payment flow built into the application, with state validation, error handling and 3D Secure support.',
+    contribution:
+      'Frontend integration, coordination with payment APIs, state control and incident resolution in sensitive journeys.',
+    technologies: ['Next.js', 'TypeScript', 'Payment APIs', '3D Secure', 'Testing'],
+    outcome:
+      'Anonymised case: no providers, volumes, credentials or internal business rules are published.',
+    caseStudy: {
+      problem:
+        'A checkout losing customers to intermittent 3DS verification errors and payment states that disagreed between frontend and gateway.',
+      work: 'I modelled payment states explicitly, handled the 3DS challenge return and retries, and added tracing to follow every transaction end to end.',
+    },
+  },
+  'aplicaciones-moviles': {
+    title: 'Mobile apps',
+    area: 'Mobile product',
+    problem:
+      'Bring product features to mobile while sharing quality standards, authentication and API communication.',
+    solution:
+      'React Native and Expo apps built with TypeScript and connected to the same business services as the web platform.',
+    contribution: 'Building screens and flows, state management, API integration, debugging and feature evolution.',
+    technologies: ['React Native', 'Expo', 'TypeScript', 'REST APIs', 'Testing'],
+    outcome:
+      'Anonymised case: the portfolio focuses on the technical approach and does not identify products or end users.',
+  },
+  'cms-headless': {
+    title: 'CMS and content platforms',
+    area: 'Structured content',
+    problem: 'Let non-technical teams manage content without coupling the public experience to the editorial back office.',
+    solution: 'Headless architectures with Next.js and Strapi, clear content models and API-based delivery.',
+    contribution:
+      'Content modelling and integration, frontend implementation and maintenance of CMS–application flows.',
+    technologies: ['Next.js', 'Strapi', 'Headless CMS', 'TypeScript', 'REST APIs'],
+    outcome: 'Anonymised case: no private structures, tokens, endpoints or client content are shown.',
+  },
+};
+
+export function getProjects(locale: Locale): ProjectCase[] {
+  if (locale === 'es') return projects;
+
+  return projects.map((project) => {
+    const translation = projectsEn[project.slug] ?? {};
+    return {
+      ...project,
+      ...translation,
+      caseStudy: project.caseStudy && {
+        ...project.caseStudy,
+        ...translation.caseStudy,
+        // Results are only published once they exist in both languages.
+        result: translation.caseStudy?.result,
+      },
+    };
+  });
+}

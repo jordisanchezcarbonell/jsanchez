@@ -46,6 +46,11 @@ export default defineConfig({
     format: 'directory',
   },
   compressHTML: true,
+  i18n: {
+    locales: ['es', 'en'],
+    defaultLocale: 'es',
+    routing: { prefixDefaultLocale: false },
+  },
   fonts: [
     {
       provider: fontProviders.local(),
