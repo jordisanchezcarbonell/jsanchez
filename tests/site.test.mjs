@@ -296,6 +296,24 @@ test('the clubs landing addresses the full sports-business audience', () => {
   assert.match(clubs, /href="\/contacto\/"/);
 });
 
+test('professional profiles appear in the footer, contact page and Person sameAs', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const contact = readFileSync(path.join(process.cwd(), 'dist', 'contacto', 'index.html'), 'utf8');
+  const profiles = [
+    'https://github.com/jordisanchezcarbonell',
+    'https://www.malt.es/profile/jordisanchez1',
+  ];
+
+  for (const url of profiles) {
+    assert.match(home, new RegExp(`<footer[\\s\\S]*href="${url}"`));
+    assert.match(contact, new RegExp(`href="${url}"`));
+  }
+
+  const jsonLd = JSON.parse(home.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1]);
+  const person = jsonLd['@graph'].find((node) => node['@type'] === 'Person');
+  assert.deepEqual(person.sameAs, profiles);
+});
+
 test('the privacy page describes every field collected by the contact form', () => {
   const privacy = readFileSync(path.join(process.cwd(), 'dist', 'privacidad', 'index.html'), 'utf8');
 

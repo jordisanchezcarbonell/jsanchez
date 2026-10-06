@@ -5,6 +5,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import { experience, yearsOfExperience } from '../data/experience';
 import { projects } from '../data/projects';
 import { services } from '../data/services';
+import { socialLinks } from '../data/social';
 
 const title = 'Jordi Sánchez — Full-Stack Developer';
 const description =
@@ -40,6 +41,7 @@ const jsonLd = {
         addressLocality: 'Barcelona',
         addressCountry: 'ES',
       },
+      sameAs: socialLinks.map((link) => link.url),
       knowsLanguage: ['es', 'ca'],
       knowsAbout: [
         'React',

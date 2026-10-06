@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import { socialLinks } from '../data/social';
 ---
 
 <BaseLayout
@@ -32,6 +33,14 @@ import ContactForm from '../components/ContactForm.astro';
           <div>
             <dt>Email</dt>
             <dd><a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt>Perfiles</dt>
+            <dd class="social-list">
+              {socialLinks.map((link) => (
+                <a href={link.url} target="_blank" rel="me noreferrer">{link.label}</a>
+              ))}
+            </dd>
           </div>
           <div>
             <dt>Ubicación</dt>
@@ -99,6 +108,12 @@ import ContactForm from '../components/ContactForm.astro';
 
   dd {
     margin: 0;
+  }
+
+  .social-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
   }
 
   @media (min-width: 52rem) {
