@@ -18,7 +18,7 @@ const {
   title,
   description,
   canonicalPath = Astro.url.pathname,
-  image = '/og-image.png',
+  image,
   imageAlt,
   type = 'website',
   publishedTime,
@@ -29,6 +29,7 @@ const {
 
 const locale = getLocale(Astro.currentLocale);
 const siteUrl = Astro.site ?? new URL('https://www.jordisanchezweb.es');
+const resolvedImage = image ?? (locale === 'en' ? '/og-image-en.png' : '/og-image.png');
 const resolvedImageAlt =
   imageAlt ??
   (locale === 'en'
@@ -36,7 +37,7 @@ const resolvedImageAlt =
     : 'Jordi Sánchez — Full-Stack Developer en Barcelona');
 const alternates = noindex ? undefined : alternatesFor(Astro.url.pathname);
 const canonicalUrl = new URL(canonicalPath, siteUrl);
-const imageUrl = new URL(image, siteUrl);
+const imageUrl = new URL(resolvedImage, siteUrl);
 const safeJsonLd = jsonLd
   ? JSON.stringify(jsonLd).replaceAll('<', '\\u003c')
   : undefined;

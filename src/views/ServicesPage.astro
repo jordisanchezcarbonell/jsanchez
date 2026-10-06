@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getServices } from '../data/services';
+import { getLocale, localePath } from '../i18n';
+
+const locale = getLocale(Astro.currentLocale);
+const services = getServices(locale);
+
+const t = {
+  es: {
+    title: 'Servicios | Jordi Sánchez — Full-Stack Developer',
+    description: 'Desarrollo React, Next.js, APIs, integraciones y evolución de producto para empresas y agencias.',
+    eyebrow: 'Servicios',
+    heading: 'Desarrollo técnico para productos que tienen que avanzar.',
+    lead: 'Me incorporo a un equipo, me hago cargo de una funcionalidad o construyo una solución completa. El alcance se define en trabajo concreto, no en promesas genéricas.',
+    metaA: 'Empresas',
+    metaB: 'Producto · agencias',
+    listTitle: 'Servicios de desarrollo',
+    scopeOf: (title: string) => `Alcance de ${title}`,
+    collaborationEyebrow: 'Formas de colaborar',
+    collaborationTitle: 'Una necesidad clara, una forma de trabajo adecuada.',
+    modes: [
+      ['Proyecto cerrado', 'Para funcionalidades o productos con un alcance que podemos definir antes de empezar.'],
+      ['Colaboración continuada', 'Para evolución, mantenimiento y entregas frecuentes junto a un equipo existente.'],
+      ['Refuerzo técnico', 'Para agencias o equipos que necesitan experiencia adicional durante una fase concreta.'],
+    ],
+    ctaTitle: 'Cuéntame qué parte necesitas resolver.',
+    ctaText: 'Te responderé con preguntas concretas para acotar contexto, riesgos y siguiente paso.',
+    ctaButton: 'Trabajar conmigo',
+  },
+  en: {
+    title: 'Services | Jordi Sánchez — Full-Stack Developer',
+    description: 'React, Next.js, API, integration and product development for companies and agencies.',
+    eyebrow: 'Services',
+    heading: 'Engineering for products that need to move forward.',
+    lead: 'I join a team, take ownership of a feature or build a complete solution. Scope is defined as concrete work, not generic promises.',
+    metaA: 'Companies',
+    metaB: 'Product · agencies',
+    listTitle: 'Development services',
+    scopeOf: (title: string) => `Scope of ${title}`,
+    collaborationEyebrow: 'Ways to work together',
+    collaborationTitle: 'A clear need, the right way of working.',
+    modes: [
+      ['Fixed-scope project', 'For features or products whose scope we can define before starting.'],
+      ['Ongoing collaboration', 'For evolution, maintenance and frequent delivery alongside an existing team.'],
+      ['Team augmentation', 'For agencies or teams that need extra experience during a specific phase.'],
+    ],
+    ctaTitle: 'Tell me which part you need solved.',
+    ctaText: 'I will reply with specific questions to pin down context, risks and next steps.',
+    ctaButton: 'Work with me',
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonicalPath={localePath('services', locale)}
+>
+  <header class="page-intro container">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1>{t.heading}</h1>
+    <div class="page-intro__footer">
+      <p class="lede">{t.lead}</p>
+      <p class="meta-line"><span>{t.metaA}</span><span>{t.metaB}</span></p>
+    </div>
+  </header>
+
+  <section class="service-section" aria-labelledby="service-title">
+    <div class="container">
+      <h2 id="service-title" class="visually-hidden">{t.listTitle}</h2>
+      <ol class="service-list">
+        {services.map((service, index) => (
+          <li id={service.slug}>
+            <p class="service-number">{String(index + 1).padStart(2, '0')}</p>
+            <div>
+              <h2>{service.title}</h2>
+              <p>{service.description}</p>
+            </div>
+            <ul aria-label={t.scopeOf(service.title)}>
+              {service.scope.map((item) => <li>{item}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="collaboration" aria-labelledby="collaboration-title">
+    <div class="container collaboration-grid">
+      <div>
+        <p class="eyebrow">{t.collaborationEyebrow}</p>
+        <h2 id="collaboration-title">{t.collaborationTitle}</h2>
+      </div>
+      <dl>
+        {t.modes.map(([term, detail]) => (
+          <div>
+            <dt>{term}</dt>
+            <dd>{detail}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="services-cta">
+    <div class="container cta-grid">
+      <h2>{t.ctaTitle}</h2>
+      <div>
+        <p>{t.ctaText}</p>
+        <a class="button button--accent" href={localePath('contact', locale)}>{t.ctaButton}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .service-section {
+    padding-bottom: var(--section-space);
+    border-top: 1px solid var(--line);
+  }
+
+  .service-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .service-list > li {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service-number {
+    color: var(--accent);
+    font-family: var(--serif);
+    font-size: 1.15rem;
+  }
+
+  .service-list h2 {
+    max-width: 13ch;
+    font-size: clamp(2.3rem, 5vw, 4.4rem);
+  }
+
+  .service-list > li > div > p {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: var(--muted);
+  }
+
+  .service-list ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .service-list ul li {
+    padding-block: 0.65rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .collaboration {
+    padding-block: var(--section-space);
+    background: #eee9e0;
+  }
+
+  .collaboration-grid {
+    display: grid;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .collaboration h2 {
+    max-width: 11ch;
+  }
+
+  .collaboration dl {
+    margin: 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .collaboration dl div {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .collaboration dt {
+    font-weight: 750;
+  }
+
+  .collaboration dd {
+    max-width: 34rem;
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+  }
+
+  .services-cta {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .cta-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .cta-grid h2 {
+    max-width: 10ch;
+  }
+
+  .cta-grid p {
+    max-width: 32rem;
+    color: #aaa197;
+  }
+
+  .cta-grid .button {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 52rem) {
+    .service-list > li {
+      grid-template-columns: 3.5rem minmax(20rem, 1fr) minmax(12rem, 0.35fr);
+      align-items: start;
+    }
+
+    .collaboration-grid,
+    .cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.7fr);
+      align-items: start;
+    }
+  }
+</style>

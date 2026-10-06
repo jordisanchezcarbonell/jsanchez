@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { socialLinks } from '../data/social';
+import { getLocale, localePath } from '../i18n';
+
+const locale = getLocale(Astro.currentLocale);
+
+const t = {
+  es: {
+    title: 'Contacto | Jordi Sánchez — Full-Stack Developer',
+    description: 'Contacta con Jordi Sánchez para colaborar en desarrollo web, producto, APIs o integraciones.',
+    eyebrow: 'Contacto',
+    heading: 'Hablemos de lo que necesitas construir o mejorar.',
+    lead: 'Proyecto freelance, colaboración con una agencia u oportunidad profesional. Si hay un problema técnico concreto, podemos empezar por ahí.',
+    metaA: 'Barcelona',
+    metaB: 'Remoto · presencial',
+    formEyebrow: 'Escríbeme',
+    formTitle: 'Contexto suficiente para darte una respuesta útil.',
+    formText:
+      'No hace falta preparar un briefing perfecto. Con saber qué quieres conseguir, qué existe ahora y dónde está el bloqueo podemos empezar.',
+    profiles: 'Perfiles',
+    location: 'Ubicación',
+    locationValue: 'Barcelona, España',
+    languages: 'Idiomas',
+    languagesValue: 'Español y catalán',
+  },
+  en: {
+    title: 'Contact | Jordi Sánchez — Full-Stack Developer',
+    description: 'Get in touch with Jordi Sánchez to collaborate on web development, product, APIs or integrations.',
+    eyebrow: 'Contact',
+    heading: "Let's talk about what you need to build or improve.",
+    lead: 'A freelance project, an agency partnership or a job opportunity. If there is a specific technical problem, we can start there.',
+    metaA: 'Barcelona',
+    metaB: 'Remote · on-site',
+    formEyebrow: 'Write to me',
+    formTitle: 'Enough context to give you a useful answer.',
+    formText:
+      'No need for a perfect brief. Knowing what you want to achieve, what exists today and where things are stuck is enough to get started.',
+    profiles: 'Profiles',
+    location: 'Location',
+    locationValue: 'Barcelona, Spain',
+    languages: 'Languages',
+    // TODO(Jordi): añadir «English» si quieres ofrecerlo como idioma de trabajo.
+    languagesValue: 'Spanish and Catalan',
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonicalPath={localePath('contact', locale)}
+>
+  <header class="page-intro container">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1>{t.heading}</h1>
+    <div class="page-intro__footer">
+      <p class="lede">{t.lead}</p>
+      <p class="meta-line"><span>{t.metaA}</span><span>{t.metaB}</span></p>
+    </div>
+  </header>
+
+  <section class="contact-section" aria-labelledby="contact-form-title">
+    <div class="container contact-grid">
+      <div class="contact-copy">
+        <p class="eyebrow">{t.formEyebrow}</p>
+        <h2 id="contact-form-title">{t.formTitle}</h2>
+        <p>{t.formText}</p>
+
+        <dl>
+          <div>
+            <dt>Email</dt>
+            <dd><a class="tap-target" href="mailto:jordigw@gmail.com">jordigw@gmail.com</a></dd>
+          </div>
+          <div>
+            <dt>{t.profiles}</dt>
+            <dd class="social-list">
+              {socialLinks.map((link) => (
+                <a class="tap-target" href={link.url} target="_blank" rel="me noreferrer">{link.label}</a>
+              ))}
+            </dd>
+          </div>
+          <div>
+            <dt>{t.location}</dt>
+            <dd>{t.locationValue}</dd>
+          </div>
+          <div>
+            <dt>{t.languages}</dt>
+            <dd>{t.languagesValue}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <ContactForm />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-section {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: clamp(4rem, 10vw, 9rem);
+  }
+
+  .contact-copy .eyebrow {
+    color: #c77b6d;
+  }
+
+  .contact-copy h2 {
+    max-width: 10ch;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+  }
+
+  .contact-copy > p:not(.eyebrow) {
+    max-width: 34rem;
+    margin-top: 2rem;
+    color: #aaa197;
+  }
+
+  dl {
+    margin: 3rem 0 0;
+    border-top: 1px solid #39342d;
+  }
+
+  dl div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid #39342d;
+  }
+
+  dt {
+    color: #aaa197;
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .social-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+  }
+
+  @media (min-width: 52rem) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(27rem, 0.8fr);
+      align-items: start;
+    }
+  }
+</style>

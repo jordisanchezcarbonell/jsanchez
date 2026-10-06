@@ -34,6 +34,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         page !== 'https://www.jordisanchezweb.es/gracias/' &&
+        page !== 'https://www.jordisanchezweb.es/en/thanks/' &&
         !page.startsWith('https://www.jordisanchezweb.es/demos/'),
       namespaces: {
         news: false,

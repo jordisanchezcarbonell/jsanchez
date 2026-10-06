@@ -14,6 +14,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <h1>Por aquí no es.</h1>
       <p class="lede">La página que buscas no existe o ha cambiado de dirección.</p>
       <a class="button button--accent" href="/">Volver al inicio</a>
+      <p class="english" lang="en">
+        Page not found. <a href="/en/">Go to the English home page</a>.
+      </p>
     </div>
   </section>
 </BaseLayout>
@@ -45,6 +48,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .button {
     margin-top: 2rem;
+  }
+
+  .english {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   @media (min-width: 52rem) {

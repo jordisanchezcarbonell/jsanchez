@@ -1,5 +1,48 @@
 ---
+import { getLocale, localePath } from '../i18n';
+
 const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
+const locale = getLocale(Astro.currentLocale);
+const redirectUrl = new URL(localePath('thanks', locale), 'https://www.jordisanchezweb.es');
+
+// Field names and option values stay in Spanish so every enquiry reaches the inbox in the same shape.
+const t = {
+  es: {
+    subject: 'Nueva consulta desde jordisanchezweb.es',
+    name: 'Nombre',
+    organization: 'Empresa u organización',
+    optional: '(opcional)',
+    reason: 'Motivo del contacto',
+    choose: 'Selecciona una opción',
+    reasons: ['Proyecto freelance', 'Oportunidad laboral', 'Colaboración con agencia', 'Otro'],
+    message: '¿Qué necesitas?',
+    messageHint: 'Contexto, alcance aproximado y cualquier fecha relevante.',
+    consentBefore: 'He leído y acepto la ',
+    privacy: 'política de privacidad',
+    consentAfter: '.',
+    submit: 'Enviar consulta',
+    fallback: 'El formulario no está configurado todavía, pero puedes escribirme directamente.',
+    fallbackButton: 'Escribir por email',
+  },
+  en: {
+    subject: 'Nueva consulta desde jordisanchezweb.es (EN)',
+    name: 'Name',
+    organization: 'Company or organisation',
+    optional: '(optional)',
+    reason: 'Reason for contact',
+    choose: 'Choose an option',
+    reasons: ['Freelance project', 'Job opportunity', 'Agency partnership', 'Other'],
+    message: 'What do you need?',
+    messageHint: 'Context, rough scope and any relevant dates.',
+    consentBefore: 'I have read and accept the ',
+    privacy: 'privacy policy',
+    consentAfter: ' (in Spanish).',
+    submit: 'Send enquiry',
+    fallback: 'The form is not set up yet, but you can email me directly.',
+    fallbackButton: 'Send an email',
+  },
+}[locale];
+const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboración con agencia', 'Otro'];
 ---
 
 {accessKey ? (
@@ -9,13 +52,13 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
     aria-labelledby="contact-form-title"
   >
     <input type="hidden" name="access_key" value={accessKey} />
-    <input type="hidden" name="subject" value="Nueva consulta desde jordisanchezweb.es" />
+    <input type="hidden" name="subject" value={t.subject} />
     <input type="hidden" name="from_name" value="jordisanchezweb.es" />
-    <input type="hidden" name="redirect" value="https://www.jordisanchezweb.es/gracias/" />
+    <input type="hidden" name="redirect" value={redirectUrl.href} />
 
     <div class="field-grid">
       <div class="field">
-        <label for="nombre">Nombre</label>
+        <label for="nombre">{t.name}</label>
         <input id="nombre" name="nombre" type="text" autocomplete="name" required />
       </div>
 
@@ -27,26 +70,23 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
     <div class="field-grid">
       <div class="field">
-        <label for="organizacion">Empresa u organización <span>(opcional)</span></label>
+        <label for="organizacion">{t.organization} <span>{t.optional}</span></label>
         <input id="organizacion" name="organizacion" type="text" autocomplete="organization" />
       </div>
 
       <div class="field">
-        <label for="tipo">Motivo del contacto</label>
+        <label for="tipo">{t.reason}</label>
         <select id="tipo" name="tipo" required>
-          <option value="">Selecciona una opción</option>
-          <option value="Proyecto freelance">Proyecto freelance</option>
-          <option value="Oportunidad laboral">Oportunidad laboral</option>
-          <option value="Colaboración con agencia">Colaboración con agencia</option>
-          <option value="Otro">Otro</option>
+          <option value="">{t.choose}</option>
+          {reasonValues.map((value, index) => <option value={value}>{t.reasons[index]}</option>)}
         </select>
       </div>
     </div>
 
     <div class="field">
-      <label for="mensaje">¿Qué necesitas?</label>
+      <label for="mensaje">{t.message}</label>
       <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
-      <small>Contexto, alcance aproximado y cualquier fecha relevante.</small>
+      <small>{t.messageHint}</small>
     </div>
 
     <input
@@ -60,19 +100,19 @@ const accessKey = import.meta.env.WEB3FORMS_ACCESS_KEY;
 
     <label class="consent" for="privacidad-contacto">
       <input id="privacidad-contacto" name="acepta_privacidad" type="checkbox" required />
-      <span>He leído y acepto la <a href="/privacidad/">política de privacidad</a>.</span>
+      <span>{t.consentBefore}<a href="/privacidad/" hreflang="es">{t.privacy}</a>{t.consentAfter}</span>
     </label>
 
     <button class="submit-button" type="submit">
-      Enviar consulta
+      {t.submit}
       <span aria-hidden="true">→</span>
     </button>
   </form>
 ) : (
   <div class="contact-fallback">
-    <p>El formulario no está configurado todavía, pero puedes escribirme directamente.</p>
+    <p>{t.fallback}</p>
     <a class="submit-button" href="mailto:jordigw@gmail.com">
-      Escribir por email
+      {t.fallbackButton}
       <span aria-hidden="true">→</span>
     </a>
   </div>

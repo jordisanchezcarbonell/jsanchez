@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLocale, localePath } from '../i18n';
+
+const locale = getLocale(Astro.currentLocale);
+
+const t = {
+  es: {
+    title: 'Mensaje enviado | Jordi Sánchez Web',
+    description: 'Tu consulta se ha enviado correctamente.',
+    eyebrow: 'Mensaje enviado',
+    heading: 'Gracias. Ya tengo tu consulta.',
+    lead: 'La leeré personalmente y te responderé lo antes posible en el contacto que me has dejado.',
+    home: 'Volver al inicio',
+    projects: 'Ver proyectos',
+  },
+  en: {
+    title: 'Message sent | Jordi Sánchez',
+    description: 'Your enquiry has been sent.',
+    eyebrow: 'Message sent',
+    heading: 'Thank you. Your message is in.',
+    lead: 'I will read it myself and reply as soon as possible using the contact details you left.',
+    home: 'Back to home',
+    projects: 'See projects',
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonicalPath={localePath('thanks', locale)}
+  noindex={true}
+>
+  <section class="thanks container">
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1>{t.heading}</h1>
+    <p class="lede">{t.lead}</p>
+    <div class="thanks-actions">
+      <a class="button button--accent" href={localePath('home', locale)}>{t.home}</a>
+      <a class="text-link" href={localePath('projects', locale)}>{t.projects}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks {
+    display: grid;
+    min-height: 68vh;
+    align-content: center;
+    padding-block: var(--section-space);
+  }
+
+  h1 {
+    max-width: 10ch;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+  }
+
+  .lede {
+    margin-top: 2rem;
+  }
+
+  .thanks-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2rem;
+    margin-top: 2.5rem;
+  }
+</style>

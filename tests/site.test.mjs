@@ -351,3 +351,86 @@ test('the privacy page describes every field collected by the contact form', () 
   assert.match(privacy, /motivo de contacto/);
   assert.match(privacy, /mensaje/);
 });
+
+test('the English version mirrors the professional pages under /en/', () => {
+  const pages = {
+    '/en/': /<h1[^>]*>Web products that reach production and stay stable\.<\/h1>/,
+    '/en/projects/': /Payments and 3D Secure/,
+    '/en/services/': /React and Next\.js development/,
+    '/en/about/': /Building digital products from Barcelona/,
+    '/en/contact/': /Let(?:'|&#39;|’)s talk about what you need to build or improve/,
+    '/en/thanks/': /Thank you\. Your message is in\./,
+  };
+
+  for (const [route, heading] of Object.entries(pages)) {
+    const html = readFileSync(path.join(process.cwd(), 'dist', route, 'index.html'), 'utf8');
+    assert.match(html, /<html lang="en">/, route);
+    assert.match(html, heading, route);
+    assert.match(html, /property="og:locale" content="en_GB"/, route);
+    assert.match(html, /property="og:image" content="https:\/\/www\.jordisanchezweb\.es\/og-image-en\.png"/, route);
+  }
+});
+
+test('translated pages declare reciprocal hreflang alternates', () => {
+  const pairs = [
+    ['/', '/en/'],
+    ['/proyectos/', '/en/projects/'],
+    ['/servicios/', '/en/services/'],
+    ['/sobre-mi/', '/en/about/'],
+    ['/contacto/', '/en/contact/'],
+  ];
+  const site = 'https://www\\.jordisanchezweb\\.es';
+
+  for (const [es, en] of pairs) {
+    for (const route of [es, en]) {
+      const html = readFileSync(path.join(process.cwd(), 'dist', route, 'index.html'), 'utf8');
+      assert.match(html, new RegExp(`<link rel="alternate" hreflang="es" href="${site}${es}"`), route);
+      assert.match(html, new RegExp(`<link rel="alternate" hreflang="en" href="${site}${en}"`), route);
+      assert.match(html, new RegExp(`<link rel="alternate" hreflang="x-default" href="${site}${es}"`), route);
+    }
+  }
+
+  // Spanish-only pages do not advertise a translation.
+  const clubs = readFileSync(path.join(process.cwd(), 'dist', 'clubes', 'index.html'), 'utf8');
+  assert.doesNotMatch(clubs, /hreflang="en"[^>]*rel="alternate"|rel="alternate" hreflang="en"/);
+});
+
+test('the language switch links each page to its translation', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const enProjects = readFileSync(path.join(process.cwd(), 'dist', 'en', 'projects', 'index.html'), 'utf8');
+
+  assert.match(home, /<a class="language-switch[^"]*" href="\/en\/" hreflang="en" lang="en"/);
+  assert.match(enProjects, /<a class="language-switch[^"]*" href="\/proyectos\/" hreflang="es" lang="es"/);
+});
+
+test('English pages stay in English and link to English routes', () => {
+  for (const route of ['/en/', '/en/projects/', '/en/services/', '/en/about/', '/en/contact/']) {
+    const html = readFileSync(path.join(process.cwd(), 'dist', route, 'index.html'), 'utf8');
+    const main = html.match(/<main[\s\S]*<\/main>/)[0];
+
+    assert.doesNotMatch(main, /href="\/(proyectos|servicios|sobre-mi|contacto)\//, route);
+    assert.doesNotMatch(main, /Qué hice|Ver proyectos|Trabajar conmigo|Problema/, route);
+    assert.doesNotMatch(main, /\[?TODO/, route);
+  }
+
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'en', 'index.html'), 'utf8');
+  assert.doesNotMatch(home, /href="\/clubes\/"/);
+  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} years with React, Next\\.js and TypeScript`));
+});
+
+test('the English contact form redirects to the English thank-you page', () => {
+  const result = spawnSync('npm', ['run', 'build'], {
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    env: { ...process.env, WEB3FORMS_ACCESS_KEY: 'test-only-key' },
+  });
+  assert.equal(result.status, 0, result.stderr);
+
+  const contact = readFileSync(path.join(process.cwd(), 'dist', 'en', 'contact', 'index.html'), 'utf8');
+  assert.match(contact, /name="redirect" value="https:\/\/www\.jordisanchezweb\.es\/en\/thanks\/"/);
+  assert.match(contact, /<option value="Proyecto freelance"[^>]*>Freelance project<\/option>/);
+
+  const sitemap = readFileSync(path.join(process.cwd(), 'dist', 'sitemap-0.xml'), 'utf8');
+  assert.match(sitemap, /jordisanchezweb\.es\/en\/projects\//);
+  assert.doesNotMatch(sitemap, /\/en\/thanks\//);
+});
