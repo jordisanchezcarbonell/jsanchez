@@ -142,6 +142,22 @@ test('Primer Down appears as a public project on the home and projects pages', (
   assert.match(projects, /archivo editorial bilingüe/i);
 });
 
+test('the projects page links to the selected public Vercel deployments', () => {
+  const projects = readFileSync(
+    path.join(process.cwd(), 'dist', 'proyectos', 'index.html'),
+    'utf8',
+  );
+
+  for (const [name, url] of [
+    ['Damascus’s Nice Guide', 'https://damascus-nice-guide.vercel.app'],
+    ['Crypto Trading Dashboard', 'https://crypto-trading-dashboard-inky.vercel.app'],
+    ['Reservas', 'https://reservas-b.vercel.app'],
+  ]) {
+    assert.match(projects, new RegExp(name));
+    assert.match(projects, new RegExp(`href="${url}"`));
+  }
+});
+
 test('the services page describes concrete technical collaborations', () => {
   const services = readFileSync(path.join(process.cwd(), 'dist', 'servicios', 'index.html'), 'utf8');
 

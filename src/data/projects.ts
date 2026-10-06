@@ -31,6 +31,57 @@ export const projects: ProjectCase[] = [
     linkLabel: 'Ver código en GitHub',
   },
   {
+    slug: 'damascus-nice-guide',
+    title: 'Damascus’s Nice Guide',
+    area: 'Guía de viaje multilingüe',
+    problem:
+      'Ofrecer una guía clara y práctica para descubrir Niza durante EVO France sin perder el contexto de cada lugar.',
+    solution:
+      'Una guía web en inglés, español y francés con mapa de puntos de interés, recomendaciones y búsqueda de lugares cercanos.',
+    contribution:
+      'Desarrollo de la experiencia, internacionalización, contenidos estructurados y funcionalidades de mapa y geolocalización.',
+    technologies: ['Next.js 16', 'TypeScript', 'i18n', 'Mapas', 'Geolocalización', 'Vercel'],
+    outcome:
+      'Guía pública desplegada para EVO France 2026, preparada para navegar desde móvil y en tres idiomas.',
+    featured: false,
+    url: 'https://damascus-nice-guide.vercel.app',
+    linkLabel: 'Ver proyecto',
+  },
+  {
+    slug: 'crypto-trading-dashboard',
+    title: 'Crypto Trading Dashboard',
+    area: 'Observabilidad de producto',
+    problem:
+      'Consultar el estado de un laboratorio de trading sin exponer controles que puedan ejecutar operaciones.',
+    solution:
+      'Un panel de observabilidad estrictamente de solo lectura, con datos de demostración o una réplica de Supabase protegida por RLS.',
+    contribution:
+      'Diseño e implementación de la arquitectura de datos, la interfaz de monitorización y límites explícitos de seguridad.',
+    technologies: ['Next.js 16', 'TypeScript', 'Supabase', 'RLS', 'Testing', 'Vercel'],
+    outcome:
+      'Dashboard público que separa la visualización de datos de cualquier capacidad de control sobre el sistema.',
+    featured: false,
+    url: 'https://crypto-trading-dashboard-inky.vercel.app',
+    linkLabel: 'Ver proyecto',
+  },
+  {
+    slug: 'reservas',
+    title: 'Reservas',
+    area: 'Producto SaaS',
+    problem:
+      'Dar a pequeños restaurantes una forma sencilla de recibir y gestionar reservas online.',
+    solution:
+      'Un MVP con página pública por restaurante, disponibilidad por franjas, panel privado y notificaciones por correo.',
+    contribution:
+      'Construcción end-to-end de los flujos de reserva, autenticación, datos y validación de disponibilidad.',
+    technologies: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Zod', 'Resend'],
+    outcome:
+      'Demo desplegada de una plataforma de reservas con recorrido de cliente y gestión operativa.',
+    featured: false,
+    url: 'https://reservas-b.vercel.app',
+    linkLabel: 'Ver proyecto',
+  },
+  {
     slug: 'plataforma-reservas',
     title: 'Plataforma de reservas',
     area: 'Producto web',
