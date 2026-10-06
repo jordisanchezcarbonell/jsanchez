@@ -117,11 +117,18 @@ test('the header stays reachable while scrolling, with contact always visible', 
 
 test('the primary navigation reaches every professional area', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-  const destinations = ['/proyectos/', '/servicios/', '/clubes/', '/sobre-mi/', '/contacto/'];
+  const primaryNav = home.match(/<nav class="desktop-navigation[^"]*"[^>]*>([\s\S]*?)<\/nav>/)[1];
+  const footer = home.match(/<footer[\s\S]*<\/footer>/)[0];
 
-  for (const destination of destinations) {
-    assert.match(home, new RegExp(`href="${destination}"`));
+  for (const destination of ['/proyectos/', '/servicios/', '/sobre-mi/', '/contacto/']) {
+    assert.match(primaryNav, new RegExp(`href="${destination}"`));
   }
+
+  // Clubs and the blog are secondary: footer (and the home clubs section), not the main nav.
+  assert.doesNotMatch(primaryNav, /href="\/clubes\/"/);
+  assert.doesNotMatch(primaryNav, /href="\/blog\/"/);
+  assert.match(footer, /href="\/clubes\/"/);
+  assert.match(footer, /href="\/blog\/"/);
 });
 
 test('the home exposes the verified professional experience', () => {
