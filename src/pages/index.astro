@@ -663,6 +663,17 @@ const jsonLd = {
     margin-top: 1.5rem;
   }
 
+  @media (min-width: 72rem) {
+    .hero-copy {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .hero-actions {
+      justify-content: flex-end;
+    }
+  }
+
   @media (min-width: 52rem) {
     .hero-label {
       display: block;
@@ -672,14 +683,6 @@ const jsonLd = {
       grid-template-columns: minmax(10rem, 0.35fr) minmax(0, 0.65fr);
     }
 
-    .hero-copy {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-    }
-
-    .hero-actions {
-      justify-content: flex-end;
-    }
 
     .stack-strip .container {
       grid-template-columns: 10rem minmax(0, 1fr);
