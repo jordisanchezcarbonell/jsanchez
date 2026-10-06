@@ -71,6 +71,15 @@ test('the hero headline shares the serif display face with the section headings'
   assert.match(compiledCss, /\.hero-title\[[^\]]+\]\{[^}]*font-size:clamp\(2\.5rem,5\.6vw,5\.5rem\)/);
 });
 
+test('web fonts are self-hosted with metric-adjusted fallbacks and a preloaded display face', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+
+  assert.match(home, /font-family:"Fraunces-[0-9a-f]+ fallback: [^"]+";[^}]*size-adjust:/);
+  assert.match(home, /font-family:"Inter-[0-9a-f]+ fallback: [^"]+";[^}]*size-adjust:/);
+  assert.match(home, /font-display:swap/);
+  assert.equal((home.match(/<link rel="preload"[^>]+as="font"/g) ?? []).length, 2);
+});
+
 test('personal brand typography stays neutral in the header and footer', () => {
   const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
   const compiledCss = readdirSync(cssDirectory)

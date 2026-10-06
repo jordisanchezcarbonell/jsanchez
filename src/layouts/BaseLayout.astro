@@ -1,6 +1,5 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource-variable/fraunces';
+import { Font } from 'astro:assets';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import '../styles/global.css';
@@ -30,6 +29,8 @@ const { hideHeader = false, hideFooter = false, ...seoProps } = Astro.props;
 <html lang="es">
   <head>
     <SEOHead {...seoProps} />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-fraunces" preload />
     <Analytics />
   </head>
   <body>

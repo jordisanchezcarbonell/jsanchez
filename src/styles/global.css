@@ -8,8 +8,8 @@
   --max-width: 82rem;
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --section-space: clamp(2.75rem, 6vw, 5rem);
-  --serif: 'Fraunces Variable', 'Iowan Old Style', 'Baskerville', Georgia, serif;
-  --sans: 'Inter Variable', Inter, Arial, sans-serif;
+  --serif: var(--font-fraunces);
+  --sans: var(--font-inter);
 }
 
 *,
