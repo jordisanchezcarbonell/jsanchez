@@ -32,13 +32,13 @@ import { socialLinks } from '../data/social';
         <dl>
           <div>
             <dt>Email</dt>
-            <dd><a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a></dd>
+            <dd><a class="tap-target" href="mailto:jordigw@gmail.com">jordigw@gmail.com</a></dd>
           </div>
           <div>
             <dt>Perfiles</dt>
             <dd class="social-list">
               {socialLinks.map((link) => (
-                <a href={link.url} target="_blank" rel="me noreferrer">{link.label}</a>
+                <a class="tap-target" href={link.url} target="_blank" rel="me noreferrer">{link.label}</a>
               ))}
             </dd>
           </div>

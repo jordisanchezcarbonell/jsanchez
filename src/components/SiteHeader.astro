@@ -122,6 +122,8 @@ const isActive = (href: string) => currentPath.startsWith(href);
 
   .brand {
     display: inline-flex;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
     align-items: center;
     gap: 0.7rem;
     text-decoration: none;
@@ -168,6 +170,9 @@ const isActive = (href: string) => currentPath.startsWith(href);
   }
 
   .nav-cta {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
     padding: 0.6rem 0.85rem;
     border: 1px solid var(--ink);
     transition: color 180ms ease, background-color 180ms ease;
@@ -191,6 +196,9 @@ const isActive = (href: string) => currentPath.startsWith(href);
   }
 
   .mobile-navigation summary {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
     padding: 0.7rem 0;
     list-style: none;
     cursor: pointer;
@@ -250,6 +258,16 @@ const isActive = (href: string) => currentPath.startsWith(href);
 
     .desktop-navigation a {
       position: relative;
+    }
+
+    .desktop-navigation a:not(.nav-cta)::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 2.75rem);
+      height: 2.75rem;
+      content: '';
+      transform: translate(-50%, -50%);
     }
 
     .desktop-navigation a:not(.nav-cta)::after {

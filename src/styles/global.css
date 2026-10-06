@@ -175,6 +175,23 @@ p {
   background: var(--ink);
 }
 
+/* Invisible hit area of at least 44×44px around compact links, without changing their look. */
+.text-link,
+.tap-target {
+  position: relative;
+}
+
+.text-link::before,
+.tap-target::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 2.75rem);
+  height: max(100%, 2.75rem);
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
 .text-link {
   display: inline-flex;
   align-items: center;

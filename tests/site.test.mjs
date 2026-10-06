@@ -115,6 +115,17 @@ test('the header stays reachable while scrolling, with contact always visible', 
   assert.match(home, /class="mobile-actions[^"]*"[^>]*>\s*<a class="nav-cta[^"]*" href="\/contacto\/"/);
 });
 
+test('compact links get a 44px hit area and dark-block labels stay legible', () => {
+  const cssDirectory = path.join(process.cwd(), 'dist', '_astro');
+  const compiledCss = readdirSync(cssDirectory)
+    .filter((file) => file.endsWith('.css'))
+    .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
+    .join('\n');
+
+  assert.match(compiledCss, /\.text-link:before,\.tap-target:before\{[^}]*height:max\(100%,2\.75rem\)/);
+  assert.match(compiledCss, /\.projects\[[^\]]+\] \.row-index\[[^\]]+\]\{color:#c77b6d\}/);
+});
+
 test('the primary navigation reaches every professional area', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
   const primaryNav = home.match(/<nav class="desktop-navigation[^"]*"[^>]*>([\s\S]*?)<\/nav>/)[1];
