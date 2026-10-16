@@ -35,7 +35,7 @@ export default defineConfig({
       filter: (page) =>
         page !== 'https://www.jordisanchezweb.es/gracias/' &&
         page !== 'https://www.jordisanchezweb.es/en/thanks/' &&
-        !page.startsWith('https://www.jordisanchezweb.es/demos/'),
+        !page.startsWith('https://www.jordisanchezweb.es/negocios-locales/demos/'),
       namespaces: {
         news: false,
         video: false,
@@ -47,6 +47,25 @@ export default defineConfig({
     format: 'directory',
   },
   compressHTML: true,
+  security: {
+    // Astro bundles every script as an inline module, so `script-src 'self'` would block them all.
+    // It emits a per-page <meta> CSP with the hashes of its own scripts and styles instead; the
+    // directives below cover everything it cannot infer. `frame-ancestors` is ignored inside a
+    // <meta> tag, so it is sent as a header from vercel.json.
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        // Analytics and Speed Insights beacons go to /_vercel/*, which is same-origin.
+        "connect-src 'self'",
+        "form-action 'self' https://api.web3forms.com",
+        "base-uri 'self'",
+        "object-src 'none'",
+        "manifest-src 'self'",
+      ],
+    },
+  },
   i18n: {
     locales: ['es', 'en'],
     defaultLocale: 'es',

@@ -6,6 +6,46 @@
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": true
+    },
+    {
+      "source": "/clubes",
+      "destination": "/negocios-locales/clubes/",
+      "permanent": true
+    },
+    {
+      "source": "/clubes/",
+      "destination": "/negocios-locales/clubes/",
+      "permanent": true
+    },
+    {
+      "source": "/ejemplos",
+      "destination": "/negocios-locales/ejemplos/",
+      "permanent": true
+    },
+    {
+      "source": "/ejemplos/",
+      "destination": "/negocios-locales/ejemplos/",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/negocios-locales/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "/negocios-locales/blog/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/demos",
+      "destination": "/negocios-locales/demos/",
+      "permanent": true
+    },
+    {
+      "source": "/demos/:path*",
+      "destination": "/negocios-locales/demos/:path*",
+      "permanent": true
     }
   ],
   "headers": [
@@ -23,6 +63,22 @@
         {
           "key": "Permissions-Policy",
           "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'none'"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
         }
       ]
     }

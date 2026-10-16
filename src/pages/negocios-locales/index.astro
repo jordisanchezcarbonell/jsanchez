@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localBusinessRoutes } from '../../data/local-business';
+
+const title = 'Webs y reservas online para negocios locales | Jordi Sánchez';
+const description =
+  'Páginas web con reserva online para barberías, peluquerías, centros de estética, clubes y centros deportivos. Desarrollo a medida desde Barcelona.';
+
+// Each area already exists as its own page; this hub only routes to them.
+const areas = [
+  {
+    number: '01',
+    title: 'Ejemplos',
+    description:
+      'Conceptos de web para barberías, peluquerías y centros de estética, con una demo interactiva navegable.',
+    href: localBusinessRoutes.examples,
+    action: 'Ver ejemplos',
+  },
+  {
+    number: '02',
+    title: 'Clubes y deporte',
+    description:
+      'Inscripciones, socios, reservas, calendario, patrocinadores y eventos para clubes, academias, gimnasios y centros deportivos.',
+    href: localBusinessRoutes.clubs,
+    action: 'Ver solución para clubes',
+  },
+  {
+    number: '03',
+    title: 'Blog',
+    description:
+      'Respuestas prácticas a lo que se pregunta antes de montar una web: cuánto cuesta, qué sistema de reservas elegir y qué necesita Google.',
+    href: localBusinessRoutes.blog,
+    action: 'Leer el blog',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `https://www.jordisanchezweb.es${localBusinessRoutes.home}#servicio`,
+  name: 'Jordi Sánchez · Webs y reservas para negocios locales',
+  url: `https://www.jordisanchezweb.es${localBusinessRoutes.home}`,
+  description,
+  email: 'jordigw@gmail.com',
+  founder: { '@type': 'Person', name: 'Jordi Sánchez' },
+  areaServed: { '@type': 'City', name: 'Barcelona' },
+  knowsLanguage: ['es', 'ca'],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={localBusinessRoutes.home}
+  jsonLd={jsonLd}
+  variant="local"
+>
+  <header class="page-intro container">
+    <p class="eyebrow">Negocios locales</p>
+    <h1>Una web que consiga que te reserven.</h1>
+    <div class="page-intro__footer">
+      <p class="lede">
+        Desarrollo páginas web con reserva online para negocios que viven de su agenda: barberías, peluquerías, centros de estética, clubes y centros deportivos. Sin plantillas genéricas y sin funcionalidades que no vas a usar.
+      </p>
+      <p class="meta-line"><span>Barcelona</span><span>Español · Català</span></p>
+    </div>
+  </header>
+
+  <section class="areas-section" aria-labelledby="areas-title">
+    <div class="container">
+      <h2 id="areas-title" class="visually-hidden">Áreas</h2>
+      <ol class="area-list">
+        {areas.map((area) => (
+          <li>
+            <p class="area-number" aria-hidden="true">{area.number}</p>
+            <div>
+              <h3><a class="area-link" href={area.href}>{area.title}</a></h3>
+              <p>{area.description}</p>
+              <span class="area-action">{area.action} <span aria-hidden="true">↗</span></span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="local-cta">
+    <div class="container cta-grid">
+      <div>
+        <p class="eyebrow">Siguiente paso</p>
+        <h2>Cuéntame cómo trabajas y qué necesitas resolver.</h2>
+      </div>
+      <div>
+        <p>Te respondo con una propuesta concreta: qué incluye, qué no, y en qué plazo.</p>
+        <a class="button button--accent" href="/contacto/">Hablemos de tu web</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .areas-section {
+    padding-bottom: var(--section-space);
+    border-top: 1px solid var(--line);
+  }
+
+  .area-list {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+    list-style: none;
+  }
+
+  .area-list > li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line);
+    transition: background-color 180ms ease;
+  }
+
+  .area-list > li:hover {
+    background: #eee9e0;
+  }
+
+  .area-number {
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* The heading link covers the whole row so the entire area is clickable. */
+  .area-link {
+    text-decoration: none;
+  }
+
+  .area-link::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+  }
+
+  .area-link:focus-visible {
+    outline: none;
+  }
+
+  .area-link:focus-visible::after {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .area-list > li:hover h3 {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+  }
+
+  .area-list p:not(.area-number) {
+    max-width: 38rem;
+    margin-top: 0.7rem;
+    color: var(--muted);
+  }
+
+  .area-action {
+    display: inline-block;
+    margin-top: 1.1rem;
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .local-cta {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .local-cta .eyebrow {
+    color: #c77b6d;
+  }
+
+  .cta-grid {
+    display: grid;
+    gap: 1.75rem 2.5rem;
+  }
+
+  .local-cta h2 {
+    max-width: 20ch;
+  }
+
+  .cta-grid > div:last-child > p {
+    max-width: 34rem;
+    color: #aaa197;
+  }
+
+  .local-cta .button {
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 52rem) {
+    .cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.65fr);
+      align-items: end;
+    }
+  }
+</style>

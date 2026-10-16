@@ -1,6 +1,14 @@
 ---
+import { localBusinessNav, localBusinessRoutes } from '../data/local-business';
 import { alternatesFor, getLocale, localePath } from '../i18n';
 
+interface Props {
+  /** `local` serves the Spanish-only local-business vertical, which has its own navigation. */
+  variant?: 'core' | 'local';
+}
+
+const { variant = 'core' } = Astro.props;
+const isLocal = variant === 'local';
 const currentPath = Astro.url.pathname;
 const locale = getLocale(Astro.currentLocale);
 const otherLocale = locale === 'es' ? 'en' : 'es';
@@ -35,27 +43,36 @@ const copy = {
 }[locale];
 
 const contactHref = localePath('contact', locale);
-// Pages without a translation (clubs, blog, legal) switch to the other language's home.
+// Pages without a translation (the local vertical, blog, legal) switch to the other language's home.
 const switchHref = alternatesFor(currentPath)?.[otherLocale] ?? localePath('home', otherLocale);
 const isActive = (href: string) => currentPath.startsWith(href);
+
+// The vertical keeps its own entry point, links and tagline, and drops the language switch.
+const homeHref = isLocal ? localBusinessRoutes.home : localePath('home', locale);
+const navigationLinks: readonly { href: string; label: string }[] = isLocal
+  ? localBusinessNav
+  : copy.links;
+const tagline = isLocal ? 'Negocios locales' : 'Full-Stack';
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href={localePath('home', locale)} aria-label={copy.home}>
+    <a class="brand" href={homeHref} aria-label={copy.home}>
       <span class="brand-mark" aria-hidden="true">JS</span>
-      <span class="brand-name">Jordi Sánchez <small>Full-Stack</small></span>
+      <span class="brand-name">Jordi Sánchez <small>{tagline}</small></span>
     </a>
 
     <nav class="desktop-navigation" aria-label={copy.primary}>
-      {copy.links.map((link) => (
+      {navigationLinks.map((link) => (
         <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
           {link.label}
         </a>
       ))}
-      <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
-        {otherLocale.toUpperCase()}
-      </a>
+      {!isLocal && (
+        <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
+          {otherLocale.toUpperCase()}
+        </a>
+      )}
       <a
         class="nav-cta"
         href={contactHref}
@@ -66,9 +83,11 @@ const isActive = (href: string) => currentPath.startsWith(href);
     </nav>
 
     <div class="mobile-actions">
-      <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
-        {otherLocale.toUpperCase()}
-      </a>
+      {!isLocal && (
+        <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
+          {otherLocale.toUpperCase()}
+        </a>
+      )}
       <a
         class="nav-cta"
         href={contactHref}
@@ -79,7 +98,7 @@ const isActive = (href: string) => currentPath.startsWith(href);
       <details class="mobile-navigation">
         <summary>{copy.menu}</summary>
         <nav aria-label={copy.mobile}>
-          {copy.links.map((link) => (
+          {navigationLinks.map((link) => (
             <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
               {link.label}
             </a>

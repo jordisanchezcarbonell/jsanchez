@@ -6,7 +6,7 @@ import { getExperience, yearsOfExperience } from '../data/experience';
 import { getProjects } from '../data/projects';
 import { getServices } from '../data/services';
 import { socialLinks } from '../data/social';
-import { getLocale, localePath } from '../i18n';
+import { getLocale, localePath, projectPath } from '../i18n';
 
 const locale = getLocale(Astro.currentLocale);
 const years = yearsOfExperience();
@@ -20,6 +20,7 @@ const t = {
     availability: 'Disponible para colaboraciones',
     heroTitle: 'Producto web que llega a producción y se mantiene estable.',
     heroLabel: 'Web · móvil · APIs',
+    heroShowcase: 'Proyecto destacado',
     heroLead: `${years} años con React, Next.js y TypeScript entre frontend, APIs e integraciones con sistemas como SAP. Colaboro con agencias y equipos de producto.`,
     workWithMe: 'Trabajar conmigo',
     seeProjects: 'Ver proyectos',
@@ -42,6 +43,7 @@ const t = {
     technologiesOf: (title: string) => `Tecnologías de ${title}`,
     liveDemo: 'Ver demo en vivo',
     viewProject: 'Ver proyecto',
+    readCase: 'Leer el caso',
     allProjects: 'Ver todos los proyectos',
     servicesEyebrow: 'Servicios',
     servicesTitle: 'Capacidad técnica donde el producto la necesita.',
@@ -66,6 +68,7 @@ const t = {
     availability: 'Available for new projects',
     heroTitle: 'Web products that reach production and stay stable.',
     heroLabel: 'Web · mobile · APIs',
+    heroShowcase: 'Featured project',
     heroLead: `${years} years with React, Next.js and TypeScript across frontend, APIs and integrations with systems such as SAP. I partner with agencies and product teams.`,
     workWithMe: 'Work with me',
     seeProjects: 'See projects',
@@ -88,6 +91,7 @@ const t = {
     technologiesOf: (title: string) => `Technologies for ${title}`,
     liveDemo: 'View live demo',
     viewProject: 'View project',
+    readCase: 'Read the case',
     allProjects: 'See all projects',
     servicesEyebrow: 'Services',
     servicesTitle: 'Technical capacity where the product needs it.',
@@ -109,6 +113,9 @@ const t = {
 
 const experience = getExperience(locale);
 const featuredProjects = getProjects(locale).filter((project) => project.featured);
+// The hero shows real work instead of an ornament: the first featured project with a
+// screenshot. The projects section below then skips it, so the page never repeats an image.
+const heroProject = featuredProjects.find((project) => project.image);
 const services = getServices(locale);
 const featuredServices = services.slice(0, 4);
 const stack = [
@@ -176,17 +183,41 @@ const jsonLd = {
         <p class="availability"><span aria-hidden="true"></span> {t.availability}</p>
       </div>
 
-      <h1 class="hero-title">{t.heroTitle}</h1>
+      <div class="hero-grid">
+        <div class="hero-main">
+          <h1 class="hero-title">{t.heroTitle}</h1>
 
-      <div class="hero-bottom">
-        <p class="hero-label" aria-hidden="true">{t.heroLabel}</p>
-        <div class="hero-copy">
-          <p class="lede">{t.heroLead}</p>
-          <div class="hero-actions">
-            <a class="button button--accent" href={path('contact')}>{t.workWithMe}</a>
-            <a class="text-link" href={path('projects')}>{t.seeProjects}</a>
+          <div class="hero-bottom">
+            <p class="hero-label" aria-hidden="true">{t.heroLabel}</p>
+            <div class="hero-copy">
+              <p class="lede">{t.heroLead}</p>
+              <div class="hero-actions">
+                <a class="button button--accent" href={path('contact')}>{t.workWithMe}</a>
+                <a class="text-link" href={path('projects')}>{t.seeProjects}</a>
+              </div>
+            </div>
           </div>
         </div>
+
+        {heroProject?.image && (
+          <figure class="hero-showcase">
+            <a class="hero-showcase-link" href={projectPath(heroProject.slug, locale)}>
+              <Image
+                src={heroProject.image}
+                alt={heroProject.imageAlt ?? ''}
+                widths={[480, 720, 960, 1280]}
+                sizes="(min-width: 72rem) 36vw, calc(100vw - 2.5rem)"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+              />
+              <figcaption>
+                <span class="hero-showcase-meta">{t.heroShowcase}</span>
+                <span class="hero-showcase-title">{heroProject.title} <span aria-hidden="true">↗</span></span>
+              </figcaption>
+            </a>
+          </figure>
+        )}
       </div>
     </div>
   </section>
@@ -249,7 +280,9 @@ const jsonLd = {
                 <p class="row-index">{String(index + 1).padStart(2, '0')}</p>
                 <div>
                   <p class="row-meta">{project.area}</p>
-                  <h3>{project.title}</h3>
+                  <h3>
+                    <a class="project-title-link" href={projectPath(project.slug, locale)}>{project.title}</a>
+                  </h3>
                 </div>
               </div>
               {project.caseStudy ? (
@@ -275,21 +308,22 @@ const jsonLd = {
               <ul aria-label={t.technologiesOf(project.title)}>
                 {project.technologies.slice(0, 4).map((technology) => <li>{technology}</li>)}
               </ul>
-              {(project.demoUrl || project.url) && (
-                <div class="project-links">
-                  {project.demoUrl && (
-                    <a class="text-link project-link" href={project.demoUrl} target="_blank" rel="noreferrer">
-                      {t.liveDemo}
-                    </a>
-                  )}
-                  {project.url && (
-                    <a class="text-link project-link" href={project.url} target="_blank" rel="noreferrer">
-                      {project.linkLabel ?? t.viewProject}
-                    </a>
-                  )}
-                </div>
-              )}
-              {project.image && (
+              <div class="project-links">
+                <a class="text-link project-link" href={projectPath(project.slug, locale)}>
+                  {t.readCase}
+                </a>
+                {project.demoUrl && (
+                  <a class="text-link project-link" href={project.demoUrl} target="_blank" rel="noreferrer">
+                    {t.liveDemo}
+                  </a>
+                )}
+                {project.url && (
+                  <a class="text-link project-link" href={project.url} target="_blank" rel="noreferrer">
+                    {project.linkLabel ?? t.viewProject}
+                  </a>
+                )}
+              </div>
+              {project.image && project.slug !== heroProject?.slug && (
                 <figure class="project-media">
                   <Image
                     src={project.image}
@@ -335,23 +369,6 @@ const jsonLd = {
       <a class="text-link section-link" href={path('services')}>{t.exploreServices}</a>
     </div>
   </section>
-
-  {locale === 'es' && (
-    <section class="clubs" aria-labelledby="clubs-title">
-      <div class="container clubs-grid">
-        <div>
-          <p class="eyebrow">Vertical especializada</p>
-          <h2 id="clubs-title">Tecnología para clubes y negocios deportivos.</h2>
-        </div>
-        <div>
-          <p>
-            Inscripciones, reservas, socios, calendario, patrocinadores, eventos y automatización en una landing específica, separada del posicionamiento principal.
-          </p>
-          <a class="button button--accent" href="/clubes/">Ver solución para clubes</a>
-        </div>
-      </div>
-    </section>
-  )}
 
   <section class="section about" aria-labelledby="about-title">
     <div class="container about-grid">
@@ -417,11 +434,69 @@ const jsonLd = {
     background: var(--accent);
   }
 
+  .hero-grid {
+    display: grid;
+    gap: clamp(2.25rem, 5vw, 3.5rem);
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
   .hero-title {
     max-width: 17ch;
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
     font-size: clamp(2.5rem, 5.6vw, 5.5rem);
     line-height: 1;
+  }
+
+  .hero-showcase {
+    margin: 0;
+  }
+
+  .hero-showcase-link {
+    display: grid;
+    gap: 0.9rem;
+    text-decoration: none;
+  }
+
+  .hero-showcase img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+
+  .hero-showcase-link:hover img {
+    border-color: var(--accent);
+  }
+
+  .hero-showcase figcaption {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .hero-showcase-meta {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .hero-showcase-title {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 2vw, 1.65rem);
+    font-variation-settings: 'SOFT' 0, 'WONK' 0;
+    font-weight: 520;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .hero-showcase-title span {
+    color: var(--accent);
+  }
+
+  .hero-showcase-link:hover .hero-showcase-title {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
   }
 
   .hero-bottom {
@@ -639,6 +714,17 @@ const jsonLd = {
     color: #f7f4ee;
   }
 
+  .project-title-link {
+    text-decoration: none;
+  }
+
+  .project-title-link:hover {
+    text-decoration: underline;
+    text-decoration-color: #c77b6d;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.08em;
+  }
+
   .project-media {
     margin: 0;
     border: 1px solid #39342d;
@@ -722,38 +808,32 @@ const jsonLd = {
     transform: translate(0.2rem, -0.2rem);
   }
 
-  .clubs,
   .final-cta {
     padding-block: var(--section-space);
     background: var(--ink);
     color: #f7f4ee;
   }
 
-  .clubs .eyebrow,
   .final-cta .eyebrow {
     color: #c77b6d;
   }
 
-  .clubs-grid,
   .about-grid,
   .final-cta-grid {
     display: grid;
     gap: 1.75rem 2.5rem;
   }
 
-  .clubs h2,
   .about h2,
   .final-cta h2 {
     max-width: 18ch;
   }
 
-  .clubs-grid > div:last-child > p,
   .final-cta-grid > div > p {
     max-width: 34rem;
     color: #aaa197;
   }
 
-  .clubs .button,
   .final-cta .button {
     margin-top: 1.5rem;
   }
@@ -763,13 +843,20 @@ const jsonLd = {
   }
 
   @media (min-width: 72rem) {
-    .hero-copy {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.72fr);
+      align-items: start;
     }
 
-    .hero-actions {
-      justify-content: flex-end;
+    /* The headline shares the row with the preview, so it stops scaling with the viewport. */
+    .hero-title {
+      max-width: 13ch;
+      font-size: clamp(2.8rem, 4.2vw, 4.4rem);
+    }
+
+    .hero-showcase {
+      /* Line the preview up with the headline's cap height. */
+      margin-top: 0.4rem;
     }
   }
 
@@ -837,7 +924,6 @@ const jsonLd = {
       margin-top: 0;
     }
 
-    .clubs-grid,
     .about-grid,
     .final-cta-grid {
       grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.65fr);

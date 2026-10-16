@@ -1,13 +1,14 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
+import { localBusinessPostPath, localBusinessRoutes } from '../data/local-business';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
-const canonicalPath = `/blog/${post.id}/`;
+const canonicalPath = localBusinessPostPath(post.id);
 const publishedTime = post.data.publishDate.toISOString();
 const modifiedTime = post.data.updatedDate?.toISOString();
 const dateFormatter = new Intl.DateTimeFormat('es-ES', {
@@ -37,6 +38,16 @@ const articleJsonLd = {
   },
   inLanguage: 'es-ES',
 };
+
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Negocios locales', item: `https://www.jordisanchezweb.es${localBusinessRoutes.home}` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `https://www.jordisanchezweb.es${localBusinessRoutes.blog}` },
+    { '@type': 'ListItem', position: 3, name: post.data.title },
+  ],
+};
 ---
 
 <BaseLayout
@@ -46,12 +57,14 @@ const articleJsonLd = {
   type="article"
   publishedTime={publishedTime}
   modifiedTime={modifiedTime}
-  jsonLd={articleJsonLd}
+  jsonLd={[articleJsonLd, breadcrumbJsonLd]}
+  feed={{ href: localBusinessRoutes.blogFeed, title: 'Blog · Negocios locales — Jordi Sánchez' }}
+  variant="local"
 >
   <article>
     <header class="article-header container">
       <nav aria-label="Migas de pan">
-        <a href="/blog/">Blog</a>
+        <a href={localBusinessRoutes.blog}>Blog</a>
         <span aria-hidden="true">/</span>
         <span>{post.data.category}</span>
       </nav>

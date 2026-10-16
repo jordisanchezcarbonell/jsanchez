@@ -1,3 +1,5 @@
+import cryptoDashboardScreenshot from '../assets/projects/crypto-trading-dashboard.png';
+import damascusGuideScreenshot from '../assets/projects/damascus-nice-guide.png';
 import primerDownScreenshot from '../assets/projects/primer-down.png';
 import type { Locale } from '../i18n';
 
@@ -18,6 +20,8 @@ export interface ProjectCase {
   technologies: string[];
   outcome: string;
   featured: boolean;
+  /** Client work published without naming clients, systems or metrics. */
+  anonymized?: true;
   url?: string;
   linkLabel?: string;
   demoUrl?: string;
@@ -65,6 +69,9 @@ export const projects: ProjectCase[] = [
     featured: false,
     url: 'https://damascus-nice-guide.vercel.app',
     linkLabel: 'Ver proyecto',
+    image: damascusGuideScreenshot,
+    imageAlt:
+      'Portada de The EVO France Food Guide: titular sobre fondo azul, presentación del autor, selector de idioma y navegación por mapa, comida local, brunch e itinerarios.',
   },
   {
     slug: 'crypto-trading-dashboard',
@@ -82,6 +89,9 @@ export const projects: ProjectCase[] = [
     featured: false,
     url: 'https://crypto-trading-dashboard-inky.vercel.app',
     linkLabel: 'Ver proyecto',
+    image: cryptoDashboardScreenshot,
+    imageAlt:
+      'Panel Trading Lab en modo solo lectura: cabecera con estado del sistema, tarjetas de equity, PnL abierto y drawdown máximo, y una curva de equity sobre fondo oscuro.',
   },
   {
     slug: 'reservas',
@@ -95,13 +105,15 @@ export const projects: ProjectCase[] = [
       'Construcción end-to-end de los flujos de reserva, autenticación, datos y validación de disponibilidad.',
     technologies: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Zod', 'Resend'],
     outcome:
-      'Demo desplegada de una plataforma de reservas con recorrido de cliente y gestión operativa.',
+      'MVP de plataforma de reservas que cubre el recorrido del cliente y la gestión diaria del restaurante.',
     featured: false,
-    url: 'https://reservas-b.vercel.app',
-    linkLabel: 'Ver proyecto',
+    // TODO(Jordi): restaurar `url: 'https://reservas-b.vercel.app'` y `linkLabel: 'Ver proyecto'`
+    // cuando el proyecto de Supabase vuelva a estar activo. Mientras está pausado, la demo
+    // pública (/r/casa-brava) responde 404 y el enlace llevaría a una página rota.
   },
   {
     slug: 'plataforma-reservas',
+    anonymized: true,
     title: 'Plataforma de reservas',
     area: 'Producto web',
     problem:
@@ -126,6 +138,7 @@ export const projects: ProjectCase[] = [
   },
   {
     slug: 'integraciones-empresariales',
+    anonymized: true,
     title: 'Integraciones empresariales',
     area: 'Sistemas conectados',
     problem:
@@ -148,6 +161,7 @@ export const projects: ProjectCase[] = [
   },
   {
     slug: 'pagos-3d-secure',
+    anonymized: true,
     title: 'Pagos y 3D Secure',
     area: 'Flujos críticos',
     problem:
@@ -170,6 +184,7 @@ export const projects: ProjectCase[] = [
   },
   {
     slug: 'aplicaciones-moviles',
+    anonymized: true,
     title: 'Aplicaciones móviles',
     area: 'Producto móvil',
     problem:
@@ -185,6 +200,7 @@ export const projects: ProjectCase[] = [
   },
   {
     slug: 'cms-headless',
+    anonymized: true,
     title: 'CMS y plataformas de contenido',
     area: 'Contenido estructurado',
     problem:
@@ -235,6 +251,8 @@ const projectsEn: Record<string, ProjectTranslation> = {
     technologies: ['Next.js 16', 'TypeScript', 'i18n', 'Maps', 'Geolocation', 'Vercel'],
     outcome: 'Public guide deployed for EVO France 2026, built for mobile browsing in three languages.',
     linkLabel: 'View project',
+    imageAlt:
+      'The EVO France Food Guide home page: the headline on a blue background, the author introduction, a language selector and navigation for map, local food, brunch and itineraries.',
   },
   'crypto-trading-dashboard': {
     area: 'Product observability',
@@ -245,6 +263,8 @@ const projectsEn: Record<string, ProjectTranslation> = {
       'Design and implementation of the data architecture, the monitoring interface and explicit security boundaries.',
     outcome: 'Public dashboard that separates data visualisation from any ability to control the system.',
     linkLabel: 'View project',
+    imageAlt:
+      'Trading Lab dashboard in read-only mode: a header with system status, cards for equity, open PnL and max drawdown, and an equity curve on a dark background.',
   },
   reservas: {
     title: 'Reservas',
@@ -253,8 +273,8 @@ const projectsEn: Record<string, ProjectTranslation> = {
     solution:
       'An MVP with a public page per restaurant, time-slot availability, a private dashboard and email notifications.',
     contribution: 'End-to-end build of the booking flows, authentication, data and availability validation.',
-    outcome: 'Deployed demo of a booking platform covering both the customer journey and day-to-day operations.',
-    linkLabel: 'View project',
+    outcome:
+      'Booking platform MVP covering both the customer journey and day-to-day restaurant operations.',
   },
   'plataforma-reservas': {
     title: 'Booking platform',

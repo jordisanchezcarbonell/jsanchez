@@ -1,0 +1,441 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CaseDiagram from '../components/CaseDiagram.astro';
+import type { ProjectCase } from '../data/projects';
+import { getLocale, localePath, projectPath } from '../i18n';
+
+interface Props {
+  project: ProjectCase;
+  previous?: ProjectCase;
+  next?: ProjectCase;
+}
+
+const { project, previous, next } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const path = (route: Parameters<typeof localePath>[0]) => localePath(route, locale);
+
+const t = {
+  es: {
+    title: `${project.title} | Proyectos | Jordi Sánchez`,
+    home: 'Inicio',
+    projects: 'Proyectos',
+    breadcrumb: 'Ruta de navegación',
+    anonymized: 'Caso anonimizado',
+    publicProject: 'Proyecto público',
+    problem: 'Problema',
+    work: 'Qué hice',
+    result: 'Resultado',
+    solution: 'Solución',
+    contribution: 'Mi contribución',
+    context: 'Contexto público',
+    stackTitle: 'Stack',
+    technologyCount: (count: number) => `${count} tecnologías`,
+    technologiesOf: (title: string) => `Tecnologías de ${title}`,
+    liveDemo: 'Ver demo en vivo',
+    viewProject: 'Ver proyecto',
+    moreCases: 'Más casos',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    allProjects: 'Ver todos los proyectos',
+    ctaEyebrow: 'Tu contexto',
+    ctaTitle: '¿Un problema parecido sobre la mesa?',
+    ctaText: 'Cuéntame el contexto y te respondo con preguntas concretas y un siguiente paso realista.',
+    ctaButton: 'Contarme el proyecto',
+  },
+  en: {
+    title: `${project.title} | Projects | Jordi Sánchez`,
+    home: 'Home',
+    projects: 'Projects',
+    breadcrumb: 'Breadcrumb',
+    anonymized: 'Anonymised case',
+    publicProject: 'Public project',
+    problem: 'Problem',
+    work: 'What I did',
+    result: 'Result',
+    solution: 'Solution',
+    contribution: 'My contribution',
+    context: 'Public context',
+    stackTitle: 'Stack',
+    technologyCount: (count: number) => `${count} technologies`,
+    technologiesOf: (title: string) => `Technologies for ${title}`,
+    liveDemo: 'View live demo',
+    viewProject: 'View project',
+    moreCases: 'More cases',
+    previous: 'Previous',
+    next: 'Next',
+    allProjects: 'See all projects',
+    ctaEyebrow: 'Your context',
+    ctaTitle: 'Facing a similar problem?',
+    ctaText: 'Tell me the context and I will reply with specific questions and a realistic next step.',
+    ctaButton: 'Tell me about the project',
+  },
+}[locale];
+
+// Driven by the data, not by whether a link happens to be published right now.
+const isPublic = !project.anonymized;
+const canonicalPath = projectPath(project.slug, locale);
+
+// Case studies describe the work in problem / what I did / result; the rest keep the
+// problem / solution / contribution breakdown. Neither invents a result that does not exist.
+const sections = project.caseStudy
+  ? [
+      { title: t.problem, body: project.caseStudy.problem },
+      { title: t.work, body: project.caseStudy.work },
+      project.caseStudy.result
+        ? { title: t.result, body: project.caseStudy.result }
+        : { title: t.context, body: project.outcome },
+    ]
+  : [
+      { title: t.problem, body: project.problem },
+      { title: t.solution, body: project.solution },
+      { title: t.contribution, body: project.contribution },
+      { title: t.context, body: project.outcome },
+    ];
+
+const site = 'https://www.jordisanchezweb.es';
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${site}${canonicalPath}#case`,
+    name: project.title,
+    headline: project.title,
+    abstract: project.problem,
+    url: `${site}${canonicalPath}`,
+    inLanguage: locale,
+    genre: project.area,
+    keywords: project.technologies.join(', '),
+    creator: { '@type': 'Person', '@id': `${site}/#jordi-sanchez`, name: 'Jordi Sánchez' },
+    ...(project.url || project.demoUrl ? { sameAs: [project.demoUrl, project.url].filter(Boolean) } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: t.home, item: `${site}${path('home')}` },
+      { '@type': 'ListItem', position: 2, name: t.projects, item: `${site}${path('projects')}` },
+      { '@type': 'ListItem', position: 3, name: project.title },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={t.title}
+  description={project.problem}
+  canonicalPath={canonicalPath}
+  jsonLd={jsonLd}
+>
+  <header class="page-intro case-intro container">
+    <nav class="breadcrumb" aria-label={t.breadcrumb}>
+      <a href={path('home')}>{t.home}</a>
+      <span aria-hidden="true">/</span>
+      <a href={path('projects')}>{t.projects}</a>
+    </nav>
+
+    <p class="eyebrow">{project.area}</p>
+    <h1>{project.title}</h1>
+
+    <div class="page-intro__footer">
+      <p class="lede">{project.problem}</p>
+      <p class="meta-line">
+        <span>{isPublic ? t.publicProject : t.anonymized}</span>
+        <span>{t.technologyCount(project.technologies.length)}</span>
+      </p>
+    </div>
+  </header>
+
+  {project.image && (
+    <figure class="case-media container">
+      <Image
+        src={project.image}
+        alt={project.imageAlt ?? ''}
+        widths={[640, 960, 1280, 1600]}
+        sizes="(min-width: 60rem) 52rem, calc(100vw - 2.5rem)"
+        loading="eager"
+        decoding="async"
+      />
+    </figure>
+  )}
+
+  <section class="section case-body" aria-labelledby="case-body-title">
+    <div class="container">
+      <h2 id="case-body-title" class="visually-hidden">{project.title}</h2>
+      <div class="case-sections">
+        {sections.map((section, index) => (
+          <>
+            <section>
+              <h3>{section.title}</h3>
+              <p>{section.body}</p>
+            </section>
+            {/* The diagram illustrates the work, so it follows that section rather than the page. */}
+            {index === 1 && <CaseDiagram slug={project.slug} locale={locale} />}
+          </>
+        ))}
+      </div>
+
+      <div class="case-aside">
+        <div>
+          <h3 class="aside-title">{t.stackTitle}</h3>
+          <ul class="technology-list" aria-label={t.technologiesOf(project.title)}>
+            {project.technologies.map((technology) => <li>{technology}</li>)}
+          </ul>
+        </div>
+
+        {(project.demoUrl || project.url) && (
+          <div class="case-links">
+            {project.demoUrl && (
+              <a class="text-link" href={project.demoUrl} target="_blank" rel="noreferrer">
+                {t.liveDemo}
+              </a>
+            )}
+            {project.url && (
+              <a class="text-link" href={project.url} target="_blank" rel="noreferrer">
+                {project.linkLabel ?? t.viewProject}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <nav class="case-pager" aria-label={t.moreCases}>
+    <div class="container case-pager-grid">
+      {previous ? (
+        <a class="pager-link" href={projectPath(previous.slug, locale)} rel="prev">
+          <span class="pager-label">← {t.previous}</span>
+          <span class="pager-title">{previous.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+      {next ? (
+        <a class="pager-link pager-link--next" href={projectPath(next.slug, locale)} rel="next">
+          <span class="pager-label">{t.next} →</span>
+          <span class="pager-title">{next.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+    </div>
+  </nav>
+
+  <section class="final-cta">
+    <div class="container final-cta-grid">
+      <p class="eyebrow">{t.ctaEyebrow}</p>
+      <h2>{t.ctaTitle}</h2>
+      <div>
+        <p>{t.ctaText}</p>
+        <div class="final-cta-actions">
+          <a class="button button--accent" href={path('contact')}>{t.ctaButton}</a>
+          <a class="text-link" href={path('projects')}>{t.allProjects}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .case-intro {
+    padding-block: clamp(4.5rem, 9vw, 8rem) clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .breadcrumb span {
+    color: var(--line);
+  }
+
+  /* Case titles run longer than the section headings these styles were tuned for. */
+  .case-intro h1 {
+    max-width: 24ch;
+    font-size: clamp(2.6rem, 6.4vw, 5.5rem);
+  }
+
+  .case-media {
+    margin: 0 auto;
+  }
+
+  .case-media img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+
+  .case-body .container {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .case-sections {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    max-width: 44rem;
+  }
+
+  .case-sections h3 {
+    font-size: 0.72rem;
+    font-weight: 750;
+    font-family: var(--sans);
+    letter-spacing: 0.17em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .case-sections p {
+    margin-top: 0.9rem;
+    color: #373129;
+    font-size: clamp(1.04rem, 1.4vw, 1.16rem);
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .case-aside {
+    display: grid;
+    gap: 2rem;
+    align-content: start;
+  }
+
+  .aside-title {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.17em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .technology-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .technology-list li {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--line);
+    font-size: 0.7rem;
+    font-weight: 650;
+  }
+
+  .case-links {
+    display: grid;
+    justify-items: start;
+    gap: 1.1rem;
+  }
+
+  .case-pager {
+    border-top: 1px solid var(--line);
+    background: #eee9e0;
+  }
+
+  .case-pager-grid {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 4vw, 3rem);
+  }
+
+  .pager-link {
+    display: grid;
+    gap: 0.65rem;
+    text-decoration: none;
+  }
+
+  .pager-label {
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pager-title {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-variation-settings: 'SOFT' 0, 'WONK' 0;
+    font-weight: 520;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .pager-link:hover .pager-title {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+  }
+
+  .final-cta {
+    padding-block: var(--section-space);
+    background: var(--ink);
+    color: #f7f4ee;
+  }
+
+  .final-cta .eyebrow {
+    color: #c77b6d;
+  }
+
+  .final-cta-grid {
+    display: grid;
+    gap: 1.75rem 2.5rem;
+  }
+
+  .final-cta h2 {
+    max-width: 18ch;
+  }
+
+  .final-cta-grid > div > p {
+    max-width: 34rem;
+    color: #aaa197;
+  }
+
+  .final-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 52rem) {
+    .case-body .container {
+      grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.4fr);
+      gap: clamp(2.5rem, 6vw, 5rem);
+    }
+
+    .case-pager-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pager-link--next {
+      justify-items: end;
+      text-align: right;
+    }
+
+    .final-cta-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.65fr);
+      align-items: end;
+    }
+
+    .final-cta-grid .eyebrow {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

@@ -19,11 +19,14 @@ interface Props {
   modifiedTime?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  feed?: { href: string; title: string };
   hideHeader?: boolean;
   hideFooter?: boolean;
+  /** `local` renders the local-business vertical's own header and footer. */
+  variant?: 'core' | 'local';
 }
 
-const { hideHeader = false, hideFooter = false, ...seoProps } = Astro.props;
+const { hideHeader = false, hideFooter = false, variant = 'core', ...seoProps } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const skipLabel = locale === 'en' ? 'Skip to content' : 'Saltar al contenido';
 ---
@@ -38,11 +41,11 @@ const skipLabel = locale === 'en' ? 'Skip to content' : 'Saltar al contenido';
   </head>
   <body>
     <a class="skip-link" href="#contenido">{skipLabel}</a>
-    {!hideHeader && <SiteHeader />}
+    {!hideHeader && <SiteHeader variant={variant} />}
     <main id="contenido">
       <slot />
     </main>
-    {!hideFooter && <SiteFooter />}
+    {!hideFooter && <SiteFooter variant={variant} />}
     <SpeedInsights />
   </body>
 </html>

@@ -1,0 +1,289 @@
+---
+import type { Locale } from '../i18n';
+
+interface Props {
+  slug: string;
+  locale: Locale;
+}
+
+const { slug, locale } = Astro.props;
+
+/**
+ * Hand-authored SVG for the cases whose prose describes a mechanism worth seeing.
+ * These are anonymised cases, so the drawings stay at exactly the level of detail the
+ * published text already carries: no providers, endpoints, volumes or internal rules.
+ * Strokes and text use currentColor; the accent marks the one part the work hinged on.
+ */
+const payments = {
+    es: {
+      caption: 'Los estados del pago, modelados de forma explícita: el challenge 3DS ocurre fuera de la aplicación y el retorno puede fallar, así que cada transición queda trazada.',
+      alt: 'Diagrama de estados de un pago: iniciado, requiere 3DS, verificación externa y confirmado, con una rama de fallo que vuelve a intentarse.',
+      started: 'Pago iniciado',
+      requires: 'Requiere 3DS',
+      external: 'Verificación 3DS',
+      externalNote: 'fuera de la app',
+      confirmed: 'Confirmado',
+      failed: 'Fallido',
+      toRequires: 'autenticación',
+      toExternal: 'challenge',
+      toConfirmed: 'retorno válido',
+      toFailed: 'error o timeout',
+      retry: 'reintento',
+    },
+    en: {
+      caption: 'Payment states, modelled explicitly: the 3DS challenge happens outside the application and the return can fail, so every transition is traced.',
+      alt: 'Payment state diagram: started, requires 3DS, external verification and confirmed, with a failure branch that retries.',
+      started: 'Payment started',
+      requires: 'Requires 3DS',
+      external: '3DS verification',
+      externalNote: 'outside the app',
+      confirmed: 'Confirmed',
+      failed: 'Failed',
+      toRequires: 'authentication',
+      toExternal: 'challenge',
+      toConfirmed: 'valid return',
+      toFailed: 'error or timeout',
+      retry: 'retry',
+    },
+} as const;
+
+const sync = {
+    es: {
+      caption: 'El contenido viaja en una sola dirección y cada sincronización deja registro, que es lo que permite auditar una discrepancia en lugar de corregirla a mano.',
+      alt: 'Diagrama de sincronización: SAP envía datos a Strapi mediante actualizaciones masivas, Strapi notifica a la web por webhook y cada sincronización se escribe en un registro auditable.',
+      source: 'SAP',
+      cms: 'Strapi',
+      web: 'Web',
+      log: 'Registro auditable',
+      toCms: 'sincronización masiva',
+      toWeb: 'webhook',
+      toLog: 'registra cada sincronización',
+    },
+    en: {
+      caption: 'Content travels in one direction and every sync leaves a record, which is what makes a discrepancy auditable instead of fixed by hand.',
+      alt: 'Sync diagram: SAP sends data to Strapi through bulk updates, Strapi notifies the website by webhook, and every sync is written to an auditable log.',
+      source: 'SAP',
+      cms: 'Strapi',
+      web: 'Web',
+      log: 'Auditable log',
+      toCms: 'bulk updates',
+      toWeb: 'webhook',
+      toLog: 'logs every sync',
+    },
+} as const;
+
+const booking = {
+    es: {
+      caption: 'La identidad y la disponibilidad viven en servicios distintos y confluyen en el estado de la reserva: ahí es donde aparecían las incoherencias difíciles de reproducir.',
+      alt: 'Diagrama de una reserva: el frontend consulta un servicio de identidad y otro de disponibilidad, y ambos confluyen en el estado de la reserva.',
+      front: 'Frontend',
+      identity: 'Identidad',
+      availability: 'Disponibilidad',
+      state: 'Estado de la reserva',
+      toIdentity: 'sesión',
+      toAvailability: 'huecos',
+    },
+    en: {
+      caption: 'Identity and availability live in separate services and meet at the booking state: that is where the hard-to-reproduce inconsistencies showed up.',
+      alt: 'Booking diagram: the frontend queries an identity service and an availability service, and both converge on the booking state.',
+      front: 'Frontend',
+      identity: 'Identity',
+      availability: 'Availability',
+      state: 'Booking state',
+      toIdentity: 'session',
+      toAvailability: 'slots',
+    },
+} as const;
+
+const pay = payments[locale];
+const syn = sync[locale];
+const boo = booking[locale];
+
+const diagram =
+  slug === 'pagos-3d-secure'
+    ? 'payments'
+    : slug === 'integraciones-empresariales'
+      ? 'sync'
+      : slug === 'plataforma-reservas'
+        ? 'booking'
+        : undefined;
+
+const caption = diagram === 'payments' ? pay.caption : diagram === 'sync' ? syn.caption : boo.caption;
+---
+
+{diagram && (
+  <figure class="case-diagram">
+    {diagram === 'payments' && (
+      <svg viewBox="0 0 760 250" role="img" aria-label={pay.alt}>
+        <defs>
+          <marker id="cd-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <rect x="10" y="30" width="112" height="54" />
+        <text x="66" y="62">{pay.started}</text>
+
+        <rect x="218" y="30" width="112" height="54" />
+        <text x="274" y="62">{pay.requires}</text>
+
+        <rect class="is-accent" x="426" y="30" width="112" height="54" stroke-dasharray="5 4" />
+        <text class="is-accent" x="482" y="54">{pay.external}</text>
+        <text class="is-accent note" x="482" y="70">{pay.externalNote}</text>
+
+        <rect x="634" y="30" width="112" height="54" />
+        <text x="690" y="62">{pay.confirmed}</text>
+
+        <rect x="426" y="160" width="112" height="54" />
+        <text x="482" y="192">{pay.failed}</text>
+
+        <line x1="124" y1="57" x2="212" y2="57" marker-end="url(#cd-arrow)" />
+        <text class="edge" x="168" y="48">{pay.toRequires}</text>
+
+        <line x1="332" y1="57" x2="420" y2="57" marker-end="url(#cd-arrow)" />
+        <text class="edge" x="376" y="48">{pay.toExternal}</text>
+
+        <line x1="540" y1="57" x2="628" y2="57" marker-end="url(#cd-arrow)" />
+        <text class="edge" x="584" y="48">{pay.toConfirmed}</text>
+
+        <line x1="482" y1="86" x2="482" y2="154" marker-end="url(#cd-arrow)" />
+        <text class="edge start" x="492" y="124">{pay.toFailed}</text>
+
+        <polyline points="426,187 274,187 274,90" fill="none" marker-end="url(#cd-arrow)" />
+        <text class="edge" x="350" y="203">{pay.retry}</text>
+      </svg>
+    )}
+
+    {diagram === 'sync' && (
+      <svg viewBox="0 0 710 250" role="img" aria-label={syn.alt}>
+        <defs>
+          <marker id="cd-arrow-sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <rect x="20" y="30" width="120" height="54" />
+        <text x="80" y="62">{syn.source}</text>
+
+        <rect x="295" y="30" width="120" height="54" />
+        <text x="355" y="62">{syn.cms}</text>
+
+        <rect x="570" y="30" width="120" height="54" />
+        <text x="630" y="62">{syn.web}</text>
+
+        <rect class="is-accent" x="270" y="160" width="170" height="54" />
+        <text class="is-accent" x="355" y="192">{syn.log}</text>
+
+        <line x1="142" y1="57" x2="289" y2="57" marker-end="url(#cd-arrow-sync)" />
+        <text class="edge" x="215" y="48">{syn.toCms}</text>
+
+        <line x1="417" y1="57" x2="564" y2="57" marker-end="url(#cd-arrow-sync)" />
+        <text class="edge" x="490" y="48">{syn.toWeb}</text>
+
+        <line x1="355" y1="86" x2="355" y2="154" marker-end="url(#cd-arrow-sync)" />
+        <text class="edge start" x="367" y="124">{syn.toLog}</text>
+      </svg>
+    )}
+
+    {diagram === 'booking' && (
+      <svg viewBox="0 0 700 250" role="img" aria-label={boo.alt}>
+        <defs>
+          <marker id="cd-arrow-booking" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <rect x="15" y="98" width="130" height="54" />
+        <text x="80" y="130">{boo.front}</text>
+
+        <rect x="290" y="25" width="150" height="54" />
+        <text x="365" y="57">{boo.identity}</text>
+
+        <rect x="290" y="171" width="150" height="54" />
+        <text x="365" y="203">{boo.availability}</text>
+
+        <rect class="is-accent" x="530" y="98" width="155" height="54" />
+        <text class="is-accent" x="607" y="130">{boo.state}</text>
+
+        <line x1="147" y1="118" x2="284" y2="60" marker-end="url(#cd-arrow-booking)" />
+        <text class="edge" x="215" y="80">{boo.toIdentity}</text>
+
+        <line x1="147" y1="132" x2="284" y2="190" marker-end="url(#cd-arrow-booking)" />
+        <text class="edge" x="215" y="178">{boo.toAvailability}</text>
+
+        <line x1="442" y1="60" x2="524" y2="113" marker-end="url(#cd-arrow-booking)" />
+        <line x1="442" y1="190" x2="524" y2="137" marker-end="url(#cd-arrow-booking)" />
+      </svg>
+    )}
+
+    <figcaption>{caption}</figcaption>
+  </figure>
+)}
+
+<style>
+  .case-diagram {
+    margin: 0;
+  }
+
+  .case-diagram svg {
+    width: 100%;
+    max-width: 44rem;
+    height: auto;
+    color: var(--ink);
+  }
+
+  rect {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+  }
+
+  text {
+    fill: currentColor;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 650;
+    text-anchor: middle;
+  }
+
+  .note {
+    font-size: 10.5px;
+    font-weight: 550;
+    opacity: 0.7;
+  }
+
+  .edge {
+    font-size: 10.5px;
+    font-weight: 600;
+    opacity: 0.72;
+  }
+
+  .start {
+    text-anchor: start;
+  }
+
+  line,
+  polyline {
+    stroke: currentColor;
+    stroke-width: 1.25;
+    fill: none;
+  }
+
+  .is-accent {
+    color: var(--accent);
+    stroke: var(--accent);
+  }
+
+  text.is-accent {
+    fill: var(--accent);
+  }
+
+  figcaption {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+</style>

@@ -1,0 +1,435 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getExperience, yearsOfExperience } from '../data/experience';
+import { getEducation, getProfileCopy, getStackGroups } from '../data/profile';
+import { socialLinks } from '../data/social';
+import { getLocale, localePath } from '../i18n';
+
+const locale = getLocale(Astro.currentLocale);
+const experience = getExperience(locale);
+const stackGroups = getStackGroups(locale);
+const education = getEducation(locale);
+const profileCopy = getProfileCopy(locale);
+const years = yearsOfExperience();
+
+const t = {
+  es: {
+    title: 'CV | Jordi Sánchez — Full-Stack Developer',
+    description: `Currículum de Jordi Sánchez, Full-Stack Developer en Barcelona con ${years} años de experiencia en React, Next.js, TypeScript, APIs e integraciones.`,
+    eyebrow: 'Currículum',
+    role: 'Full-Stack Developer',
+    lead: `${years} años construyendo aplicaciones web y móviles con React, Next.js y TypeScript, desde la interfaz hasta las APIs y las integraciones.`,
+    download: 'Descargar en PDF',
+    downloadHint: 'Se abre el diálogo de impresión del navegador: elige «Guardar como PDF».',
+    profile: 'Perfil',
+    experience: 'Experiencia',
+    education: 'Formación',
+    stack: 'Tecnologías',
+    languages: 'Idiomas',
+    languagesValue: 'Español (nativo) · Català (nativo)',
+    location: 'Barcelona, España',
+    technologiesAt: (company: string) => `Tecnologías utilizadas en ${company}`,
+    webLabel: 'jordisanchezweb.es',
+    updated: 'Actualizado automáticamente desde el contenido de esta web.',
+  },
+  en: {
+    title: 'CV | Jordi Sánchez — Full-Stack Developer',
+    description: `Résumé of Jordi Sánchez, a Barcelona-based Full-Stack Developer with ${years} years of experience in React, Next.js, TypeScript, APIs and integrations.`,
+    eyebrow: 'Résumé',
+    role: 'Full-Stack Developer',
+    lead: `${years} years building web and mobile applications with React, Next.js and TypeScript, from the interface to APIs and integrations.`,
+    download: 'Download as PDF',
+    downloadHint: 'Opens the browser print dialog: choose “Save as PDF”.',
+    profile: 'Profile',
+    experience: 'Experience',
+    education: 'Education',
+    stack: 'Technologies',
+    languages: 'Languages',
+    languagesValue: 'Spanish (native) · Catalan (native)',
+    location: 'Barcelona, Spain',
+    technologiesAt: (company: string) => `Technologies used at ${company}`,
+    webLabel: 'jordisanchezweb.es',
+    updated: 'Generated automatically from the content of this site.',
+  },
+}[locale];
+
+const site = 'https://www.jordisanchezweb.es';
+const canonicalPath = localePath('cv', locale);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: `${site}${canonicalPath}`,
+  inLanguage: locale,
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${site}/#jordi-sanchez`,
+    name: 'Jordi Sánchez',
+    jobTitle: t.role,
+    email: 'mailto:jordigw@gmail.com',
+    address: { '@type': 'PostalAddress', addressLocality: 'Barcelona', addressCountry: 'ES' },
+    sameAs: socialLinks.map((link) => link.url),
+    alumniOf: education.map((item) => ({ '@type': 'EducationalOrganization', name: item.meta })),
+    knowsAbout: stackGroups.flatMap((group) => group.items),
+  },
+};
+---
+
+<BaseLayout title={t.title} description={t.description} canonicalPath={canonicalPath} jsonLd={jsonLd}>
+  <article class="cv container">
+    <header class="cv-header">
+      <div>
+        <p class="eyebrow no-print">{t.eyebrow}</p>
+        <h1>Jordi Sánchez</h1>
+        <p class="cv-role">{t.role}</p>
+        <p class="cv-lead">{t.lead}</p>
+      </div>
+
+      <div class="cv-contact">
+        <ul>
+          <li>{t.location}</li>
+          <li><a href="mailto:jordigw@gmail.com">jordigw@gmail.com</a></li>
+          <li><a href={`${site}${localePath('home', locale)}`}>{t.webLabel}</a></li>
+          {socialLinks.map((link) => (
+            <li><a href={link.url} rel="noreferrer">{link.label}</a></li>
+          ))}
+        </ul>
+
+        <div class="no-print cv-download">
+          <button type="button" id="cv-print" class="button button--accent">{t.download}</button>
+          <p>{t.downloadHint}</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="cv-section" aria-labelledby="cv-profile">
+      <h2 id="cv-profile">{t.profile}</h2>
+      <div class="cv-body">
+        {profileCopy.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-experience">
+      <h2 id="cv-experience">{t.experience}</h2>
+      <ol class="cv-list">
+        {experience.map((item) => (
+          <li>
+            <div class="cv-entry-head">
+              <h3>{item.company}</h3>
+              <p class="cv-period">{item.period}</p>
+            </div>
+            <p class="cv-role-line">{item.role}</p>
+            <p>{item.summary}</p>
+            <ul class="tag-list" aria-label={t.technologiesAt(item.company)}>
+              {item.technologies.map((technology) => <li>{technology}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-stack">
+      <h2 id="cv-stack">{t.stack}</h2>
+      <div class="cv-stack-grid">
+        {stackGroups.map((group) => (
+          <section>
+            <h3>{group.title}</h3>
+            <p>{group.items.join(' · ')}</p>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-education">
+      <h2 id="cv-education">{t.education}</h2>
+      <ul class="cv-list cv-list--plain">
+        {education.map((item) => (
+          <li>
+            <div class="cv-entry-head">
+              <h3>{item.name}</h3>
+              <p class="cv-period">{item.meta}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-languages">
+      <h2 id="cv-languages">{t.languages}</h2>
+      <div class="cv-body"><p>{t.languagesValue}</p></div>
+    </section>
+
+    <p class="cv-footnote no-print">{t.updated}</p>
+  </article>
+</BaseLayout>
+
+<script>
+  document.getElementById('cv-print')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .cv {
+    max-width: 58rem;
+    padding-block: clamp(4.5rem, 9vw, 7rem) var(--section-space);
+  }
+
+  .cv-header {
+    display: grid;
+    gap: 2.5rem;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .cv-header h1 {
+    font-size: clamp(2.8rem, 7vw, 4.5rem);
+  }
+
+  .cv-role {
+    margin-top: 0.6rem;
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .cv-lead {
+    max-width: 38rem;
+    margin-top: 1.25rem;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .cv-contact ul {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .cv-download {
+    margin-top: 1.75rem;
+  }
+
+  .cv-download p {
+    max-width: 22rem;
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .cv-section {
+    display: grid;
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 3.5vw, 2.5rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cv-section > h2 {
+    align-self: start;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.17em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .cv-body,
+  .cv-list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #373129;
+    line-height: 1.65;
+  }
+
+  .cv-list > li {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .cv-list > li + li {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .cv-list--plain > li + li {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+  }
+
+  .cv-entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 1.5rem;
+  }
+
+  .cv-entry-head h3 {
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    letter-spacing: -0.02em;
+  }
+
+  .cv-period,
+  .cv-role-line {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .cv-role-line {
+    color: var(--accent);
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tag-list li {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--line);
+    font-size: 0.66rem;
+    font-weight: 650;
+  }
+
+  .cv-stack-grid {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .cv-stack-grid h3 {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .cv-stack-grid p {
+    margin-top: 0.3rem;
+    color: #373129;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .cv-footnote {
+    margin-top: 2rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  @media (min-width: 48rem) {
+    .cv-header {
+      grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.42fr);
+      gap: 3rem;
+    }
+
+    .cv-section {
+      grid-template-columns: minmax(8rem, 0.22fr) minmax(0, 1fr);
+      gap: 2rem;
+    }
+
+    .cv-stack-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem 2rem;
+    }
+  }
+
+  /* Printing this page is how the PDF is produced, so the chrome around it has to go. */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+
+    .cv {
+      max-width: none;
+      padding: 0;
+    }
+
+    .cv-header {
+      gap: 1.25rem;
+      padding-bottom: 1rem;
+    }
+
+    .cv-header h1 {
+      font-size: 24pt;
+    }
+
+    .cv-section {
+      gap: 0.75rem;
+      padding-block: 0.9rem;
+    }
+
+    /* Sections may flow across sheets, but a single entry must never be split. */
+    .cv-list > li,
+    .cv-stack-grid section {
+      break-inside: avoid;
+    }
+
+    .cv-lead,
+    .cv-body,
+    .cv-list,
+    .cv-stack-grid p {
+      font-size: 10pt;
+      line-height: 1.45;
+    }
+
+    .cv-entry-head h3 {
+      font-size: 13pt;
+    }
+
+    .tag-list li {
+      font-size: 7.5pt;
+    }
+
+    .cv-contact ul {
+      font-size: 9pt;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+</style>
+
+<style is:global>
+  @media print {
+    /* The site header, footer and skip link are navigation, not part of the document. */
+    .site-header,
+    .site-footer,
+    .skip-link {
+      display: none !important;
+    }
+
+    @page {
+      margin: 14mm;
+    }
+
+    html,
+    body {
+      background: #fff;
+      color: #000;
+    }
+  }
+</style>

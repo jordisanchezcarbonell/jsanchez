@@ -1,5 +1,6 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localBusinessRoutes } from '../../../data/local-business';
 
 const services = [
   {
@@ -29,7 +30,7 @@ const services = [
 <BaseLayout
   title="Taller 33 — Concepto interactivo de barbería"
   description="Demo ficticia y navegable de una web de barbería creada por Jordi Sánchez Web."
-  canonicalPath="/demos/taller-33/"
+  canonicalPath={localBusinessRoutes.demoBarbershop}
   noindex
   hideHeader
   hideFooter
@@ -37,7 +38,7 @@ const services = [
   <div class="demo-shell">
     <aside class="demo-notice" aria-label="Aviso sobre esta demostración">
       <p><strong>Concepto demostrativo</strong> · Taller 33 es un negocio ficticio</p>
-      <a href="/ejemplos/">Volver a Jordi Sánchez Web <span aria-hidden="true">↗</span></a>
+      <a href={localBusinessRoutes.examples}>Volver a Jordi Sánchez Web <span aria-hidden="true">↗</span></a>
     </aside>
 
     <header class="demo-header">

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { localBusinessPostPath, localBusinessRoutes } from '../../../data/local-business';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
@@ -16,7 +17,9 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
 <BaseLayout
   title="Consejos de web y reservas para negocios locales | Blog"
   description="Guías claras sobre páginas web, reservas online y SEO local para barberías, peluquerías y centros de estética de Barcelona."
-  canonicalPath="/blog/"
+  canonicalPath={localBusinessRoutes.blog}
+  feed={{ href: localBusinessRoutes.blogFeed, title: 'Blog · Negocios locales — Jordi Sánchez' }}
+  variant="local"
 >
   <header class="page-intro container">
     <p class="eyebrow">Notas de trabajo</p>
@@ -35,7 +38,7 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
       <ol class="post-list">
         {posts.map((post, index) => (
           <li>
-            <a href={`/blog/${post.id}/`}>
+            <a href={localBusinessPostPath(post.id)}>
               <div class="post-index">
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <span>{post.data.category}</span>

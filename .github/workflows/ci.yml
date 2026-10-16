@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# The site is static and the contact form degrades to an email link without its key,
+# so the whole suite runs with no secrets configured.
+jobs:
+  verify:
+    name: Check, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type and content check
+        run: npm run check
+
+      # `npm test` builds the site first, then asserts against dist/.
+      - name: Test
+        run: npm test

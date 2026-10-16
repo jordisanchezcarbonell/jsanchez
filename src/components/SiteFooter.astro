@@ -1,7 +1,14 @@
 ---
+import { localBusinessRoutes } from '../data/local-business';
 import { socialLinks } from '../data/social';
 import { getLocale, localePath } from '../i18n';
 
+interface Props {
+  /** `local` serves the Spanish-only local-business vertical, which has its own navigation. */
+  variant?: 'core' | 'local';
+}
+
+const { variant = 'core' } = Astro.props;
 const year = new Date().getFullYear();
 const locale = getLocale(Astro.currentLocale);
 
@@ -17,13 +24,15 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
     note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs e integraciones.',
     nav: 'Navegación del pie',
     profiles: 'Perfiles profesionales',
+    // The local-business vertical gets a single discreet link: enough for crawlers and for
+    // anyone looking for it, without putting a second positioning in the main navigation.
     links: [
       { href: localePath('projects', 'es'), label: 'Proyectos' },
       { href: localePath('services', 'es'), label: 'Servicios' },
       { href: localePath('about', 'es'), label: 'Sobre mí' },
+      { href: localePath('cv', 'es'), label: 'CV' },
       { href: localePath('contact', 'es'), label: 'Contacto' },
-      { href: '/clubes/', label: 'Clubes' },
-      { href: '/blog/', label: 'Blog' },
+      { href: localBusinessRoutes.home, label: 'Negocios locales' },
       { href: '/aviso-legal/', label: 'Aviso legal' },
       { href: '/privacidad/', label: 'Privacidad' },
     ],
@@ -32,28 +41,47 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
     note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs and integrations.',
     nav: 'Footer navigation',
     profiles: 'Professional profiles',
-    // Clubs and the blog target a Spanish-speaking local audience, so they are not linked here.
+    // The local-business vertical targets a Spanish-speaking audience, so it is not linked here.
     links: [
       { href: localePath('projects', 'en'), label: 'Projects' },
       { href: localePath('services', 'en'), label: 'Services' },
       { href: localePath('about', 'en'), label: 'About' },
+      { href: localePath('cv', 'en'), label: 'CV' },
       { href: localePath('contact', 'en'), label: 'Contact' },
       { href: '/aviso-legal/', label: 'Legal notice (ES)', lang: 'es' },
       { href: '/privacidad/', label: 'Privacy (ES)', lang: 'es' },
     ],
   },
 }[locale];
+
+// The vertical's own footer: its areas, the shared contact page and the legal pages.
+const localCopy: { note: string; nav: string; profiles: string; links: FooterLink[] } = {
+  note: 'Webs, reservas online y presencia digital para negocios locales y clubes.',
+  nav: 'Navegación del pie',
+  profiles: 'Perfiles profesionales',
+  links: [
+    { href: localBusinessRoutes.examples, label: 'Ejemplos' },
+    { href: localBusinessRoutes.clubs, label: 'Clubes' },
+    { href: localBusinessRoutes.blog, label: 'Blog' },
+    { href: localePath('contact', 'es'), label: 'Contacto' },
+    { href: localePath('home', 'es'), label: 'Portfolio técnico' },
+    { href: '/aviso-legal/', label: 'Aviso legal' },
+    { href: '/privacidad/', label: 'Privacidad' },
+  ],
+};
+
+const footer = variant === 'local' ? localCopy : copy;
 ---
 
 <footer class="site-footer">
   <div class="footer-main container">
     <div>
       <p class="footer-name">Jordi Sánchez</p>
-      <p class="footer-note">{copy.note}</p>
+      <p class="footer-note">{footer.note}</p>
     </div>
 
-    <nav aria-label={copy.nav}>
-      {copy.links.map((link) => (
+    <nav aria-label={footer.nav}>
+      {footer.links.map((link) => (
         <a href={link.href} hreflang={link.lang}>{link.label}</a>
       ))}
     </nav>
@@ -61,7 +89,7 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
 
   <div class="footer-bottom container">
     <p>© {year} Jordi Sánchez</p>
-    <ul class="footer-social" aria-label={copy.profiles}>
+    <ul class="footer-social" aria-label={footer.profiles}>
       {socialLinks.map((link) => (
         <li><a href={link.url} target="_blank" rel="me noreferrer">{link.label}</a></li>
       ))}
