@@ -339,6 +339,7 @@ test('professional profiles appear in the footer, contact page and Person sameAs
   const contact = readFileSync(path.join(process.cwd(), 'dist', 'contacto', 'index.html'), 'utf8');
   const profiles = [
     'https://github.com/jordisanchezcarbonell',
+    'https://www.linkedin.com/in/jordi-s%C3%A1nchez-carbonell-baa83797',
     'https://www.malt.es/profile/jordisanchez1',
   ];
 
