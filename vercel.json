@@ -33,8 +33,18 @@
       "permanent": true
     },
     {
-      "source": "/blog/:path*",
-      "destination": "/negocios-locales/blog/:path*",
+      "source": "/blog/",
+      "destination": "/negocios-locales/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/negocios-locales/blog/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug/",
+      "destination": "/negocios-locales/blog/:slug/",
       "permanent": true
     },
     {
@@ -43,8 +53,18 @@
       "permanent": true
     },
     {
-      "source": "/demos/:path*",
-      "destination": "/negocios-locales/demos/:path*",
+      "source": "/demos/",
+      "destination": "/negocios-locales/demos/",
+      "permanent": true
+    },
+    {
+      "source": "/demos/:slug",
+      "destination": "/negocios-locales/demos/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/demos/:slug/",
+      "destination": "/negocios-locales/demos/:slug/",
       "permanent": true
     }
   ],

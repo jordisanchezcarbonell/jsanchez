@@ -559,8 +559,10 @@ test('every moved route keeps a permanent redirect', () => {
   const moved = [
     ['/clubes/', '/negocios-locales/clubes/'],
     ['/ejemplos/', '/negocios-locales/ejemplos/'],
-    ['/blog/:path*', '/negocios-locales/blog/:path*'],
-    ['/demos/:path*', '/negocios-locales/demos/:path*'],
+    ['/blog/', '/negocios-locales/blog/'],
+    ['/blog/:slug/', '/negocios-locales/blog/:slug/'],
+    ['/demos/', '/negocios-locales/demos/'],
+    ['/demos/:slug/', '/negocios-locales/demos/:slug/'],
   ];
 
   for (const [source, destination] of moved) {
@@ -568,6 +570,18 @@ test('every moved route keeps a permanent redirect', () => {
     assert.ok(redirect, `Missing redirect for ${source}.`);
     assert.equal(redirect.destination, destination);
     assert.equal(redirect.permanent, true);
+  }
+
+  // Every retired URL was indexed with a trailing slash, and Vercel's `:path*` does not match
+  // one. Each prefix must therefore declare the slashed form explicitly, not just the bare one.
+  for (const prefix of ['/clubes', '/ejemplos', '/blog', '/demos']) {
+    assert.ok(bySource.has(prefix), `Missing redirect for ${prefix}.`);
+    assert.ok(bySource.has(`${prefix}/`), `Missing trailing-slash redirect for ${prefix}/.`);
+  }
+
+  // The old wildcard form silently failed to match; it must not come back.
+  for (const source of bySource.keys()) {
+    assert.doesNotMatch(source, /:\w+\*/, `Wildcard redirect ${source} will not match trailing slashes.`);
   }
 });
 
