@@ -23,10 +23,9 @@ const t = {
     technologiesOf: (title: string) => `Tecnologías de ${title}`,
     liveDemo: 'Ver demo en vivo',
     viewProject: 'Ver proyecto',
-    ctaEyebrow: 'Tu contexto',
-    ctaTitle: '¿Tienes un producto que necesita avanzar?',
-    ctaText: 'Podemos hablar de una funcionalidad concreta, una integración o una colaboración continuada.',
-    ctaButton: 'Contarme el proyecto',
+    ctaEyebrow: 'Siguiente paso',
+    ctaTitle: '¿Hablamos?',
+    ctaButton: 'Contactar',
   },
   ca: {
     title: 'Projectes | Jordi Sánchez — Full-Stack Developer',
@@ -43,10 +42,9 @@ const t = {
     technologiesOf: (title: string) => `Tecnologies: ${title}`,
     liveDemo: 'Veure la demo en viu',
     viewProject: 'Veure el projecte',
-    ctaEyebrow: 'El teu context',
-    ctaTitle: "Tens un producte que ha d'avançar?",
-    ctaText: "Podem parlar d'una funcionalitat concreta, una integració o una col·laboració continuada.",
-    ctaButton: "Explica'm el projecte",
+    ctaEyebrow: 'Pas següent',
+    ctaTitle: 'Parlem?',
+    ctaButton: 'Contactar',
   },
   en: {
     title: 'Projects | Jordi Sánchez — Full-Stack Developer',
@@ -63,10 +61,9 @@ const t = {
     technologiesOf: (title: string) => `Technologies for ${title}`,
     liveDemo: 'View live demo',
     viewProject: 'View project',
-    ctaEyebrow: 'Your context',
-    ctaTitle: 'Have a product that needs to move forward?',
-    ctaText: 'We can talk about a specific feature, an integration or an ongoing collaboration.',
-    ctaButton: 'Tell me about the project',
+    ctaEyebrow: 'Next step',
+    ctaTitle: 'Shall we talk?',
+    ctaButton: 'Contact',
   },
 }[locale];
 
@@ -76,8 +73,11 @@ const groupTitles = {
   ca: ['Casos professionals · anonimitzats', 'Producte propi i projectes públics'],
   en: ['Professional cases · anonymised', 'Own product and public projects'],
 }[locale];
+// Same order as the home: the featured cases first, the rest keep their data order.
+const caseOrder = ['pagos-3d-secure', 'integraciones-empresariales', 'plataforma-reservas'];
+const rank = (slug: string) => (caseOrder.includes(slug) ? caseOrder.indexOf(slug) : caseOrder.length);
 const groups = [
-  { title: groupTitles[0], items: projects.filter((project) => project.anonymized) },
+  { title: groupTitles[0], items: projects.filter((project) => project.anonymized).sort((a, b) => rank(a.slug) - rank(b.slug)) },
   { title: groupTitles[1], items: projects.filter((project) => !project.anonymized) },
 ];
 ---
@@ -170,7 +170,6 @@ const groups = [
         <h2>{t.ctaTitle}</h2>
       </div>
       <div>
-        <p>{t.ctaText}</p>
         <a class="button button--accent" href={localePath('contact', locale)}>{t.ctaButton}</a>
       </div>
     </div>

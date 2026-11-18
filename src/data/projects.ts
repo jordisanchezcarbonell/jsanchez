@@ -87,8 +87,8 @@ export const projects: ProjectCase[] = [
     outcome:
       'Dashboard público que separa la visualización de datos de cualquier capacidad de control sobre el sistema.',
     featured: false,
-    url: 'https://crypto-trading-dashboard-inky.vercel.app',
-    linkLabel: 'Ver proyecto',
+    // TODO(Jordi): restaurar `url: 'https://crypto-trading-dashboard-inky.vercel.app'` y
+    // `linkLabel: 'Ver proyecto'` cuando el despliegue vuelva a responder (2026-11-18: error 500).
     image: cryptoDashboardScreenshot,
     imageAlt:
       'Panel Trading Lab en modo solo lectura: cabecera con estado del sistema, tarjetas de equity, PnL abierto y drawdown máximo, y una curva de equity sobre fondo oscuro.',

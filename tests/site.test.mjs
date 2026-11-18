@@ -237,7 +237,6 @@ test('the projects page links to the selected public Vercel deployments', () => 
 
   for (const [name, url] of [
     ['Damascus’s Nice Guide', 'https://damascus-nice-guide.vercel.app'],
-    ['Crypto Trading Dashboard', 'https://crypto-trading-dashboard-inky.vercel.app'],
   ]) {
     assert.match(projects, new RegExp(name));
     assert.match(projects, new RegExp(`href="${url}"`));
