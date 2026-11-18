@@ -1,4 +1,5 @@
 ---
+import { notesRoutes } from '../data/blog';
 import { localBusinessRoutes } from '../data/local-business';
 import { socialLinks } from '../data/social';
 import { getLocale, localePath } from '../i18n';
@@ -29,6 +30,7 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
       { href: localePath('about', 'es'), label: 'Sobre mí' },
       { href: localePath('cv', 'es'), label: 'CV' },
       { href: localePath('contact', 'es'), label: 'Contacto' },
+      { href: notesRoutes.index, label: 'Notas' },
       { href: '/aviso-legal/', label: 'Aviso legal' },
       { href: '/privacidad/', label: 'Privacidad' },
     ],
@@ -42,6 +44,7 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
       { href: localePath('about', 'ca'), label: 'Sobre mi' },
       { href: localePath('cv', 'ca'), label: 'CV' },
       { href: localePath('contact', 'ca'), label: 'Contacte' },
+      { href: notesRoutes.index, label: 'Notes (ES)', lang: 'es' },
       { href: '/aviso-legal/', label: 'Avís legal (ES)', lang: 'es' },
       { href: '/privacidad/', label: 'Privacitat (ES)', lang: 'es' },
     ],
@@ -55,6 +58,7 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
       { href: localePath('about', 'en'), label: 'About' },
       { href: localePath('cv', 'en'), label: 'CV' },
       { href: localePath('contact', 'en'), label: 'Contact' },
+      { href: notesRoutes.index, label: 'Notes (ES)', lang: 'es' },
       { href: '/aviso-legal/', label: 'Legal notice (ES)', lang: 'es' },
       { href: '/privacidad/', label: 'Privacy (ES)', lang: 'es' },
     ],

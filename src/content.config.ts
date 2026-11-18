@@ -11,6 +11,10 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     author: z.string().default('Jordi Sánchez'),
     category: z.string(),
+    // `local` belongs to the negocios-locales vertical (/negocios-locales/blog/).
+    // `general` belongs to the full-stack brand blog (/notas/). Defaults to `local`
+    // so the existing vertical posts keep working without a frontmatter change.
+    section: z.enum(['general', 'local']).default('local'),
     draft: z.boolean().default(false),
   }),
 });

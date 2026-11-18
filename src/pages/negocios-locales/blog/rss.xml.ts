@@ -19,7 +19,7 @@ function escapeXml(value: string): string {
 }
 
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  const posts = (await getCollection('blog', ({ data }) => !data.draft && data.section === 'local')).sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
   );
 
