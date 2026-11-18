@@ -48,7 +48,7 @@ export const projects: ProjectCase[] = [
     url: 'https://github.com/jordisanchezcarbonell/Gridiron-Spain',
     linkLabel: 'Ver código en GitHub',
     // TODO(Jordi): confirmar la URL de producción (gridiron-spain.vercel.app también sirve el proyecto).
-    demoUrl: 'https://primer-down.vercel.app/es',
+    demoUrl: 'https://primerdown.jordisanchezweb.es/es',
     image: primerDownScreenshot,
     imageAlt:
       'Portada de Primer Down: titular «El fútbol americano también vive aquí» sobre fondo oscuro, navegación por historia, equipos, mapa y competiciones, y botones para explorar equipos e historia.',

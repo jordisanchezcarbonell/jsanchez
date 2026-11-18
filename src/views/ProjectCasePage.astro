@@ -484,6 +484,12 @@ const jsonLd = [
     scroll-margin-top: 6rem;
   }
 
+  /* Lets the diagram scroll inside its panel on phones instead of widening the page. */
+  .case-detail-layout > *,
+  .case-detail-grid > * {
+    min-width: 0;
+  }
+
   .case-context h2,
   .case-detail-grid h3 {
     font-family: var(--mono);
@@ -492,7 +498,7 @@ const jsonLd = [
     letter-spacing: 0.08em;
     line-height: 1.2;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--muted);
   }
 
   .case-detail-grid {

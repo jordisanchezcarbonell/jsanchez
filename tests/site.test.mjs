@@ -224,7 +224,7 @@ test('Primer Down appears as a public project on the home and projects pages', (
 
   // Demo link and screenshot live on the projects page; the home row links to the case.
   assert.match(home, /href="\/proyectos\/primer-down\/"/);
-  assert.match(projects, /href="https:\/\/primer-down\.vercel\.app\/es"[^>]*>\s*Ver demo en vivo/);
+  assert.match(projects, /href="https:\/\/primerdown\.jordisanchezweb\.es\/es"[^>]*>\s*Ver demo en vivo/);
   assert.match(projects, /<img[^>]+alt="Portada de Primer Down[^"]+"[^>]+width="\d+"[^>]+height="\d+"|<img[^>]+width="\d+"[^>]+height="\d+"[^>]+alt="Portada de Primer Down/);
   assert.match(projects, /Casos profesionales · anonimizados[\s\S]*Producto propio y proyectos públicos/);
 });
@@ -296,7 +296,7 @@ test('the about page includes experience, education, and verified skills', () =>
   assert.match(about, new RegExp(`Llevo ${yearsSince('2020-09-01')} años como Full-Stack Developer`));
   assert.match(about, /href="\/cv\/"/);
   assert.match(about, /href="https:\/\/statex\.jordisanchezweb\.es\/"/);
-  assert.match(about, /href="https:\/\/primer-down\.vercel\.app\/es"/);
+  assert.match(about, /href="https:\/\/primerdown\.jordisanchezweb\.es\/es"/);
   assert.doesNotMatch(about, /más de cuatro años|Frontend y móvil/);
 });
 

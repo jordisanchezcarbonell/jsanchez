@@ -190,7 +190,7 @@ const groups = [
   }
 
   .case-list > li {
-    padding-block: clamp(3.5rem, 8vw, 7rem);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
     border-bottom: 1px solid var(--line);
   }
 
@@ -204,21 +204,17 @@ const groups = [
   .case-area,
   .case-details h3 {
     color: var(--muted);
-    font-size: 0.68rem;
-    font-weight: 750;
-    letter-spacing: 0.11em;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .case-number,
-  .case-area {
-    color: var(--accent);
-  }
-
   .case-header h2 {
-    max-width: 13ch;
+    max-width: 16ch;
     margin-top: 0.8rem;
-    font-size: clamp(2.7rem, 6vw, 5.5rem);
+    font-size: clamp(2rem, 3.6vw, 3.25rem);
   }
 
   .case-title-link {
@@ -240,7 +236,7 @@ const groups = [
   .case-details {
     display: grid;
     gap: 2rem;
-    margin-top: clamp(3rem, 7vw, 5rem);
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
     padding-left: 4.25rem;
   }
 
@@ -348,12 +344,45 @@ const groups = [
   }
 
   .group-title {
-    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-    padding-bottom: 0.9rem;
+    margin: 0;
+    padding: clamp(2.5rem, 5vw, 4rem) 0 0.9rem;
     border-bottom: 1px solid var(--ink);
   }
 
-  .group-title:first-of-type {
-    margin-top: 0;
+  /* Wide screens: title on the left, problem, stack and links on the right. */
+  @media (min-width: 60rem) {
+    .case-list article {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      column-gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+    }
+
+    .case-header {
+      grid-row: 1 / span 4;
+    }
+
+    .case-list article > :not(.case-header) {
+      grid-column: 2;
+    }
+
+    .case-details {
+      grid-template-columns: minmax(0, 1fr);
+      margin-top: 0;
+      padding-left: 0;
+    }
+
+    .technology-list {
+      margin-top: 1.5rem;
+      padding-left: 0;
+    }
+
+    .case-media {
+      margin: 0 0 1.75rem;
+    }
+
+    .case-links {
+      margin-left: 0;
+    }
   }
 </style>
