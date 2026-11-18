@@ -11,15 +11,15 @@ const t = {
   es: {
     title: 'Proyectos | Jordi Sánchez — Full-Stack Developer',
     description:
-      'Casos de estudio sobre producto, frontend, APIs, pagos e integraciones desarrollados por Jordi Sánchez.',
+      'Proyectos propios de Jordi Sánchez: producto, frontend, APIs y datos.',
     eyebrow: 'Proyectos',
-    heading: 'Producto, integraciones y código en producción.',
-    lead: 'Un producto propio y casos de estudio anonimizados sobre problemas reales de software. Cada caso tiene su ficha, sin métricas inventadas ni información interna de clientes.',
-    count: `${projects.length} proyectos y áreas`,
+    heading: 'Producto propio y proyectos públicos.',
+    lead: 'Proyectos que he construido por mi cuenta. Cada uno tiene su ficha, sin métricas inventadas.',
+    count: `${projects.length} proyectos`,
     meta: 'Web · móvil · APIs',
-    casesTitle: 'Casos de estudio',
+    casesTitle: 'Proyectos',
     problem: 'Problema',
-    readCase: 'Leer el caso completo',
+    readCase: 'Ver la ficha',
     technologiesOf: (title: string) => `Tecnologías de ${title}`,
     liveDemo: 'Ver demo en vivo',
     viewProject: 'Ver proyecto',
@@ -30,15 +30,15 @@ const t = {
   ca: {
     title: 'Projectes | Jordi Sánchez — Full-Stack Developer',
     description:
-      "Casos d'estudi sobre producte, frontend, APIs, pagaments i integracions desenvolupats per Jordi Sánchez.",
+      'Projectes propis de Jordi Sánchez: producte, frontend, APIs i dades.',
     eyebrow: 'Projectes',
-    heading: 'Producte, integracions i codi en producció.',
-    lead: "Un producte propi i casos d'estudi anonimitzats sobre problemes reals de programari. Cada cas té la seva fitxa, sense mètriques inventades ni informació interna de clients.",
-    count: `${projects.length} projectes i àrees`,
+    heading: 'Producte propi i projectes públics.',
+    lead: 'Projectes que he construït pel meu compte. Cadascun té la seva fitxa, sense mètriques inventades.',
+    count: `${projects.length} projectes`,
     meta: 'Web · mòbil · APIs',
-    casesTitle: "Casos d'estudi",
+    casesTitle: 'Projectes',
     problem: 'Problema',
-    readCase: 'Llegir el cas complet',
+    readCase: 'Veure la fitxa',
     technologiesOf: (title: string) => `Tecnologies: ${title}`,
     liveDemo: 'Veure la demo en viu',
     viewProject: 'Veure el projecte',
@@ -49,15 +49,15 @@ const t = {
   en: {
     title: 'Projects | Jordi Sánchez — Full-Stack Developer',
     description:
-      'Case studies on product, frontend, APIs, payments and integrations built by Jordi Sánchez.',
+      'Jordi Sánchez’s own projects: product, frontend, APIs and data.',
     eyebrow: 'Projects',
-    heading: 'Product, integrations and code in production.',
-    lead: 'An own product and anonymised case studies about real software problems. Each one has its own page, with no invented metrics and no internal client information.',
-    count: `${projects.length} projects and areas`,
+    heading: 'Own product and public projects.',
+    lead: 'Projects I have built on my own. Each one has its own page, with no invented metrics.',
+    count: `${projects.length} projects`,
     meta: 'Web · mobile · APIs',
-    casesTitle: 'Case studies',
+    casesTitle: 'Projects',
     problem: 'Problem',
-    readCase: 'Read the full case',
+    readCase: 'View the project page',
     technologiesOf: (title: string) => `Technologies for ${title}`,
     liveDemo: 'View live demo',
     viewProject: 'View project',
@@ -67,19 +67,8 @@ const t = {
   },
 }[locale];
 
-// Client work and the author's own projects are different kinds of evidence, so they are listed apart.
-const groupTitles = {
-  es: ['Casos profesionales · anonimizados', 'Producto propio y proyectos públicos'],
-  ca: ['Casos professionals · anonimitzats', 'Producte propi i projectes públics'],
-  en: ['Professional cases · anonymised', 'Own product and public projects'],
-}[locale];
-// Same order as the home: the featured cases first, the rest keep their data order.
-const caseOrder = ['pagos-3d-secure', 'integraciones-empresariales', 'plataforma-reservas'];
-const rank = (slug: string) => (caseOrder.includes(slug) ? caseOrder.indexOf(slug) : caseOrder.length);
-const groups = [
-  { title: groupTitles[0], items: projects.filter((project) => project.anonymized).sort((a, b) => rank(a.slug) - rank(b.slug)) },
-  { title: groupTitles[1], items: projects.filter((project) => !project.anonymized) },
-];
+// Only personal projects are published, so there is a single list.
+const groups = [{ items: projects }];
 ---
 
 <BaseLayout
@@ -101,7 +90,6 @@ const groups = [
       <h2 id="case-title" class="visually-hidden">{t.casesTitle}</h2>
       {groups.map((group) => (
       <>
-      <p class="eyebrow group-title">{group.title}</p>
       <ol class="case-list">
         {group.items.map((project, index) => (
           <li>
@@ -340,12 +328,6 @@ const groups = [
     .case-links {
       margin-left: 0;
     }
-  }
-
-  .group-title {
-    margin: 0;
-    padding: clamp(2.5rem, 5vw, 4rem) 0 0.9rem;
-    border-bottom: 1px solid var(--ink);
   }
 
   /* Wide screens: title on the left, problem, stack and links on the right. */

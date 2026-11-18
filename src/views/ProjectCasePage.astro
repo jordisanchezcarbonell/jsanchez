@@ -1,8 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CaseDiagram from '../components/CaseDiagram.astro';
-import { getCaseDetail } from '../data/case-details';
 import type { ProjectCase } from '../data/projects';
 import { getLocale, localePath, projectPath } from '../i18n';
 
@@ -127,13 +125,6 @@ const t = {
   },
 }[locale];
 
-// Long-form template (context, decisions, hindsight). Cases without it keep the short one.
-const detail = getCaseDetail(project.slug, locale);
-// Unanswered [PENDIENTE: …] fields are authored in the data file and are not published until filled in.
-const isPending = (text: string) => /\[PENDIENTE:/.test(text);
-const mark = (text: string) =>
-  text.replace(/\[PENDIENTE:[^\]]*\]/g, (pending) => `<mark class="pending">${pending}</mark>`);
-
 // Driven by the data, not by whether a link happens to be published right now.
 const isPublic = !project.anonymized;
 const canonicalPath = projectPath(project.slug, locale);
@@ -200,17 +191,10 @@ const jsonLd = [
     <h1>{project.title}</h1>
 
     <div class="page-intro__footer">
-      {detail ? (
-        <div class="case-context">
-          <h2>{t.contextTitle}</h2>
-          <p set:html={mark(detail.context)} />
-        </div>
-      ) : (
-        <p class="lede">{project.problem}</p>
-      )}
+      <p class="lede">{project.problem}</p>
       <p class="meta-line">
         <span>{isPublic ? t.publicProject : t.anonymized}</span>
-        {!detail && <span>{t.technologyCount(project.technologies.length)}</span>}
+        <span>{t.technologyCount(project.technologies.length)}</span>
       </p>
     </div>
   </header>
@@ -228,92 +212,15 @@ const jsonLd = [
     </figure>
   )}
 
-  {detail && (
-    <section class="section case-detail" aria-labelledby="case-detail-title">
-      <div class="container case-detail-layout">
-        <nav class="case-rail" aria-label={project.title}>
-          <a href="#roto">{t.brokenTitle}</a>
-          <a href="#dificil">{t.hardTitle}</a>
-          <a href="#decisiones">{t.decisionsTitle}</a>
-          {!isPending(detail.hindsight) && <a href="#hoy">{t.hindsightTitle}</a>}
-          <a href="#stack">{t.stackTitle}</a>
-        </nav>
-        <div class="case-detail-grid">
-        <h2 id="case-detail-title" class="visually-hidden">{project.title}</h2>
-
-        <section id="roto">
-          <h3>{t.brokenTitle}</h3>
-          <p set:html={mark(detail.broken)} />
-        </section>
-
-        <section id="dificil">
-          <h3>{t.hardTitle}</h3>
-          <p set:html={mark(detail.hard)} />
-        </section>
-
-        <section id="decisiones">
-          <h3>{t.decisionsTitle}</h3>
-          <ol class="decision-list">
-            {detail.decisions.map((decision, index) => (
-              <li>
-                <p class="decision-index">{t.decision(index + 1)}</p>
-                <dl>
-                  <div>
-                    <dt>{t.decided}</dt>
-                    <dd set:html={mark(decision.decided)} />
-                  </div>
-                  {!isPending(decision.discarded) && (
-                    <div>
-                      <dt>{t.discarded}</dt>
-                      <dd set:html={mark(decision.discarded)} />
-                    </div>
-                  )}
-                  {!isPending(decision.why) && (
-                    <div>
-                      <dt>{t.why}</dt>
-                      <dd set:html={mark(decision.why)} />
-                    </div>
-                  )}
-                </dl>
-              </li>
-            ))}
-          </ol>
-          <div class="ink-panel">
-            <CaseDiagram slug={project.slug} locale={locale} />
-          </div>
-        </section>
-
-        {!isPending(detail.hindsight) && (
-          <section id="hoy">
-            <h3>{t.hindsightTitle}</h3>
-            <p set:html={mark(detail.hindsight)} />
-          </section>
-        )}
-
-        <footer id="stack" class="case-stack">
-          <h3>{t.stackTitle}</h3>
-          <ul aria-label={t.technologiesOf(project.title)}>
-            {project.technologies.map((technology) => <li>{technology}</li>)}
-          </ul>
-        </footer>
-        </div>
-      </div>
-    </section>
-  )}
-
-  {!detail && <section class="section case-body" aria-labelledby="case-body-title">
+  <section class="section case-body" aria-labelledby="case-body-title">
     <div class="container">
       <h2 id="case-body-title" class="visually-hidden">{project.title}</h2>
       <div class="case-sections">
-        {sections.map((section, index) => (
-          <>
-            <section>
-              <h3>{section.title}</h3>
-              <p>{section.body}</p>
-            </section>
-            {/* The diagram illustrates the work, so it follows that section rather than the page. */}
-            {index === 1 && <CaseDiagram slug={project.slug} locale={locale} />}
-          </>
+        {sections.map((section) => (
+          <section>
+            <h3>{section.title}</h3>
+            <p>{section.body}</p>
+          </section>
         ))}
       </div>
 
@@ -341,7 +248,7 @@ const jsonLd = [
         )}
       </div>
     </div>
-  </section>}
+  </section>
 
   <nav class="case-pager" aria-label={t.moreCases}>
     <div class="container case-pager-grid">

@@ -66,6 +66,156 @@
       "source": "/demos/:slug/",
       "destination": "/negocios-locales/demos/:slug/",
       "permanent": true
+    },
+    {
+      "source": "/proyectos/plataforma-reservas",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/plataforma-reservas/",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/integraciones-empresariales",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/integraciones-empresariales/",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/pagos-3d-secure",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/pagos-3d-secure/",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/aplicaciones-moviles",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/aplicaciones-moviles/",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/cms-headless",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/proyectos/cms-headless/",
+      "destination": "/proyectos/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/plataforma-reservas",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/plataforma-reservas/",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/integraciones-empresariales",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/integraciones-empresariales/",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/pagos-3d-secure",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/pagos-3d-secure/",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/aplicaciones-moviles",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/aplicaciones-moviles/",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/cms-headless",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/ca/projectes/cms-headless/",
+      "destination": "/ca/projectes/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/plataforma-reservas",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/plataforma-reservas/",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/integraciones-empresariales",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/integraciones-empresariales/",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/pagos-3d-secure",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/pagos-3d-secure/",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/aplicaciones-moviles",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/aplicaciones-moviles/",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/cms-headless",
+      "destination": "/en/projects/",
+      "permanent": false
+    },
+    {
+      "source": "/en/projects/cms-headless/",
+      "destination": "/en/projects/",
+      "permanent": false
     }
   ],
   "headers": [

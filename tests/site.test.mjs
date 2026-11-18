@@ -165,39 +165,34 @@ test('the home exposes the verified professional experience', () => {
   assert.match(home, /Septiembre 2020/);
 });
 
-test('the projects page presents anonymized professional case studies', () => {
-  const projects = readFileSync(
-    path.join(process.cwd(), 'dist', 'proyectos', 'index.html'),
-    'utf8',
-  );
+test('only personal projects are published; employer work is never presented as a case', () => {
+  const dist = path.join(process.cwd(), 'dist');
+  const removed = ['pagos-3d-secure', 'integraciones-empresariales', 'plataforma-reservas', 'aplicaciones-moviles', 'cms-headless'];
 
-  assert.match(projects, /Plataforma de reservas/);
-  assert.match(projects, /Integraciones empresariales/);
-  assert.match(projects, /Pagos y 3D Secure/);
-  assert.match(projects, /Aplicaciones móviles/);
-  assert.doesNotMatch(projects, /TODO.*resultado/i);
-});
-
-test('anonymized cases follow the problem / work / result format without unpublished placeholders', () => {
-  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-  const payments = readFileSync(
-    path.join(process.cwd(), 'dist', 'proyectos', 'pagos-3d-secure', 'index.html'),
-    'utf8',
-  );
-  const integrations = readFileSync(
-    path.join(process.cwd(), 'dist', 'proyectos', 'integraciones-empresariales', 'index.html'),
-    'utf8',
-  );
-
-  // The home lists each case as one row; the full breakdown lives on the case page.
-  assert.match(integrations, /Qué hice/);
-  assert.match(home, /class="case-ledger/);
-  for (const page of [home, payments, integrations]) {
-    assert.doesNotMatch(page, /\[?TODO/);
+  for (const slug of removed) {
+    for (const base of [['proyectos'], ['ca', 'projectes'], ['en', 'projects']]) {
+      assert.ok(!existsSync(path.join(dist, ...base, slug)), `${base.join('/')}/${slug} must not be built.`);
+    }
   }
 
-  assert.match(payments, /errores intermitentes en la verificación 3DS/);
-  assert.match(integrations, /lifecycle hooks y webhooks/);
+  for (const page of ['index.html', 'proyectos/index.html', 'sobre-mi/index.html', 'en/index.html', 'ca/index.html']) {
+    const main = readFileSync(path.join(dist, page), 'utf8').match(/<main[\s\S]*<\/main>/)[0];
+    assert.doesNotMatch(main, /3DS|3D Secure|\bSAP\b|anonimi|anonymi|anonimit/, page);
+  }
+
+  // Old case URLs keep working: they land on the projects list.
+  const { redirects } = JSON.parse(readFileSync(path.join(process.cwd(), 'vercel.json'), 'utf8'));
+  for (const slug of removed) {
+    const rule = redirects.find((entry) => entry.source === `/proyectos/${slug}/`);
+    assert.equal(rule?.destination, '/proyectos/');
+  }
+});
+
+test('the home lists each project as one row without unpublished placeholders', () => {
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+
+  assert.match(home, /class="case-ledger/);
+  assert.doesNotMatch(home, /\[?TODO|PENDIENTE/);
 });
 
 test('Primer Down appears as a public project on the home and projects pages', () => {
@@ -226,7 +221,6 @@ test('Primer Down appears as a public project on the home and projects pages', (
   assert.match(home, /href="\/proyectos\/primer-down\/"/);
   assert.match(projects, /href="https:\/\/primerdown\.jordisanchezweb\.es\/es"[^>]*>\s*Ver demo en vivo/);
   assert.match(projects, /<img[^>]+alt="Portada de Primer Down[^"]+"[^>]+width="\d+"[^>]+height="\d+"|<img[^>]+width="\d+"[^>]+height="\d+"[^>]+alt="Portada de Primer Down/);
-  assert.match(projects, /Casos profesionales · anonimizados[\s\S]*Producto propio y proyectos públicos/);
 });
 
 test('the projects page links to the selected public Vercel deployments', () => {
@@ -241,36 +235,6 @@ test('the projects page links to the selected public Vercel deployments', () => 
     assert.match(projects, new RegExp(name));
     assert.match(projects, new RegExp(`href="${url}"`));
   }
-});
-
-test('the 3DS case follows the long-form template with its sections in order', () => {
-  const payments = readFileSync(
-    path.join(process.cwd(), 'dist', 'proyectos', 'pagos-3d-secure', 'index.html'),
-    'utf8',
-  );
-  const main = payments.match(/<main[\s\S]*<\/main>/)[0];
-  const order = [
-    'Contexto',
-    'Qué estaba roto',
-    'Por qué era difícil',
-    'Decisiones',
-    'Qué decidí',
-    'class="case-diagram',
-    'Stack',
-    'Ver más casos',
-    'Contactar',
-  ];
-
-  let cursor = 0;
-  for (const marker of order) {
-    const index = main.indexOf(marker, cursor);
-    assert.ok(index >= 0, `Missing or out of order: ${marker}`);
-    cursor = index;
-  }
-
-  // Unconfirmed fields are not published; no client metrics or costs are published either.
-  assert.doesNotMatch(main, /PENDIENTE|Qué descarté|Qué haría distinto hoy/);
-  assert.doesNotMatch(main, /Resultado|métrica|cuánto costaba|tamaño del equipo/);
 });
 
 test('the services page describes concrete technical collaborations', () => {
@@ -326,15 +290,16 @@ test('the home combines professional positioning, work, and services', () => {
 
   assert.match(home, /<title>Jordi Sánchez — Full-Stack Developer<\/title>/);
   assert.match(home, new RegExp(`${yearsSince('2020-09-01')} años en React, Next\\.js y NestJS`));
-  assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver casos/);
+  assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver proyectos/);
   assert.match(home, /href="\/contacto\/"[^>]*>\s*Contactar/);
   assert.match(home, /<h2[^>]*>¿Hablamos\?<\/h2>/);
   // The structured data still names the services; the visible page no longer does.
   assert.doesNotMatch(home.match(/<main[\s\S]*<\/main>/)[0], /Trabajar conmigo|Desarrollo React y Next\.js/);
 
-  // Selected work: professional cases first, the own product last.
+  // Projects: the own product leads.
   const titles = [...home.matchAll(/class="project-title-link"[^>]*>([^<]+)</g)].map((match) => match[1].trim());
-  assert.deepEqual(titles, ['Pagos y 3D Secure', 'Integraciones empresariales', 'Plataforma de reservas', 'Primer Down']);
+  assert.equal(titles[0], 'Primer Down');
+  assert.equal(titles.length, 4);
   assert.match(home, /Producto propio/);
   assert.doesNotMatch(home, /barberías|peluquerías|centros de estética/i);
 });
@@ -402,7 +367,7 @@ test('the privacy page describes every field collected by the contact form', () 
 test('the English version mirrors the professional pages under /en/', () => {
   const pages = {
     '/en/': /<h1[^>]*>Full-stack for the part of the product that cannot fail or leak\.<\/h1>/,
-    '/en/projects/': /Payments and 3D Secure/,
+    '/en/projects/': /Own product and public projects/,
     '/en/services/': /React and Next\.js development/,
     '/en/about/': /I work on the part of the product where a failure costs money/,
     '/en/contact/': /Let(?:'|&#39;|’)s talk about what you need to build or improve/,
@@ -421,8 +386,8 @@ test('the English version mirrors the professional pages under /en/', () => {
 test('the Catalan version mirrors the professional pages under /ca/', () => {
   const pages = {
     '/ca/': /<h1[^>]*>Full-Stack per a la part del producte que no pot fallar ni filtrar-se\.<\/h1>/,
-    '/ca/projectes/': /Pagaments i 3D Secure/,
-    '/ca/projectes/pagos-3d-secure/': /Què vaig decidir/,
+    '/ca/projectes/': /Producte propi i projectes públics/,
+    '/ca/projectes/primer-down/': /Primer Down/,
     '/ca/serveis/': /<html lang="ca">/,
     '/ca/sobre-mi/': /Em dedico a la part del producte on un error costa diners/,
     '/ca/contacte/': /<form|<html lang="ca">/,
@@ -527,7 +492,7 @@ test('every project has a case study page in both languages', () => {
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 
-  assert.ok(slugs.length >= 9, `Expected a case page per project, found ${slugs.length}.`);
+  assert.equal(slugs.length, 4, `Expected a page per personal project, found ${slugs.length}.`);
 
   for (const slug of slugs) {
     for (const route of [['proyectos', slug], ['en', 'projects', slug]]) {
@@ -552,19 +517,19 @@ test('the projects list links to every case page instead of repeating it', () =>
 
   // The full breakdown belongs to the case page, so the list must not duplicate it.
   assert.doesNotMatch(list, /Mi contribución/);
-  assert.match(list, /Leer el caso completo/);
+  assert.match(list, /Ver la ficha/);
 });
 
 test('case pages carry breadcrumbs and their own structured data', () => {
   const casePage = readFileSync(
-    path.join(process.cwd(), 'dist', 'proyectos', 'pagos-3d-secure', 'index.html'),
+    path.join(process.cwd(), 'dist', 'proyectos', 'primer-down', 'index.html'),
     'utf8',
   );
 
   assert.match(casePage, /href="\/proyectos\/"/);
   assert.match(
     casePage,
-    /<link rel="canonical" href="https:\/\/www\.jordisanchezweb\.es\/proyectos\/pagos-3d-secure\/"/,
+    /<link rel="canonical" href="https:\/\/www\.jordisanchezweb\.es\/proyectos\/primer-down\/"/,
   );
 
   const blocks = [...casePage.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(
@@ -575,7 +540,7 @@ test('case pages carry breadcrumbs and their own structured data', () => {
   const breadcrumb = graph.find((node) => node['@type'] === 'BreadcrumbList');
 
   assert.ok(work, 'Expected a CreativeWork node.');
-  assert.equal(work.name, 'Pagos y 3D Secure');
+  assert.equal(work.name, 'Primer Down');
   assert.ok(breadcrumb, 'Expected a BreadcrumbList node.');
   assert.deepEqual(
     breadcrumb.itemListElement.map((item) => item.position),
@@ -820,50 +785,13 @@ test('the CV is reachable from the footer in both languages', () => {
   assert.match(enHome.match(/<footer[\s\S]*<\/footer>/)[0], /href="\/en\/cv\/"/);
 });
 
-test('the anonymized cases carry an accessible inline diagram', () => {
-  const dist = path.join(process.cwd(), 'dist');
-  const withDiagram = ['pagos-3d-secure', 'integraciones-empresariales', 'plataforma-reservas'];
-
-  for (const slug of withDiagram) {
-    for (const base of [['proyectos', slug], ['en', 'projects', slug]]) {
-      const html = readFileSync(path.join(dist, ...base, 'index.html'), 'utf8');
-      const svg = html.match(/<svg[\s\S]*?<\/svg>/)?.[0];
-
-      assert.ok(svg, `Expected a diagram on ${base.join('/')}.`);
-      assert.match(svg, /role="img"/);
-      assert.match(svg, /aria-label="[^"]{20,}"/);
-      assert.match(html, /<figcaption[\s>]/);
-
-      // Self-contained: no scripts, styles or external images inside the drawing.
-      assert.doesNotMatch(svg, /<script|<foreignObject|<image|xlink:href="http/);
-    }
-  }
-
-  // Projects whose prose describes no mechanism get no invented diagram.
-  const plain = readFileSync(path.join(dist, 'proyectos', 'cms-headless', 'index.html'), 'utf8');
-  assert.doesNotMatch(plain, /<svg/);
-});
-
-test('diagram labels are translated, not left in Spanish on the English pages', () => {
-  const dist = path.join(process.cwd(), 'dist');
-  const en = readFileSync(path.join(dist, 'en', 'projects', 'pagos-3d-secure', 'index.html'), 'utf8');
-  const es = readFileSync(path.join(dist, 'proyectos', 'pagos-3d-secure', 'index.html'), 'utf8');
-
-  assert.match(es, /Pago iniciado/);
-  assert.match(es, /fuera de la app/);
-  assert.match(en, /Payment started/);
-  assert.match(en, /outside the app/);
-  assert.doesNotMatch(en.match(/<svg[\s\S]*?<\/svg>/)[0], /Pago iniciado|fuera de la app/);
-});
-
 test('the hero leads with real work, not an ornament', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
   const hero = home.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
 
-  // The preview is the payment state diagram, linked to its case and described for screen readers.
-  assert.match(hero, /href="\/proyectos\/pagos-3d-secure\/"/);
-  assert.match(hero, /<svg[^>]+role="img"[^>]+aria-label="Diagrama de estados de un pago[^"]+"/);
-  assert.doesNotMatch(hero, /Primer Down/);
+  // The preview is the own product's screenshot, linked to its page and described for screen readers.
+  assert.match(hero, /href="\/proyectos\/primer-down\/"/);
+  assert.match(hero, /<img[^>]+alt="Portada de Primer Down[^"]+"/);
 });
 
 test('the home never shows the same screenshot twice', () => {
@@ -877,8 +805,8 @@ test('the English hero mirrors the Spanish one', () => {
   const en = readFileSync(path.join(process.cwd(), 'dist', 'en', 'index.html'), 'utf8');
   const hero = en.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
 
-  assert.match(hero, /href="\/en\/projects\/pagos-3d-secure\/"/);
-  assert.match(hero, /aria-label="Payment state diagram[^"]+"/);
+  assert.match(hero, /href="\/en\/projects\/primer-down\/"/);
+  assert.match(hero, /<img[^>]+alt="Primer Down home page[^"]+"/);
 });
 
 test('the Reservas demo stays unlinked while its database is paused', () => {
@@ -898,14 +826,7 @@ test('the Reservas demo stays unlinked while its database is paused', () => {
   assert.match(reservas, /Supabase/);
 });
 
-test('a case is labelled anonymized by its data, not by whether it is linked', () => {
-  const dist = path.join(process.cwd(), 'dist');
-
-  // Jordi's own project, currently without an outbound link, is still not a client case.
-  const own = readFileSync(path.join(dist, 'proyectos', 'reservas', 'index.html'), 'utf8');
+test('a personal project without an outbound link is still labelled public', () => {
+  const own = readFileSync(path.join(process.cwd(), 'dist', 'proyectos', 'reservas', 'index.html'), 'utf8');
   assert.match(own, /Proyecto público/);
-  assert.doesNotMatch(own, /Caso anonimizado/);
-
-  const client = readFileSync(path.join(dist, 'proyectos', 'pagos-3d-secure', 'index.html'), 'utf8');
-  assert.match(client, /Caso anonimizado/);
 });

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CaseDiagram from '../components/CaseDiagram.astro';
+import { Image } from 'astro:assets';
 import SectionHeading from '../components/SectionHeading.astro';
 import { getExperience, yearsOfExperience } from '../data/experience';
 import { getProjects } from '../data/projects';
@@ -20,8 +20,8 @@ const t = {
     availability: 'Barcelona · Abierto a remoto',
     heroTitle: 'Full-Stack para la parte del producto que no puede fallar ni filtrarse.',
     heroLabel: 'Web · móvil · APIs',
-    heroLead: `Pagos 3DS, integraciones con SAP y sistemas con IA, construidos pensando en cómo se atacan. ${years} años en React, Next.js y NestJS.`,
-    seeCases: 'Ver casos',
+    heroLead: `Aplicaciones web y móviles, APIs e integraciones, construidas pensando en cómo se atacan. ${years} años en React, Next.js y NestJS.`,
+    seeCases: 'Ver proyectos',
     contact: 'Contactar',
     restApis: 'APIs REST',
     experienceEyebrow: 'Experiencia',
@@ -30,10 +30,10 @@ const t = {
       'Trabajo entre frontend, backend y sistemas externos para llevar funcionalidades reales a producción y mantenerlas estables.',
     technologiesAt: (company: string) => `Tecnologías utilizadas en ${company}`,
     fullExperience: 'Ver experiencia completa',
-    projectsEyebrow: 'Proyectos seleccionados',
-    projectsTitle: 'Producto propio y problemas reales de software.',
+    projectsEyebrow: 'Proyectos',
+    projectsTitle: 'Producto propio y proyectos públicos.',
     projectsDescription:
-      'Una selección que combina Primer Down, un proyecto público, con casos profesionales anonimizados que no exponen clientes, endpoints ni métricas privadas.',
+      'Proyectos que he construido por mi cuenta. Cada uno tiene su ficha.',
     problem: 'Problema',
     work: 'Qué hice',
     result: 'Resultado',
@@ -59,8 +59,8 @@ const t = {
     availability: 'Barcelona · Obert a remot',
     heroTitle: 'Full-Stack per a la part del producte que no pot fallar ni filtrar-se.',
     heroLabel: 'Web · mòbil · APIs',
-    heroLead: `Pagaments 3DS, integracions amb SAP i sistemes amb IA, construïts pensant en com s’ataquen. ${years} anys en React, Next.js i NestJS.`,
-    seeCases: 'Veure casos',
+    heroLead: `Aplicacions web i mòbils, APIs i integracions, construïdes pensant en com s’ataquen. ${years} anys en React, Next.js i NestJS.`,
+    seeCases: 'Veure projectes',
     contact: 'Contactar',
     restApis: 'APIs REST',
     experienceEyebrow: 'Experiència',
@@ -69,10 +69,10 @@ const t = {
       'Treballo entre frontend, backend i sistemes externs per portar funcionalitats reals a producció i mantenir-les estables.',
     technologiesAt: (company: string) => `Tecnologies utilitzades a ${company}`,
     fullExperience: 'Veure l’experiència completa',
-    projectsEyebrow: 'Projectes seleccionats',
-    projectsTitle: 'Producte propi i problemes reals de programari.',
+    projectsEyebrow: 'Projectes',
+    projectsTitle: 'Producte propi i projectes públics.',
     projectsDescription:
-      'Una selecció que combina Primer Down, un projecte públic, amb casos professionals anonimitzats que no exposen clients, endpoints ni mètriques privades.',
+      'Projectes que he construït pel meu compte. Cadascun té la seva fitxa.',
     problem: 'Problema',
     work: 'Què vaig fer',
     result: 'Resultat',
@@ -98,8 +98,8 @@ const t = {
     availability: 'Barcelona · Open to remote',
     heroTitle: 'Full-stack for the part of the product that cannot fail or leak.',
     heroLabel: 'Web · mobile · APIs',
-    heroLead: `3DS payments, SAP integrations and AI systems, built with how they get attacked in mind. ${years} years in React, Next.js and NestJS.`,
-    seeCases: 'See cases',
+    heroLead: `Web and mobile applications, APIs and integrations, built with how they get attacked in mind. ${years} years in React, Next.js and NestJS.`,
+    seeCases: 'See projects',
     contact: 'Contact',
     restApis: 'REST APIs',
     experienceEyebrow: 'Experience',
@@ -108,10 +108,10 @@ const t = {
       'I work across frontend, backend and external systems to get real features into production and keep them stable.',
     technologiesAt: (company: string) => `Technologies used at ${company}`,
     fullExperience: 'See full experience',
-    projectsEyebrow: 'Selected work',
-    projectsTitle: 'An own product and real software problems.',
+    projectsEyebrow: 'Projects',
+    projectsTitle: 'Own product and public projects.',
     projectsDescription:
-      'A selection that pairs Primer Down, a public project, with anonymised professional cases that expose no clients, endpoints or private metrics.',
+      'Projects I have built on my own. Each one has its own page.',
     problem: 'Problem',
     work: 'What I did',
     result: 'Result',
@@ -134,12 +134,10 @@ const t = {
 
 const experience = getExperience(locale);
 // Professional cases first, the own product last.
-const featuredOrder = ['pagos-3d-secure', 'integraciones-empresariales', 'plataforma-reservas', 'primer-down'];
-const featuredProjects = getProjects(locale)
-  .filter((project) => project.featured)
-  .sort((a, b) => featuredOrder.indexOf(a.slug) - featuredOrder.indexOf(b.slug));
-// The hero shows real work instead of an ornament: the payment state diagram of the 3DS case.
-const heroCase = featuredProjects.find((project) => project.slug === 'pagos-3d-secure');
+// Only personal projects are published; employer work stays at CV level (role, dates, stack).
+const featuredProjects = getProjects(locale);
+// The hero shows real work instead of an ornament: the own product, linked to its page.
+const heroCase = featuredProjects.find((project) => project.slug === 'primer-down');
 // Still feeds the ProfessionalService structured data; the home no longer lists services.
 const services = getServices(locale);
 
@@ -211,10 +209,17 @@ const jsonLd = {
           </div>
         </div>
 
-        {heroCase && (
+        {heroCase?.image && (
           <figure class="hero-showcase">
             <a class="hero-showcase-link ink-panel" href={projectPath(heroCase.slug, locale)}>
-              <CaseDiagram slug={heroCase.slug} locale={locale} caption={false} />
+              <Image
+                src={heroCase.image}
+                alt={heroCase.imageAlt ?? ''}
+                widths={[480, 720, 960]}
+                sizes="(min-width: 60rem) 30rem, calc(100vw - 2.5rem)"
+                loading="eager"
+                decoding="async"
+              />
               <figcaption>
                 <span class="hero-showcase-meta">{heroCase.area}</span>
                 <span class="hero-showcase-title">{heroCase.title} <span aria-hidden="true">↗</span></span>
@@ -266,7 +271,7 @@ const jsonLd = {
               <h3>
                 <a class="project-title-link" href={projectPath(project.slug, locale)}>{project.title}</a>
               </h3>
-              <p class:list={['ledger-tag', { 'ledger-tag--own': !project.anonymized }]}>{project.area}</p>
+              <p class="ledger-tag">{project.area}</p>
             </div>
             <p class="ledger-problem">{project.caseStudy?.problem ?? project.problem}</p>
             <span class="ledger-arrow" aria-hidden="true">→</span>
@@ -363,13 +368,9 @@ const jsonLd = {
     text-decoration: none;
   }
 
-  .hero-showcase :global(.case-diagram) {
-    padding: clamp(1rem, 2.5vw, 1.75rem);
-    border: 1px solid var(--line);
-  }
-
-  .hero-showcase-link:hover :global(.case-diagram) {
-    border-color: var(--accent);
+  .hero-showcase :global(img) {
+    width: 100%;
+    height: auto;
   }
 
   .hero-showcase figcaption {
@@ -539,10 +540,6 @@ const jsonLd = {
     color: var(--panel-accent);
   }
 
-  .hero-showcase :global(.case-diagram) {
-    padding: 0;
-    border: 0;
-  }
 
   .exp-cells {
     display: grid;
