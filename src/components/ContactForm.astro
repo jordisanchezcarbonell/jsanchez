@@ -24,6 +24,23 @@ const t = {
     fallback: 'El formulario no está configurado todavía, pero puedes escribirme directamente.',
     fallbackButton: 'Escribir por email',
   },
+  ca: {
+    subject: 'Nueva consulta desde jordisanchezweb.es (CA)',
+    name: 'Nom',
+    organization: 'Empresa o organització',
+    optional: '(opcional)',
+    reason: 'Motiu del contacte',
+    choose: 'Selecciona una opció',
+    reasons: ['Projecte freelance', 'Oportunitat laboral', 'Col·laboració amb agència', 'Altres'],
+    message: 'Què necessites?',
+    messageHint: 'Context, abast aproximat i qualsevol data rellevant.',
+    consentBefore: 'He llegit i accepto la ',
+    privacy: 'política de privacitat',
+    consentAfter: ' (en castellà).',
+    submit: 'Enviar consulta',
+    fallback: 'El formulari encara no està configurat, però em pots escriure directament.',
+    fallbackButton: 'Escriure per correu',
+  },
   en: {
     subject: 'Nueva consulta desde jordisanchezweb.es (EN)',
     name: 'Name',
@@ -127,7 +144,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   }
 
   .contact-fallback p {
-    color: #aaa197;
+    color: #93a0ab;
   }
 
   .field-grid {
@@ -141,7 +158,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   }
 
   label {
-    color: #f7f4ee;
+    color: #f4f5f3;
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -149,7 +166,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   }
 
   label span {
-    color: #aaa197;
+    color: #93a0ab;
     font: inherit;
   }
 
@@ -158,10 +175,10 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   textarea {
     width: 100%;
     border: 0;
-    border-bottom: 1px solid #6c645a;
+    border-bottom: 1px solid #66717b;
     border-radius: 0;
     background: transparent;
-    color: #fffaf3;
+    color: #f5f8ff;
     outline: 0;
     transition: border-color 180ms ease;
   }
@@ -176,7 +193,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   }
 
   select option {
-    color: #17130d;
+    color: #101418;
   }
 
   textarea {
@@ -188,11 +205,11 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
   input:focus,
   select:focus,
   textarea:focus {
-    border-color: #c77b6d;
+    border-color: #9db8f5;
   }
 
   small {
-    color: #aaa197;
+    color: #93a0ab;
     font-size: 0.76rem;
   }
 
@@ -200,7 +217,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
-    color: #aaa197;
+    color: #93a0ab;
     font-size: 0.74rem;
     font-weight: 450;
     line-height: 1.5;
@@ -212,11 +229,11 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
     width: 1rem;
     min-height: 1rem;
     margin-top: 0.2rem;
-    accent-color: #aa5547;
+    accent-color: #1b3fa0;
   }
 
   .consent a {
-    color: #f7f4ee;
+    color: #f4f5f3;
   }
 
   .submit-button {
@@ -226,9 +243,9 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.3rem;
-    border: 1px solid #f7f4ee;
-    background: #f7f4ee;
-    color: #17130d;
+    border: 1px solid #f4f5f3;
+    background: #f4f5f3;
+    color: #101418;
     font-size: 0.78rem;
     font-weight: 750;
     letter-spacing: 0.11em;
@@ -247,7 +264,7 @@ const reasonValues = ['Proyecto freelance', 'Oportunidad laboral', 'Colaboració
 
   .submit-button:hover {
     background: transparent;
-    color: #f7f4ee;
+    color: #f4f5f3;
   }
 
   .submit-button:hover span {

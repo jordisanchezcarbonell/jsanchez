@@ -4,8 +4,8 @@
   "description": "Portfolio profesional y servicios de desarrollo Full-Stack en Barcelona",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f4ee",
-  "theme_color": "#f7f4ee",
+  "background_color": "#f4f5f3",
+  "theme_color": "#f4f5f3",
   "icons": [
     {
       "src": "/favicon.svg",

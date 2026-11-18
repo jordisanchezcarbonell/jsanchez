@@ -35,9 +35,11 @@ const siteUrl = Astro.site ?? new URL('https://www.jordisanchezweb.es');
 const resolvedImage = image ?? (locale === 'en' ? '/og-image-en.png' : '/og-image.png');
 const resolvedImageAlt =
   imageAlt ??
-  (locale === 'en'
-    ? 'Jordi Sánchez — Full-Stack Developer in Barcelona'
-    : 'Jordi Sánchez — Full-Stack Developer en Barcelona');
+  {
+    es: 'Jordi Sánchez — Full-Stack Developer en Barcelona',
+    ca: 'Jordi Sánchez — Full-Stack Developer a Barcelona',
+    en: 'Jordi Sánchez — Full-Stack Developer in Barcelona',
+  }[locale];
 const alternates = noindex ? undefined : alternatesFor(Astro.url.pathname);
 const canonicalUrl = new URL(canonicalPath, siteUrl);
 const imageUrl = new URL(resolvedImage, siteUrl);
@@ -51,7 +53,7 @@ const safeJsonLd = jsonLd
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="theme-color" content="#f7f4ee" />
+<meta name="theme-color" content="#f4f5f3" />
 <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 <link rel="canonical" href={canonicalUrl} />
 {alternates && locales.map((lang) => (

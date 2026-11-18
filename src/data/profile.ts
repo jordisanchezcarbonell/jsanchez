@@ -22,6 +22,12 @@ const stackGroups: Record<Locale, StackGroup[]> = {
     { title: 'Calidad y entrega', items: ['Jest', 'Selenium', 'New Relic', 'Docker', 'CI/CD', 'Testing', 'Bug fixing'] },
     { title: 'Integraciones', items: ['SAP', 'Pagos', '3D Secure', 'CMS headless', 'Python', 'Automatización'] },
   ],
+  ca: [
+    { title: 'Frontend i mòbil', items: ['React', 'Next.js', 'TypeScript', 'React Native', 'Expo', 'Angular', 'Sass', 'CSS'] },
+    { title: 'Backend i contingut', items: ['Node.js', 'NestJS', 'APIs REST', 'Strapi', 'Drupal 7/8', 'Autenticació'] },
+    { title: 'Qualitat i lliurament', items: ['Jest', 'Selenium', 'New Relic', 'Docker', 'CI/CD', 'Testing', 'Bug fixing'] },
+    { title: 'Integracions', items: ['SAP', 'Pagaments', '3D Secure', 'CMS headless', 'Python', 'Automatització'] },
+  ],
   en: [
     { title: 'Frontend and mobile', items: ['React', 'Next.js', 'TypeScript', 'React Native', 'Expo', 'Angular', 'Sass', 'CSS'] },
     { title: 'Backend and content', items: ['Node.js', 'NestJS', 'REST APIs', 'Strapi', 'Drupal 7/8', 'Authentication'] },
@@ -36,6 +42,11 @@ const education: Record<Locale, EducationItem[]> = {
     { meta: '2020 · Centro de Estudios Politécnicos', name: 'Desarrollo de Aplicaciones Multiplataforma' },
     { meta: 'Cisco', name: 'Certificación en Ethical Hacking' },
   ],
+  ca: [
+    { meta: '2020 · Centro de Estudios Politécnicos', name: "Desenvolupament d'Aplicacions Web" },
+    { meta: '2020 · Centro de Estudios Politécnicos', name: "Desenvolupament d'Aplicacions Multiplataforma" },
+    { meta: 'Cisco', name: 'Certificació en Ethical Hacking' },
+  ],
   en: [
     { meta: '2020 · Centro de Estudios Politécnicos', name: 'Web Application Development (vocational higher diploma)' },
     { meta: '2020 · Centro de Estudios Politécnicos', name: 'Multiplatform Application Development (vocational higher diploma)' },
@@ -47,6 +58,10 @@ const profileCopy: Record<Locale, string[]> = {
   es: [
     'Trabajo bien en el punto donde se encuentran producto, frontend y sistemas. Puedo construir una interfaz, entender el contrato de una API, seguir un error entre servicios y acompañar una funcionalidad hasta producción.',
     'Mi experiencia combina desarrollo de nuevas capacidades con mantenimiento, testing, resolución de incidencias y colaboración con equipos multidisciplinares.',
+  ],
+  ca: [
+    "Treballo bé en el punt on es troben producte, frontend i sistemes. Puc construir una interfície, entendre el contracte d'una API, seguir un error entre serveis i acompanyar una funcionalitat fins a producció.",
+    "La meva experiència combina el desenvolupament de noves capacitats amb manteniment, testing, resolució d'incidències i col·laboració amb equips multidisciplinaris.",
   ],
   en: [
     'I am at my best where product, frontend and systems meet. I can build an interface, understand an API contract, trace a bug across services and see a feature through to production.',

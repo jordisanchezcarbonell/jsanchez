@@ -1,15 +1,21 @@
 :root {
-  --paper: #f7f4ee;
-  --ink: #17130d;
-  --muted: #5c554b;
-  --line: #d8d1c4;
-  --accent: #8a3b2f;
-  --dark-line: #39342d;
+  --paper: #f4f5f3;
+  --ink: #101418;
+  --muted: #55606a;
+  --line: #d3d8d6;
+  --accent: #1b3fa0;
+  --dark-line: #2a323b;
   --max-width: 82rem;
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --section-space: clamp(2.75rem, 6vw, 5rem);
   --serif: var(--font-fraunces);
   --sans: var(--font-inter);
+  /* System monospace for metadata (states, dates, labels): no extra font to load. */
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --panel: #0f141a;
+  --on-panel: #eef2f5;
+  --panel-muted: #93a0ab;
+  --panel-accent: #9db8f5;
 }
 
 *,
@@ -73,7 +79,7 @@ a {
 }
 
 ::selection {
-  background: #d9bbb2;
+  background: #c7d6fb;
   color: var(--ink);
 }
 
@@ -90,11 +96,12 @@ a {
 
 .eyebrow {
   margin: 0 0 1.5rem;
-  color: var(--accent);
+  color: var(--muted);
+  font-family: var(--mono);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -105,14 +112,14 @@ h3 {
   margin-block: 0;
   font-family: var(--serif);
   font-variation-settings: 'SOFT' 0, 'WONK' 0;
-  font-weight: 520;
-  line-height: 0.98;
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(3.2rem, 9.2vw, 8.4rem);
+  font-size: clamp(2.8rem, 7vw, 6rem);
 }
 
 h2 {
@@ -133,6 +140,16 @@ p {
   font-size: clamp(1.08rem, 1.8vw, 1.35rem);
   line-height: 1.55;
   text-wrap: pretty;
+}
+
+/* Dark surface for technical content: diagrams read their colours from these variables. */
+.ink-panel {
+  --diagram-ink: var(--on-panel);
+  --diagram-accent: var(--panel-accent);
+  --diagram-muted: var(--panel-muted);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--panel);
+  color: var(--on-panel);
 }
 
 .button {
@@ -161,13 +178,13 @@ p {
 .button:hover {
   border-color: var(--accent);
   background: var(--accent);
-  color: #fffaf3;
+  color: #f5f8ff;
 }
 
 .button--accent {
   border-color: var(--accent);
   background: var(--accent);
-  color: #fffaf3;
+  color: #f5f8ff;
 }
 
 .button--accent:hover {
@@ -218,8 +235,8 @@ p {
 }
 
 .page-intro h1 {
-  max-width: 15ch;
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  max-width: 18ch;
+  font-size: clamp(2.6rem, 5.4vw, 4.75rem);
 }
 
 .page-intro__footer {
@@ -275,7 +292,7 @@ p {
 
 .prose {
   max-width: 46rem;
-  color: #373129;
+  color: #2a333c;
   font-size: clamp(1.04rem, 1.4vw, 1.16rem);
   line-height: 1.78;
 }

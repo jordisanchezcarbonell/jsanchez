@@ -44,8 +44,9 @@ test('the professional routes are available in the production output', () => {
 test('the home leads with a value proposition without the retired portfolio', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
 
-  assert.match(home, /<h1[^>]*>Producto web que llega a producción y se mantiene estable\.<\/h1>/);
-  assert.match(home, /Full-Stack Developer · Barcelona/);
+  assert.match(home, /<h1[^>]*>Full-Stack para la parte del producto que no puede fallar ni filtrarse\.<\/h1>/);
+  assert.match(home, /Barcelona · Abierto a remoto/);
+  assert.doesNotMatch(home, /Disponible para colaboraciones|Stack principal/);
   assert.doesNotMatch(home, /jordi-sanchez-portafolio\.vercel\.app/);
 });
 
@@ -99,7 +100,7 @@ test('professional page introductions give long headings enough desktop width', 
     .map((file) => readFileSync(path.join(cssDirectory, file), 'utf8'))
     .join('\n');
 
-  assert.match(compiledCss, /\.page-intro h1\{[^}]*max-width:15ch/);
+  assert.match(compiledCss, /\.page-intro h1\{[^}]*max-width:18ch/);
 });
 
 test('footer navigation links keep a comfortable touch target', () => {
@@ -133,7 +134,8 @@ test('compact links get a 44px hit area and dark-block labels stay legible', () 
     .join('\n');
 
   assert.match(compiledCss, /\.text-link:before,\.tap-target:before\{[^}]*height:max\(100%,2\.75rem\)/);
-  assert.match(compiledCss, /\.projects\[[^\]]+\] \.row-index\[[^\]]+\]\{color:#c77b6d\}/);
+  // Dark surfaces carry their own light accent instead of the page one.
+  assert.match(compiledCss, /\.ink-panel\{[^}]*--diagram-accent:var\(--panel-accent\)/);
 });
 
 test('the primary navigation reaches every professional area', () => {
@@ -141,14 +143,17 @@ test('the primary navigation reaches every professional area', () => {
   const primaryNav = home.match(/<nav class="desktop-navigation[^"]*"[^>]*>([\s\S]*?)<\/nav>/)[1];
   const footer = home.match(/<footer[\s\S]*<\/footer>/)[0];
 
-  for (const destination of ['/proyectos/', '/servicios/', '/sobre-mi/', '/contacto/']) {
+  for (const destination of ['/proyectos/', '/sobre-mi/', '/contacto/']) {
     assert.match(primaryNav, new RegExp(`href="${destination}"`));
   }
 
-  // The local-business vertical stays out of the root: one discreet footer link, nothing more.
+  // The services page still exists, but nothing on the home navigates to it.
+  assert.doesNotMatch(home, /href="\/servicios\//);
+  assert.ok(existsSync(path.join(process.cwd(), 'dist', 'servicios', 'index.html')));
+
+  // The local-business vertical is no longer linked from the portfolio at all.
   assert.doesNotMatch(primaryNav, /href="\/negocios-locales/);
-  assert.doesNotMatch(home, /href="\/negocios-locales\/clubes\/"/);
-  assert.match(footer, /href="\/negocios-locales\/"/);
+  assert.doesNotMatch(footer, /href="\/negocios-locales/);
 });
 
 test('the home exposes the verified professional experience', () => {
@@ -184,8 +189,10 @@ test('anonymized cases follow the problem / work / result format without unpubli
     'utf8',
   );
 
+  // The home lists each case as one row; the full breakdown lives on the case page.
+  assert.match(integrations, /Qué hice/);
+  assert.match(home, /class="case-ledger/);
   for (const page of [home, payments, integrations]) {
-    assert.match(page, /Qué hice/);
     assert.doesNotMatch(page, /\[?TODO/);
   }
 
@@ -215,10 +222,11 @@ test('Primer Down appears as a public project on the home and projects pages', (
   );
   assert.match(primerDown, /archivo editorial bilingüe/i);
 
-  for (const page of [home, projects]) {
-    assert.match(page, /href="https:\/\/primer-down\.vercel\.app\/es"[^>]*>\s*Ver demo en vivo/);
-    assert.match(page, /<img[^>]+alt="Portada de Primer Down[^"]+"[^>]+width="\d+"[^>]+height="\d+"|<img[^>]+width="\d+"[^>]+height="\d+"[^>]+alt="Portada de Primer Down/);
-  }
+  // Demo link and screenshot live on the projects page; the home row links to the case.
+  assert.match(home, /href="\/proyectos\/primer-down\/"/);
+  assert.match(projects, /href="https:\/\/primer-down\.vercel\.app\/es"[^>]*>\s*Ver demo en vivo/);
+  assert.match(projects, /<img[^>]+alt="Portada de Primer Down[^"]+"[^>]+width="\d+"[^>]+height="\d+"|<img[^>]+width="\d+"[^>]+height="\d+"[^>]+alt="Portada de Primer Down/);
+  assert.match(projects, /Casos profesionales · anonimizados[\s\S]*Producto propio y proyectos públicos/);
 });
 
 test('the projects page links to the selected public Vercel deployments', () => {
@@ -236,15 +244,34 @@ test('the projects page links to the selected public Vercel deployments', () => 
   }
 });
 
-test('home service cards link to their anchor on the services page', () => {
-  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-  const services = readFileSync(path.join(process.cwd(), 'dist', 'servicios', 'index.html'), 'utf8');
-  const anchors = [...home.matchAll(/href="\/servicios\/#([a-z0-9-]+)"/g)].map((match) => match[1]);
+test('the 3DS case follows the long-form template with its sections in order', () => {
+  const payments = readFileSync(
+    path.join(process.cwd(), 'dist', 'proyectos', 'pagos-3d-secure', 'index.html'),
+    'utf8',
+  );
+  const main = payments.match(/<main[\s\S]*<\/main>/)[0];
+  const order = [
+    'Contexto',
+    'Qué estaba roto',
+    'Por qué era difícil',
+    'Decisiones',
+    'Qué decidí',
+    'class="case-diagram',
+    'Stack',
+    'Ver más casos',
+    'Contactar',
+  ];
 
-  assert.equal(anchors.length, 4);
-  for (const anchor of anchors) {
-    assert.match(services, new RegExp(`id="${anchor}"`));
+  let cursor = 0;
+  for (const marker of order) {
+    const index = main.indexOf(marker, cursor);
+    assert.ok(index >= 0, `Missing or out of order: ${marker}`);
+    cursor = index;
   }
+
+  // Unconfirmed fields are not published; no client metrics or costs are published either.
+  assert.doesNotMatch(main, /PENDIENTE|Qué descarté|Qué haría distinto hoy/);
+  assert.doesNotMatch(main, /Resultado|métrica|cuánto costaba|tamaño del equipo/);
 });
 
 test('the services page describes concrete technical collaborations', () => {
@@ -265,8 +292,12 @@ test('the about page includes experience, education, and verified skills', () =>
   assert.match(about, /Desarrollo de Aplicaciones Web/);
   assert.match(about, /Desarrollo de Aplicaciones Multiplataforma/);
   assert.match(about, /Ethical Hacking/);
-  assert.match(about, new RegExp(`Llevo ${yearsSince('2020-09-01')} años trabajando`));
-  assert.doesNotMatch(about, /más de cuatro años/);
+  assert.match(about, /<h1[^>]*>Me dedico a la parte del producto donde un fallo cuesta dinero\.<\/h1>/);
+  assert.match(about, new RegExp(`Llevo ${yearsSince('2020-09-01')} años como Full-Stack Developer`));
+  assert.match(about, /href="\/cv\/"/);
+  assert.match(about, /href="https:\/\/statex\.jordisanchezweb\.es\/"/);
+  assert.match(about, /href="https:\/\/primer-down\.vercel\.app\/es"/);
+  assert.doesNotMatch(about, /más de cuatro años|Frontend y móvil/);
 });
 
 test('the contact page accepts professional and commercial enquiries', () => {
@@ -295,11 +326,17 @@ test('the home combines professional positioning, work, and services', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
 
   assert.match(home, /<title>Jordi Sánchez — Full-Stack Developer<\/title>/);
-  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} años con React, Next\\.js y TypeScript`));
-  assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver proyectos/);
-  assert.match(home, /href="\/contacto\/"[^>]*>\s*Trabajar conmigo/);
-  assert.match(home, /Plataforma de reservas/);
-  assert.match(home, /Desarrollo React y Next\.js/);
+  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} años en React, Next\\.js y NestJS`));
+  assert.match(home, /href="\/proyectos\/"[^>]*>\s*Ver casos/);
+  assert.match(home, /href="\/contacto\/"[^>]*>\s*Contactar/);
+  assert.match(home, /<h2[^>]*>¿Hablamos\?<\/h2>/);
+  // The structured data still names the services; the visible page no longer does.
+  assert.doesNotMatch(home.match(/<main[\s\S]*<\/main>/)[0], /Trabajar conmigo|Desarrollo React y Next\.js/);
+
+  // Selected work: professional cases first, the own product last.
+  const titles = [...home.matchAll(/class="project-title-link"[^>]*>([^<]+)</g)].map((match) => match[1].trim());
+  assert.deepEqual(titles, ['Pagos y 3D Secure', 'Integraciones empresariales', 'Plataforma de reservas', 'Primer Down']);
+  assert.match(home, /Producto propio/);
   assert.doesNotMatch(home, /barberías|peluquerías|centros de estética/i);
 });
 
@@ -365,10 +402,10 @@ test('the privacy page describes every field collected by the contact form', () 
 
 test('the English version mirrors the professional pages under /en/', () => {
   const pages = {
-    '/en/': /<h1[^>]*>Web products that reach production and stay stable\.<\/h1>/,
+    '/en/': /<h1[^>]*>Full-stack for the part of the product that cannot fail or leak\.<\/h1>/,
     '/en/projects/': /Payments and 3D Secure/,
     '/en/services/': /React and Next\.js development/,
-    '/en/about/': /Building digital products from Barcelona/,
+    '/en/about/': /I work on the part of the product where a failure costs money/,
     '/en/contact/': /Let(?:'|&#39;|’)s talk about what you need to build or improve/,
     '/en/thanks/': /Thank you\. Your message is in\./,
   };
@@ -380,6 +417,41 @@ test('the English version mirrors the professional pages under /en/', () => {
     assert.match(html, /property="og:locale" content="en_GB"/, route);
     assert.match(html, /property="og:image" content="https:\/\/www\.jordisanchezweb\.es\/og-image-en\.png"/, route);
   }
+});
+
+test('the Catalan version mirrors the professional pages under /ca/', () => {
+  const pages = {
+    '/ca/': /<h1[^>]*>Full-Stack per a la part del producte que no pot fallar ni filtrar-se\.<\/h1>/,
+    '/ca/projectes/': /Pagaments i 3D Secure/,
+    '/ca/projectes/pagos-3d-secure/': /Què vaig decidir/,
+    '/ca/serveis/': /<html lang="ca">/,
+    '/ca/sobre-mi/': /Em dedico a la part del producte on un error costa diners/,
+    '/ca/contacte/': /<form|<html lang="ca">/,
+    '/ca/cv/': /Eunoia Digital/,
+    '/ca/gracies/': /<html lang="ca">/,
+  };
+
+  for (const [route, heading] of Object.entries(pages)) {
+    const html = readFileSync(path.join(process.cwd(), 'dist', route, 'index.html'), 'utf8');
+    const main = html.match(/<main[\s\S]*<\/main>/)[0];
+    assert.match(html, /<html lang="ca">/, route);
+    assert.match(html, heading, route);
+    assert.match(html, /property="og:locale" content="ca_ES"/, route);
+    assert.doesNotMatch(main, /href="\/(proyectos|servicios|sobre-mi|contacto|cv)\//, route);
+    assert.doesNotMatch(main, /href="\/en\//, route);
+  }
+
+  const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+  const caProjects = readFileSync(path.join(process.cwd(), 'dist', 'ca', 'projectes', 'index.html'), 'utf8');
+  const site = 'https://www\\.jordisanchezweb\\.es';
+  assert.match(home, /<a class="language-switch[^"]*" href="\/ca\/" hreflang="ca" lang="ca"/);
+  assert.match(caProjects, /<a class="language-switch[^"]*" href="\/proyectos\/" hreflang="es" lang="es"/);
+  assert.match(caProjects, new RegExp(`<link rel="alternate" hreflang="ca" href="${site}/ca/projectes/"`));
+  assert.match(home, new RegExp(`<link rel="alternate" hreflang="ca" href="${site}/ca/"`));
+
+  const sitemap = readFileSync(path.join(process.cwd(), 'dist', 'sitemap-0.xml'), 'utf8');
+  assert.match(sitemap, /jordisanchezweb\.es\/ca\/projectes\//);
+  assert.doesNotMatch(sitemap, /\/ca\/gracies\//);
 });
 
 test('translated pages declare reciprocal hreflang alternates', () => {
@@ -430,7 +502,7 @@ test('English pages stay in English and link to English routes', () => {
 
   const home = readFileSync(path.join(process.cwd(), 'dist', 'en', 'index.html'), 'utf8');
   assert.doesNotMatch(home, /href="\/clubes\/"/);
-  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} years with React, Next\\.js and TypeScript`));
+  assert.match(home, new RegExp(`${yearsSince('2020-09-01')} years in React, Next\\.js and NestJS`));
 });
 
 test('the English contact form redirects to the English thank-you page', () => {
@@ -720,7 +792,7 @@ test('the CV is published in both languages from the same data as the site', () 
   assert.match(en, /Experience/);
 
   // The about page and the CV must never drift apart on shared facts.
-  for (const fact of ['Eunoia Digital', 'Ogilvy', 'Strapi']) {
+  for (const fact of ['Eunoia Digital', 'Ogilvy']) {
     assert.match(about, new RegExp(fact));
     assert.match(es, new RegExp(fact));
   }
@@ -789,16 +861,10 @@ test('the hero leads with real work, not an ornament', () => {
   const home = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
   const hero = home.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
 
-  // The preview links to the case and carries a real alt text, not decoration.
-  assert.match(hero, /href="\/proyectos\/primer-down\/"/);
-  assert.match(hero, /<img[^>]+alt="Portada de Primer Down[^"]+"/);
-  assert.match(hero, /Proyecto destacado/i);
-
-  // It is the largest paintable element above the fold, so it must not be lazy.
-  const img = hero.match(/<img[^>]*>/)[0];
-  assert.match(img, /loading="eager"/);
-  assert.match(img, /fetchpriority="high"/);
-  assert.match(img, /width="\d+"[^>]*height="\d+"|height="\d+"[^>]*width="\d+"/);
+  // The preview is the payment state diagram, linked to its case and described for screen readers.
+  assert.match(hero, /href="\/proyectos\/pagos-3d-secure\/"/);
+  assert.match(hero, /<svg[^>]+role="img"[^>]+aria-label="Diagrama de estados de un pago[^"]+"/);
+  assert.doesNotMatch(hero, /Primer Down/);
 });
 
 test('the home never shows the same screenshot twice', () => {
@@ -812,8 +878,8 @@ test('the English hero mirrors the Spanish one', () => {
   const en = readFileSync(path.join(process.cwd(), 'dist', 'en', 'index.html'), 'utf8');
   const hero = en.match(/<section class="hero"[\s\S]*?<\/section>/)[0];
 
-  assert.match(hero, /href="\/en\/projects\/primer-down\/"/);
-  assert.match(hero, /Featured project/i);
+  assert.match(hero, /href="\/en\/projects\/pagos-3d-secure\/"/);
+  assert.match(hero, /aria-label="Payment state diagram[^"]+"/);
 });
 
 test('the Reservas demo stays unlinked while its database is paused', () => {

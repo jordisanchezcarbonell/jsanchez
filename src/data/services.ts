@@ -118,7 +118,67 @@ const servicesEn: Record<string, Pick<ServiceItem, 'title' | 'description' | 'sc
   },
 };
 
+const servicesCa: Record<string, Pick<ServiceItem, 'title' | 'description' | 'scope'>> = {
+  'react-nextjs': {
+    title: 'Desenvolupament React i Next.js',
+    description:
+      "Implementació de noves funcionalitats, arquitectura d'interfície i evolució d'aplicacions existents amb TypeScript.",
+    scope: ['Frontend de producte', 'SSR i SSG', 'Rendiment', 'Accessibilitat'],
+  },
+  'full-stack': {
+    title: 'Desenvolupament Full-Stack',
+    description:
+      'Treball coordinat entre interfície, lògica de servidor i serveis externs per lliurar recorreguts complets.',
+    scope: ['Next.js', 'Node.js', 'NestJS', 'Autenticació'],
+  },
+  'integraciones-api': {
+    title: 'Integracions API',
+    description:
+      'Connexió amb serveis de negoci, sistemes empresarials i proveïdors externs, incloent-hi diagnòstic i manteniment.',
+    scope: ['REST', 'Pagaments', 'SAP', 'Automatització'],
+  },
+  'strapi-cms-headless': {
+    title: 'Strapi i CMS headless',
+    description:
+      'Modelatge de contingut i integració de plataformes editorials desacoblades per a equips que necessiten autonomia.',
+    scope: ['Strapi', 'Content modeling', 'APIs', 'Next.js'],
+  },
+  mantenimiento: {
+    title: 'Manteniment i evolució',
+    description:
+      "Resolució d'incidències, reducció de deute tècnic i desenvolupament incremental sobre aplicacions ja operatives.",
+    scope: ['Bug fixing', 'Testing', 'Refactoring', 'CI/CD'],
+  },
+  'react-native': {
+    title: 'React Native',
+    description:
+      "Desenvolupament i evolució d'aplicacions mòbils connectades a APIs, amb el focus en fluxos consistents i codi mantenible.",
+    scope: ['React Native', 'Expo', 'TypeScript', 'APIs'],
+  },
+  agencias: {
+    title: 'Col·laboració amb agències',
+    description:
+      "Reforç tècnic per a equips que necessiten capacitat addicional, ownership d'una part del projecte o interlocució directa.",
+    scope: ['Lliurament per fases', 'Code review', "Integració a l'equip", 'Documentació'],
+  },
+  producto: {
+    title: 'Desenvolupament de producte',
+    description:
+      "Acompanyament tècnic des de la definició d'una funcionalitat fins a la posada en producció i l'evolució posterior.",
+    scope: ['Descobriment tècnic', 'Implementació', 'Qualitat', 'Desplegament'],
+  },
+};
+
+const serviceOverrides: Record<
+  Exclude<Locale, 'es'>,
+  Record<string, Pick<ServiceItem, 'title' | 'description' | 'scope'>>
+> = {
+  en: servicesEn,
+  ca: servicesCa,
+};
+
 export function getServices(locale: Locale): ServiceItem[] {
   if (locale === 'es') return services;
-  return services.map((service) => ({ ...service, ...servicesEn[service.slug] }));
+  const overrides = serviceOverrides[locale];
+  return services.map((service) => ({ ...service, ...overrides[service.slug] }));
 }

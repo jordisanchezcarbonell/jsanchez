@@ -26,7 +26,28 @@ const t = {
     ],
     ctaTitle: 'Cuéntame qué parte necesitas resolver.',
     ctaText: 'Te responderé con preguntas concretas para acotar contexto, riesgos y siguiente paso.',
-    ctaButton: 'Trabajar conmigo',
+    ctaButton: 'Contactar',
+  },
+  ca: {
+    title: 'Serveis | Jordi Sánchez — Full-Stack Developer',
+    description: 'Desenvolupament React, Next.js, APIs, integracions i evolució de producte per a empreses i agències.',
+    eyebrow: 'Serveis',
+    heading: "Desenvolupament tècnic per a productes que han d'avançar.",
+    lead: "M'incorporo a un equip, em faig càrrec d'una funcionalitat o construeixo una solució completa. L'abast es defineix en feina concreta, no en promeses genèriques.",
+    metaA: 'Empreses',
+    metaB: 'Producte · agències',
+    listTitle: 'Serveis de desenvolupament',
+    scopeOf: (title: string) => `Abast: ${title}`,
+    collaborationEyebrow: 'Formes de col·laborar',
+    collaborationTitle: 'Una necessitat clara, una manera de treballar adequada.',
+    modes: [
+      ['Projecte tancat', 'Per a funcionalitats o productes amb un abast que podem definir abans de començar.'],
+      ['Col·laboració continuada', "Per a evolució, manteniment i lliuraments freqüents al costat d'un equip existent."],
+      ['Reforç tècnic', 'Per a agències o equips que necessiten experiència addicional durant una fase concreta.'],
+    ],
+    ctaTitle: "Explica'm quina part necessites resoldre.",
+    ctaText: 'Et respondré amb preguntes concretes per acotar el context, els riscos i el pas següent.',
+    ctaButton: 'Contactar',
   },
   en: {
     title: 'Services | Jordi Sánchez — Full-Stack Developer',
@@ -47,7 +68,7 @@ const t = {
     ],
     ctaTitle: 'Tell me which part you need solved.',
     ctaText: 'I will reply with specific questions to pin down context, risks and next steps.',
-    ctaButton: 'Work with me',
+    ctaButton: 'Contact',
   },
 }[locale];
 ---
@@ -168,7 +189,7 @@ const t = {
 
   .collaboration {
     padding-block: var(--section-space);
-    background: #eee9e0;
+    background: #e9ecea;
   }
 
   .collaboration-grid {
@@ -203,7 +224,7 @@ const t = {
   .services-cta {
     padding-block: var(--section-space);
     background: var(--ink);
-    color: #f7f4ee;
+    color: #f4f5f3;
   }
 
   .cta-grid {
@@ -217,7 +238,7 @@ const t = {
 
   .cta-grid p {
     max-width: 32rem;
-    color: #aaa197;
+    color: #93a0ab;
   }
 
   .cta-grid .button {

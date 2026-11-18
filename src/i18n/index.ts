@@ -1,22 +1,22 @@
-export const locales = ['es', 'en'] as const;
+export const locales = ['es', 'ca', 'en'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'es';
 
-/** Pages that exist in both languages. Spanish-only pages (clubs, blog, legal) are not listed. */
+/** Pages that exist in every language. Spanish-only pages (clubs, blog, legal) are not listed. */
 export const routes = {
-  home: { es: '/', en: '/en/' },
-  projects: { es: '/proyectos/', en: '/en/projects/' },
-  services: { es: '/servicios/', en: '/en/services/' },
-  about: { es: '/sobre-mi/', en: '/en/about/' },
-  contact: { es: '/contacto/', en: '/en/contact/' },
-  cv: { es: '/cv/', en: '/en/cv/' },
-  thanks: { es: '/gracias/', en: '/en/thanks/' },
+  home: { es: '/', ca: '/ca/', en: '/en/' },
+  projects: { es: '/proyectos/', ca: '/ca/projectes/', en: '/en/projects/' },
+  services: { es: '/servicios/', ca: '/ca/serveis/', en: '/en/services/' },
+  about: { es: '/sobre-mi/', ca: '/ca/sobre-mi/', en: '/en/about/' },
+  contact: { es: '/contacto/', ca: '/ca/contacte/', en: '/en/contact/' },
+  cv: { es: '/cv/', ca: '/ca/cv/', en: '/en/cv/' },
+  thanks: { es: '/gracias/', ca: '/ca/gracies/', en: '/en/thanks/' },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type RouteKey = keyof typeof routes;
 
 export function getLocale(currentLocale: string | undefined): Locale {
-  return currentLocale === 'en' ? 'en' : defaultLocale;
+  return locales.find((locale) => locale === currentLocale) ?? defaultLocale;
 }
 
 export function localePath(route: RouteKey, locale: Locale): string {
@@ -45,14 +45,16 @@ function projectSlugFrom(normalized: string): string | undefined {
 export function alternatesFor(pathname: string): Record<Locale, string> | undefined {
   const normalized = pathname.endsWith('/') ? pathname : `${pathname}/`;
   const staticRoute = Object.values(routes).find(
-    (route) => route.es === normalized || route.en === normalized,
+    (route) => locales.some((locale) => route[locale] === normalized),
   );
   if (staticRoute) return staticRoute;
 
-  // Case studies are generated from the same data in both languages, so they always pair up.
+  // Case studies are generated from the same data in every language, so they always pair up.
   const slug = projectSlugFrom(normalized);
-  return slug ? { es: projectPath(slug, 'es'), en: projectPath(slug, 'en') } : undefined;
+  return slug
+    ? { es: projectPath(slug, 'es'), ca: projectPath(slug, 'ca'), en: projectPath(slug, 'en') }
+    : undefined;
 }
 
-export const htmlLang: Record<Locale, string> = { es: 'es', en: 'en' };
-export const ogLocale: Record<Locale, string> = { es: 'es_ES', en: 'en_GB' };
+export const htmlLang: Record<Locale, string> = { es: 'es', ca: 'ca', en: 'en' };
+export const ogLocale: Record<Locale, string> = { es: 'es_ES', ca: 'ca_ES', en: 'en_GB' };

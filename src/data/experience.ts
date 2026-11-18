@@ -61,7 +61,29 @@ const experienceEn: Record<string, Pick<ExperienceItem, 'period' | 'summary'>> =
   },
 };
 
+const experienceCa: Record<string, Pick<ExperienceItem, 'period' | 'summary'>> = {
+  'Eunoia Digital': {
+    period: 'Abril 2022 — Actualitat',
+    summary:
+      "Desenvolupament i evolució d'aplicacions web i mòbils, APIs, integracions i fluxos de producte. Treball transversal entre frontend, backend, qualitat i desplegament.",
+  },
+  Ogilvy: {
+    period: 'Setembre 2020 — Abril 2022',
+    summary:
+      'Desenvolupament i manteniment de projectes web internacionals, sitebuilding, qualitat i gestió de contingut en plataformes Drupal.',
+  },
+};
+
+const experienceOverrides: Record<
+  Exclude<Locale, 'es'>,
+  Record<string, Pick<ExperienceItem, 'period' | 'summary'>>
+> = {
+  en: experienceEn,
+  ca: experienceCa,
+};
+
 export function getExperience(locale: Locale): ExperienceItem[] {
   if (locale === 'es') return experience;
-  return experience.map((item) => ({ ...item, ...experienceEn[item.company] }));
+  const overrides = experienceOverrides[locale];
+  return experience.map((item) => ({ ...item, ...overrides[item.company] }));
 }

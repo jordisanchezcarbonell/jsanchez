@@ -34,7 +34,7 @@ export const projects: ProjectCase[] = [
   {
     slug: 'primer-down',
     title: 'Primer Down',
-    area: 'Producto editorial propio',
+    area: 'Producto propio',
     problem:
       'Reunir equipos, competiciones, historia y actualidad del fútbol americano en una experiencia fiable, bilingüe y fácil de explorar.',
     solution:
@@ -226,7 +226,7 @@ type ProjectTranslation = Partial<
 /** English copy, keyed by slug. Structural fields (URLs, images, flags) come from the Spanish source above. */
 const projectsEn: Record<string, ProjectTranslation> = {
   'primer-down': {
-    area: 'Own editorial product',
+    area: 'Own product',
     problem:
       'Bring teams, competitions, history and news of American football in Spain together in a reliable, bilingual experience that is easy to explore.',
     solution:
@@ -353,18 +353,158 @@ const projectsEn: Record<string, ProjectTranslation> = {
   },
 };
 
+/** Catalan copy, keyed by slug. Same rules as the English map. */
+const projectsCa: Record<string, ProjectTranslation> = {
+  'primer-down': {
+    area: 'Producte propi',
+    problem:
+      'Reunir equips, competicions, història i actualitat del futbol americà en una experiència fiable, bilingüe i fàcil d’explorar.',
+    solution:
+      'Un arxiu editorial bilingüe amb Next.js, contingut estructurat en TypeScript, fitxes connectades, mapa interactiu, cronologia, SEO i un sistema explícit de fonts i verificació.',
+    contribution:
+      'Definició del producte, arquitectura frontend i de continguts, disseny de la interfície, modelatge editorial, internacionalització, rendiment i automatització de controls d’integritat.',
+    technologies: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS', 'i18n', 'SEO tècnic'],
+    outcome:
+      'Projecte públic en evolució: 22 equips, 11 competicions, 23 fites històriques i articles bilingües avalats per un registre central de fonts.',
+    linkLabel: 'Veure el codi a GitHub',
+    imageAlt:
+      'Portada de Primer Down: titular «El fútbol americano también vive aquí» sobre fons fosc, navegació per història, equips, mapa i competicions, i botons per explorar equips i història.',
+  },
+  'damascus-nice-guide': {
+    area: 'Guia de viatge multilingüe',
+    problem:
+      'Oferir una guia clara i pràctica per descobrir Niça durant l’EVO France sense perdre el context de cada lloc.',
+    solution:
+      'Una guia web en anglès, castellà i francès amb mapa de punts d’interès, recomanacions i cerca de llocs propers.',
+    contribution:
+      'Desenvolupament de l’experiència, internacionalització, continguts estructurats i funcionalitats de mapa i geolocalització.',
+    technologies: ['Next.js 16', 'TypeScript', 'i18n', 'Mapes', 'Geolocalització', 'Vercel'],
+    outcome:
+      'Guia pública desplegada per a l’EVO France 2026, preparada per navegar des del mòbil i en tres idiomes.',
+    linkLabel: 'Veure el projecte',
+    imageAlt:
+      'Portada de The EVO France Food Guide: titular sobre fons blau, presentació de l’autor, selector d’idioma i navegació per mapa, menjar local, brunch i itineraris.',
+  },
+  'crypto-trading-dashboard': {
+    area: 'Observabilitat de producte',
+    problem:
+      'Consultar l’estat d’un laboratori de trading sense exposar controls que puguin executar operacions.',
+    solution:
+      'Un panell d’observabilitat estrictament de només lectura, amb dades de demostració o una rèplica de Supabase protegida per RLS.',
+    contribution:
+      'Disseny i implementació de l’arquitectura de dades, la interfície de monitoratge i límits explícits de seguretat.',
+    outcome:
+      'Dashboard públic que separa la visualització de dades de qualsevol capacitat de control sobre el sistema.',
+    linkLabel: 'Veure el projecte',
+    imageAlt:
+      'Panell Trading Lab en mode de només lectura: capçalera amb l’estat del sistema, targetes d’equity, PnL obert i drawdown màxim, i una corba d’equity sobre fons fosc.',
+  },
+  reservas: {
+    title: 'Reservas',
+    area: 'Producte SaaS',
+    problem: 'Donar als petits restaurants una manera senzilla de rebre i gestionar reserves en línia.',
+    solution:
+      'Un MVP amb pàgina pública per restaurant, disponibilitat per franges, panell privat i notificacions per correu.',
+    contribution:
+      'Construcció end-to-end dels fluxos de reserva, autenticació, dades i validació de disponibilitat.',
+    outcome:
+      'MVP de plataforma de reserves que cobreix el recorregut del client i la gestió diària del restaurant.',
+  },
+  'plataforma-reservas': {
+    title: 'Plataforma de reserves',
+    area: 'Producte web',
+    problem:
+      'Coordinar disponibilitat, identitat d’usuari, idiomes i pagaments dins d’un recorregut consistent i mantenible.',
+    solution:
+      'Una aplicació Next.js connectada a APIs de negoci, amb autenticació, internacionalització i estats de reserva clarament definits.',
+    contribution:
+      'Desenvolupament i evolució d’interfícies, integració de serveis, resolució d’incidències i coordinació dels fluxos entre frontend i backend.',
+    technologies: ['Next.js', 'TypeScript', 'APIs REST', 'Autenticació', 'i18n', 'Pagaments'],
+    outcome:
+      'Cas anonimitzat: es descriu l’abast tècnic sense publicar mètriques, operacions ni dades del client.',
+    caseStudy: {
+      problem:
+        'Flux de reserva amb autenticació i disponibilitat repartides entre diversos serveis, cosa que generava errors difícils de reproduir.',
+      work: 'Desenvolupament i evolució d’interfícies, integració de serveis, resolució d’incidències i coordinació dels fluxos entre frontend i backend.',
+    },
+  },
+  'integraciones-empresariales': {
+    title: 'Integracions empresarials',
+    area: 'Sistemes connectats',
+    problem:
+      'Connectar aplicacions de producte amb sistemes corporatius i contingut estructurat sense traslladar-ne la complexitat a l’experiència d’usuari.',
+    solution:
+      'Capes d’integració basades en APIs, processos controlats i models de contingut preparats per intercanviar informació entre serveis.',
+    contribution:
+      'Implementació i manteniment d’integracions, automatització de tasques, diagnòstic d’errors i traçabilitat entre sistemes.',
+    technologies: ['SAP', 'Strapi', 'APIs REST', 'Node.js', 'Automatització', 'Docker'],
+    outcome:
+      'Cas anonimitzat: els sistemes, endpoints i dades internes queden deliberadament fora d’aquest web.',
+    caseStudy: {
+      problem:
+        'Dades de màrqueting i contingut desincronitzades entre SAP, el CMS i el web, amb correccions manuals.',
+      work: 'Integracions amb Strapi (lifecycle hooks i webhooks), actualitzacions massives automatitzades i registre de cada sincronització per poder-la auditar.',
+    },
+  },
+  'pagos-3d-secure': {
+    title: 'Pagaments i 3D Secure',
+    area: 'Fluxos crítics',
+    problem:
+      'Gestionar pagaments amb estats intermedis, autenticació reforçada i retorns externs sense trencar el recorregut de l’usuari.',
+    solution:
+      'Un flux de pagament integrat a l’aplicació, amb validació d’estats, tractament d’errors i suport per a 3D Secure.',
+    contribution:
+      'Integració frontend, coordinació amb APIs de pagament, control d’estats i resolució d’incidències en recorreguts sensibles.',
+    technologies: ['Next.js', 'TypeScript', 'APIs de pagament', '3D Secure', 'Testing'],
+    outcome:
+      'Cas anonimitzat: no es publiquen proveïdors, volums, credencials ni regles internes de negoci.',
+    caseStudy: {
+      problem:
+        'Checkout amb abandonaments per errors intermitents en la verificació 3DS i estats de pagament inconsistents entre frontend i passarel·la.',
+      work: 'Vaig modelar els estats del pagament de manera explícita, vaig gestionar el retorn del challenge 3DS i els reintents, i vaig afegir traces per seguir cada transacció de punta a punta.',
+    },
+  },
+  'aplicaciones-moviles': {
+    title: 'Aplicacions mòbils',
+    area: 'Producte mòbil',
+    problem:
+      'Portar funcionalitats de producte al mòbil compartint criteris de qualitat, autenticació i comunicació amb APIs.',
+    solution:
+      'Aplicacions React Native i Expo construïdes amb TypeScript i connectades als mateixos serveis de negoci que la plataforma web.',
+    contribution:
+      'Desenvolupament de pantalles i fluxos, gestió d’estat, integració d’APIs, depuració i evolució funcional.',
+    outcome:
+      'Cas anonimitzat: el portfolio se centra en l’enfocament tècnic i no identifica productes ni usuaris finals.',
+  },
+  'cms-headless': {
+    title: 'CMS i plataformes de contingut',
+    area: 'Contingut estructurat',
+    problem:
+      'Permetre que equips no tècnics gestionin contingut sense acoblar l’experiència pública al panell editorial.',
+    solution: 'Arquitectures headless amb Next.js i Strapi, models de contingut clars i consum mitjançant APIs.',
+    contribution:
+      'Modelatge i integració de contingut, implementació frontend i manteniment dels fluxos entre CMS i aplicació.',
+    outcome: 'Cas anonimitzat: no es mostren estructures privades, tokens, endpoints ni contingut de clients.',
+  },
+};
+
+const translations: Record<Exclude<Locale, 'es'>, Record<string, ProjectTranslation>> = {
+  ca: projectsCa,
+  en: projectsEn,
+};
+
 export function getProjects(locale: Locale): ProjectCase[] {
   if (locale === 'es') return projects;
 
   return projects.map((project) => {
-    const translation = projectsEn[project.slug] ?? {};
+    const translation = translations[locale][project.slug] ?? {};
     return {
       ...project,
       ...translation,
       caseStudy: project.caseStudy && {
         ...project.caseStudy,
         ...translation.caseStudy,
-        // Results are only published once they exist in both languages.
+        // Results are only published once they exist in every language.
         result: translation.caseStudy?.result,
       },
     };

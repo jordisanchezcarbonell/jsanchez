@@ -4,9 +4,11 @@ import type { Locale } from '../i18n';
 interface Props {
   slug: string;
   locale: Locale;
+  /** The home hero reuses the drawing as a teaser and supplies its own caption. */
+  caption?: boolean;
 }
 
-const { slug, locale } = Astro.props;
+const { slug, locale, caption: showCaption = true } = Astro.props;
 
 /**
  * Hand-authored SVG for the cases whose prose describes a mechanism worth seeing.
@@ -29,6 +31,21 @@ const payments = {
       toConfirmed: 'retorno válido',
       toFailed: 'error o timeout',
       retry: 'reintento',
+    },
+    ca: {
+      caption: 'Els estats del pagament, modelats de manera explícita: el challenge 3DS passa fora de l’aplicació i el retorn pot fallar, així que cada transició queda traçada.',
+      alt: 'Diagrama d’estats d’un pagament: iniciat, requereix 3DS, verificació externa i confirmat, amb una branca d’error que es torna a intentar.',
+      started: 'Pagament iniciat',
+      requires: 'Requereix 3DS',
+      external: 'Verificació 3DS',
+      externalNote: 'fora de l’app',
+      confirmed: 'Confirmat',
+      failed: 'Fallit',
+      toRequires: 'autenticació',
+      toExternal: 'challenge',
+      toConfirmed: 'retorn vàlid',
+      toFailed: 'error o timeout',
+      retry: 'reintent',
     },
     en: {
       caption: 'Payment states, modelled explicitly: the 3DS challenge happens outside the application and the return can fail, so every transition is traced.',
@@ -59,6 +76,17 @@ const sync = {
       toWeb: 'webhook',
       toLog: 'registra cada sincronización',
     },
+    ca: {
+      caption: 'El contingut viatja en una sola direcció i cada sincronització deixa registre, que és el que permet auditar una discrepància en lloc de corregir-la a mà.',
+      alt: 'Diagrama de sincronització: SAP envia dades a Strapi mitjançant actualitzacions massives, Strapi notifica el web per webhook i cada sincronització s’escriu en un registre auditable.',
+      source: 'SAP',
+      cms: 'Strapi',
+      web: 'Web',
+      log: 'Registre auditable',
+      toCms: 'sincronització massiva',
+      toWeb: 'webhook',
+      toLog: 'registra cada sincronització',
+    },
     en: {
       caption: 'Content travels in one direction and every sync leaves a record, which is what makes a discrepancy auditable instead of fixed by hand.',
       alt: 'Sync diagram: SAP sends data to Strapi through bulk updates, Strapi notifies the website by webhook, and every sync is written to an auditable log.',
@@ -82,6 +110,16 @@ const booking = {
       state: 'Estado de la reserva',
       toIdentity: 'sesión',
       toAvailability: 'huecos',
+    },
+    ca: {
+      caption: 'La identitat i la disponibilitat viuen en serveis diferents i conflueixen en l’estat de la reserva: és aquí on apareixien les incoherències difícils de reproduir.',
+      alt: 'Diagrama d’una reserva: el frontend consulta un servei d’identitat i un altre de disponibilitat, i tots dos conflueixen en l’estat de la reserva.',
+      front: 'Frontend',
+      identity: 'Identitat',
+      availability: 'Disponibilitat',
+      state: 'Estat de la reserva',
+      toIdentity: 'sessió',
+      toAvailability: 'franges',
     },
     en: {
       caption: 'Identity and availability live in separate services and meet at the booking state: that is where the hard-to-reproduce inconsistencies showed up.',
@@ -216,7 +254,7 @@ const caption = diagram === 'payments' ? pay.caption : diagram === 'sync' ? syn.
       </svg>
     )}
 
-    <figcaption>{caption}</figcaption>
+    {showCaption && <figcaption>{caption}</figcaption>}
   </figure>
 )}
 
@@ -229,7 +267,7 @@ const caption = diagram === 'payments' ? pay.caption : diagram === 'sync' ? syn.
     width: 100%;
     max-width: 44rem;
     height: auto;
-    color: var(--ink);
+    color: var(--diagram-ink, var(--ink));
   }
 
   rect {
@@ -270,18 +308,18 @@ const caption = diagram === 'payments' ? pay.caption : diagram === 'sync' ? syn.
   }
 
   .is-accent {
-    color: var(--accent);
-    stroke: var(--accent);
+    color: var(--diagram-accent, var(--accent));
+    stroke: var(--diagram-accent, var(--accent));
   }
 
   text.is-accent {
-    fill: var(--accent);
+    fill: var(--diagram-accent, var(--accent));
   }
 
   figcaption {
     max-width: 38rem;
     margin-top: 1rem;
-    color: var(--muted);
+    color: var(--diagram-muted, var(--muted));
     font-size: 0.86rem;
     line-height: 1.55;
     text-wrap: pretty;

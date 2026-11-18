@@ -35,6 +35,7 @@ export default defineConfig({
       filter: (page) =>
         page !== 'https://www.jordisanchezweb.es/gracias/' &&
         page !== 'https://www.jordisanchezweb.es/en/thanks/' &&
+        page !== 'https://www.jordisanchezweb.es/ca/gracies/' &&
         !page.startsWith('https://www.jordisanchezweb.es/negocios-locales/demos/'),
       namespaces: {
         news: false,
@@ -67,7 +68,7 @@ export default defineConfig({
     },
   },
   i18n: {
-    locales: ['es', 'en'],
+    locales: ['es', 'ca', 'en'],
     defaultLocale: 'es',
     routing: { prefixDefaultLocale: false },
   },

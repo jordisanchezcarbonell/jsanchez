@@ -1,6 +1,6 @@
 ---
 import { localBusinessNav, localBusinessRoutes } from '../data/local-business';
-import { alternatesFor, getLocale, localePath } from '../i18n';
+import { alternatesFor, getLocale, localePath, locales, type Locale } from '../i18n';
 
 interface Props {
   /** `local` serves the Spanish-only local-business vertical, which has its own navigation. */
@@ -11,7 +11,12 @@ const { variant = 'core' } = Astro.props;
 const isLocal = variant === 'local';
 const currentPath = Astro.url.pathname;
 const locale = getLocale(Astro.currentLocale);
-const otherLocale = locale === 'es' ? 'en' : 'es';
+const otherLocales = locales.filter((other) => other !== locale);
+const switchLabels: Record<Locale, string> = {
+  es: 'ES · Versión en español',
+  ca: 'CA · Versió en català',
+  en: 'EN · English version',
+};
 
 const copy = {
   es: {
@@ -20,11 +25,20 @@ const copy = {
     mobile: 'Navegación móvil',
     menu: 'Menú',
     contact: 'Contacto',
-    switchLabel: 'EN · English version',
     links: [
       { href: localePath('projects', 'es'), label: 'Proyectos' },
-      { href: localePath('services', 'es'), label: 'Servicios' },
       { href: localePath('about', 'es'), label: 'Sobre mí' },
+    ],
+  },
+  ca: {
+    home: 'Jordi Sánchez, inici',
+    primary: 'Navegació principal',
+    mobile: 'Navegació mòbil',
+    menu: 'Menú',
+    contact: 'Contacte',
+    links: [
+      { href: localePath('projects', 'ca'), label: 'Projectes' },
+      { href: localePath('about', 'ca'), label: 'Sobre mi' },
     ],
   },
   en: {
@@ -33,10 +47,8 @@ const copy = {
     mobile: 'Mobile navigation',
     menu: 'Menu',
     contact: 'Contact',
-    switchLabel: 'ES · Versión en español',
     links: [
       { href: localePath('projects', 'en'), label: 'Projects' },
-      { href: localePath('services', 'en'), label: 'Services' },
       { href: localePath('about', 'en'), label: 'About' },
     ],
   },
@@ -44,7 +56,7 @@ const copy = {
 
 const contactHref = localePath('contact', locale);
 // Pages without a translation (the local vertical, blog, legal) switch to the other language's home.
-const switchHref = alternatesFor(currentPath)?.[otherLocale] ?? localePath('home', otherLocale);
+const switchHref = (other: Locale) => alternatesFor(currentPath)?.[other] ?? localePath('home', other);
 const isActive = (href: string) => currentPath.startsWith(href);
 
 // The vertical keeps its own entry point, links and tagline, and drops the language switch.
@@ -68,11 +80,11 @@ const tagline = isLocal ? 'Negocios locales' : 'Full-Stack';
           {link.label}
         </a>
       ))}
-      {!isLocal && (
-        <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
-          {otherLocale.toUpperCase()}
+      {!isLocal && otherLocales.map((other) => (
+        <a class="language-switch" href={switchHref(other)} hreflang={other} lang={other} aria-label={switchLabels[other]}>
+          {other.toUpperCase()}
         </a>
-      )}
+      ))}
       <a
         class="nav-cta"
         href={contactHref}
@@ -83,11 +95,11 @@ const tagline = isLocal ? 'Negocios locales' : 'Full-Stack';
     </nav>
 
     <div class="mobile-actions">
-      {!isLocal && (
-        <a class="language-switch" href={switchHref} hreflang={otherLocale} lang={otherLocale} aria-label={copy.switchLabel}>
-          {otherLocale.toUpperCase()}
+      {!isLocal && otherLocales.map((other) => (
+        <a class="language-switch" href={switchHref(other)} hreflang={other} lang={other} aria-label={switchLabels[other]}>
+          {other.toUpperCase()}
         </a>
-      )}
+      ))}
       <a
         class="nav-cta"
         href={contactHref}

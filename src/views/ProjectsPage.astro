@@ -28,6 +28,26 @@ const t = {
     ctaText: 'Podemos hablar de una funcionalidad concreta, una integración o una colaboración continuada.',
     ctaButton: 'Contarme el proyecto',
   },
+  ca: {
+    title: 'Projectes | Jordi Sánchez — Full-Stack Developer',
+    description:
+      "Casos d'estudi sobre producte, frontend, APIs, pagaments i integracions desenvolupats per Jordi Sánchez.",
+    eyebrow: 'Projectes',
+    heading: 'Producte, integracions i codi en producció.',
+    lead: "Un producte propi i casos d'estudi anonimitzats sobre problemes reals de programari. Cada cas té la seva fitxa, sense mètriques inventades ni informació interna de clients.",
+    count: `${projects.length} projectes i àrees`,
+    meta: 'Web · mòbil · APIs',
+    casesTitle: "Casos d'estudi",
+    problem: 'Problema',
+    readCase: 'Llegir el cas complet',
+    technologiesOf: (title: string) => `Tecnologies: ${title}`,
+    liveDemo: 'Veure la demo en viu',
+    viewProject: 'Veure el projecte',
+    ctaEyebrow: 'El teu context',
+    ctaTitle: "Tens un producte que ha d'avançar?",
+    ctaText: "Podem parlar d'una funcionalitat concreta, una integració o una col·laboració continuada.",
+    ctaButton: "Explica'm el projecte",
+  },
   en: {
     title: 'Projects | Jordi Sánchez — Full-Stack Developer',
     description:
@@ -49,6 +69,17 @@ const t = {
     ctaButton: 'Tell me about the project',
   },
 }[locale];
+
+// Client work and the author's own projects are different kinds of evidence, so they are listed apart.
+const groupTitles = {
+  es: ['Casos profesionales · anonimizados', 'Producto propio y proyectos públicos'],
+  ca: ['Casos professionals · anonimitzats', 'Producte propi i projectes públics'],
+  en: ['Professional cases · anonymised', 'Own product and public projects'],
+}[locale];
+const groups = [
+  { title: groupTitles[0], items: projects.filter((project) => project.anonymized) },
+  { title: groupTitles[1], items: projects.filter((project) => !project.anonymized) },
+];
 ---
 
 <BaseLayout
@@ -68,8 +99,11 @@ const t = {
   <section class="case-section" aria-labelledby="case-title">
     <div class="container">
       <h2 id="case-title" class="visually-hidden">{t.casesTitle}</h2>
+      {groups.map((group) => (
+      <>
+      <p class="eyebrow group-title">{group.title}</p>
       <ol class="case-list">
-        {projects.map((project, index) => (
+        {group.items.map((project, index) => (
           <li>
             <article>
               <header class="case-header">
@@ -124,6 +158,8 @@ const t = {
           </li>
         ))}
       </ol>
+      </>
+      ))}
     </div>
   </section>
 
@@ -256,11 +292,11 @@ const t = {
   .project-cta {
     padding-block: var(--section-space);
     background: var(--ink);
-    color: #f7f4ee;
+    color: #f4f5f3;
   }
 
   .project-cta .eyebrow {
-    color: #c77b6d;
+    color: #9db8f5;
   }
 
   .cta-grid {
@@ -274,7 +310,7 @@ const t = {
 
   .cta-grid > div:last-child > p {
     max-width: 32rem;
-    color: #aaa197;
+    color: #93a0ab;
   }
 
   .cta-grid .button {
@@ -309,5 +345,15 @@ const t = {
     .case-links {
       margin-left: 0;
     }
+  }
+
+  .group-title {
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .group-title:first-of-type {
+    margin-top: 0;
   }
 </style>

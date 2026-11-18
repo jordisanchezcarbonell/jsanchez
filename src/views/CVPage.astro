@@ -32,6 +32,25 @@ const t = {
     webLabel: 'jordisanchezweb.es',
     updated: 'Actualizado automáticamente desde el contenido de esta web.',
   },
+  ca: {
+    title: 'CV | Jordi Sánchez — Full-Stack Developer',
+    description: `Currículum de Jordi Sánchez, Full-Stack Developer a Barcelona amb ${years} anys d'experiència en React, Next.js, TypeScript, APIs i integracions.`,
+    eyebrow: 'Currículum',
+    role: 'Full-Stack Developer',
+    lead: `${years} anys construint aplicacions web i mòbils amb React, Next.js i TypeScript, des de la interfície fins a les APIs i les integracions.`,
+    download: 'Descarregar en PDF',
+    downloadHint: "S'obre el diàleg d'impressió del navegador: tria «Desa com a PDF».",
+    profile: 'Perfil',
+    experience: 'Experiència',
+    education: 'Formació',
+    stack: 'Tecnologies',
+    languages: 'Idiomes',
+    languagesValue: 'Castellà (natiu) · Català (natiu)',
+    location: 'Barcelona, Espanya',
+    technologiesAt: (company: string) => `Tecnologies utilitzades a ${company}`,
+    webLabel: 'jordisanchezweb.es',
+    updated: "Actualitzat automàticament a partir del contingut d'aquest web.",
+  },
   en: {
     title: 'CV | Jordi Sánchez — Full-Stack Developer',
     description: `Résumé of Jordi Sánchez, a Barcelona-based Full-Stack Developer with ${years} years of experience in React, Next.js, TypeScript, APIs and integrations.`,
@@ -249,7 +268,7 @@ const jsonLd = {
     margin: 0;
     padding: 0;
     list-style: none;
-    color: #373129;
+    color: #2a333c;
     line-height: 1.65;
   }
 
@@ -328,7 +347,7 @@ const jsonLd = {
 
   .cv-stack-grid p {
     margin-top: 0.3rem;
-    color: #373129;
+    color: #2a333c;
     font-size: 0.92rem;
     line-height: 1.6;
   }

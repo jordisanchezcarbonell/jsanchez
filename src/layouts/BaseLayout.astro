@@ -28,7 +28,7 @@ interface Props {
 
 const { hideHeader = false, hideFooter = false, variant = 'core', ...seoProps } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
-const skipLabel = locale === 'en' ? 'Skip to content' : 'Saltar al contenido';
+const skipLabel = { es: 'Saltar al contenido', ca: 'Salta al contingut', en: 'Skip to content' }[locale];
 ---
 
 <!doctype html>

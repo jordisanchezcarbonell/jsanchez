@@ -24,27 +24,34 @@ const copy: { note: string; nav: string; profiles: string; links: FooterLink[] }
     note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs e integraciones.',
     nav: 'Navegación del pie',
     profiles: 'Perfiles profesionales',
-    // The local-business vertical gets a single discreet link: enough for crawlers and for
-    // anyone looking for it, without putting a second positioning in the main navigation.
     links: [
       { href: localePath('projects', 'es'), label: 'Proyectos' },
-      { href: localePath('services', 'es'), label: 'Servicios' },
       { href: localePath('about', 'es'), label: 'Sobre mí' },
       { href: localePath('cv', 'es'), label: 'CV' },
       { href: localePath('contact', 'es'), label: 'Contacto' },
-      { href: localBusinessRoutes.home, label: 'Negocios locales' },
       { href: '/aviso-legal/', label: 'Aviso legal' },
       { href: '/privacidad/', label: 'Privacidad' },
+    ],
+  },
+  ca: {
+    note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs i integracions.',
+    nav: 'Navegació del peu',
+    profiles: 'Perfils professionals',
+    links: [
+      { href: localePath('projects', 'ca'), label: 'Projectes' },
+      { href: localePath('about', 'ca'), label: 'Sobre mi' },
+      { href: localePath('cv', 'ca'), label: 'CV' },
+      { href: localePath('contact', 'ca'), label: 'Contacte' },
+      { href: '/aviso-legal/', label: 'Avís legal (ES)', lang: 'es' },
+      { href: '/privacidad/', label: 'Privacitat (ES)', lang: 'es' },
     ],
   },
   en: {
     note: 'Full-Stack Developer · React, Next.js, TypeScript, APIs and integrations.',
     nav: 'Footer navigation',
     profiles: 'Professional profiles',
-    // The local-business vertical targets a Spanish-speaking audience, so it is not linked here.
     links: [
       { href: localePath('projects', 'en'), label: 'Projects' },
-      { href: localePath('services', 'en'), label: 'Services' },
       { href: localePath('about', 'en'), label: 'About' },
       { href: localePath('cv', 'en'), label: 'CV' },
       { href: localePath('contact', 'en'), label: 'Contact' },

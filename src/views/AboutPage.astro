@@ -1,61 +1,79 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getExperience, yearsOfExperience } from '../data/experience';
-import { getEducation, getProfileCopy, getStackGroups } from '../data/profile';
+import { getEducation } from '../data/profile';
 import { getLocale, localePath } from '../i18n';
 
 const locale = getLocale(Astro.currentLocale);
 const experience = getExperience(locale);
-const stackGroups = getStackGroups(locale);
 const education = getEducation(locale);
-const profileCopy = getProfileCopy(locale);
 const years = yearsOfExperience();
 
+// TODO(Jordi): confirmar ambas URL públicas (StateX aún sin dominio definitivo; Primer Down usa la demo).
+const statex = '<a href="https://statex.jordisanchezweb.es/" target="_blank" rel="noreferrer">StateX</a>';
+const primerDown = '<a href="https://primer-down.vercel.app/es" target="_blank" rel="noreferrer">Primer Down</a>';
+
+// Body paragraphs carry the two outbound links, so they are rendered as HTML. No user input reaches them.
 const t = {
   es: {
     title: 'Sobre mí | Jordi Sánchez — Full-Stack Developer',
     description:
       'Experiencia, tecnologías y perfil profesional de Jordi Sánchez, Full-Stack Developer en Barcelona.',
     eyebrow: 'Sobre mí',
-    heading: 'Desarrollo producto digital desde Barcelona.',
-    lead: `Soy Jordi Sánchez, Full-Stack Developer. Llevo ${years} años trabajando en aplicaciones web y móviles con React, Next.js y TypeScript, desde la interfaz hasta las APIs y las integraciones.`,
-    languages: 'Español · Català',
-    profileEyebrow: 'Perfil',
-    profileTitle: 'Me interesa el software que resuelve trabajo real.',
-    experienceEyebrow: 'Experiencia profesional',
-    experienceTitle: 'Trayectoria',
-    technologiesAt: (company: string) => `Tecnologías utilizadas en ${company}`,
-    stackEyebrow: 'Tecnologías',
-    stackTitle: 'Herramientas que forman parte del trabajo.',
+    heading: 'Me dedico a la parte del producto donde un fallo cuesta dinero.',
+    body: [
+      `Llevo ${years} años como Full-Stack Developer. Empecé en Ogilvy manteniendo plataformas internacionales y desde 2022 en Eunoia Digital construyo aplicaciones web y móviles con React, Next.js y NestJS. Con el tiempo me he ido quedando con los problemas que otros evitan: un pago 3DS que falla de forma intermitente, datos que no cuadran entre SAP y la web, un error que solo aparece en producción.`,
+      `Me formé también en seguridad ofensiva (Cisco Ethical Hacker) porque quien integra pagos y sistemas de negocio tiene que saber cómo se atacan. De ahí salió ${statex}, donde audito y aseguro aplicaciones web y APIs.`,
+      'Últimamente trabajo en dar a modelos de IA acceso a datos de empresa sin exponer lo que no deben ver.',
+      `Fuera del trabajo construyo ${primerDown}, un archivo digital del fútbol americano en España.`,
+    ],
+    experienceEyebrow: 'Trayectoria',
+    viewCv: 'Ver CV completo',
     educationEyebrow: 'Formación',
     educationTitle: 'Base técnica y aprendizaje continuo.',
-    ctaTitle: '¿Buscas experiencia Full-Stack para tu equipo o producto?',
-    ctaText: 'Puedo colaborar en una entrega concreta o integrarme en la evolución continuada de una aplicación.',
-    ctaButton: 'Contactar',
-    viewCv: 'Ver CV completo',
+    closing: 'Español y catalán nativos, inglés [PENDIENTE: nivel]. Barcelona, abierto a remoto.',
+    seeCases: 'Ver casos',
+    contact: 'Contactar',
+  },
+  ca: {
+    title: 'Sobre mi | Jordi Sánchez — Full-Stack Developer',
+    description:
+      'Experiència, tecnologies i perfil professional de Jordi Sánchez, Full-Stack Developer a Barcelona.',
+    eyebrow: 'Sobre mi',
+    heading: 'Em dedico a la part del producte on un error costa diners.',
+    body: [
+      `Fa ${years} anys que treballo com a Full-Stack Developer. Vaig començar a Ogilvy mantenint plataformes internacionals i des del 2022 a Eunoia Digital construeixo aplicacions web i mòbils amb React, Next.js i NestJS. Amb el temps m’he anat quedant amb els problemes que altres eviten: un pagament 3DS que falla de manera intermitent, dades que no quadren entre SAP i el web, un error que només apareix en producció.`,
+      `També em vaig formar en seguretat ofensiva (Cisco Ethical Hacker) perquè qui integra pagaments i sistemes de negoci ha de saber com s’ataquen. D’aquí va sortir ${statex}, on audito i asseguro aplicacions web i APIs.`,
+      'Darrerament treballo a donar als models d’IA accés a dades d’empresa sense exposar el que no han de veure.',
+      `Fora de la feina construeixo ${primerDown}, un arxiu digital del futbol americà a Espanya.`,
+    ],
+    experienceEyebrow: 'Trajectòria',
+    viewCv: 'Veure el CV complet',
+    educationEyebrow: 'Formació',
+    educationTitle: 'Base tècnica i aprenentatge continu.',
+    closing: 'Castellà i català nadius, anglès [PENDIENTE: nivel]. Barcelona, obert a remot.',
+    seeCases: 'Veure casos',
+    contact: 'Contactar',
   },
   en: {
     title: 'About | Jordi Sánchez — Full-Stack Developer',
     description:
       'Experience, technologies and professional profile of Jordi Sánchez, Full-Stack Developer in Barcelona.',
     eyebrow: 'About',
-    heading: 'Building digital products from Barcelona.',
-    lead: `I am Jordi Sánchez, a Full-Stack Developer. I have spent ${years} years building web and mobile applications with React, Next.js and TypeScript, from the interface to APIs and integrations.`,
-    // TODO(Jordi): añadir «English» si quieres indicarlo como idioma de trabajo.
-    languages: 'Spanish · Catalan',
-    profileEyebrow: 'Profile',
-    profileTitle: 'I care about software that solves real work.',
-    experienceEyebrow: 'Professional experience',
-    experienceTitle: 'Career',
-    technologiesAt: (company: string) => `Technologies used at ${company}`,
-    stackEyebrow: 'Technologies',
-    stackTitle: 'Tools that are part of the job.',
+    heading: 'I work on the part of the product where a failure costs money.',
+    body: [
+      `I have been a Full-Stack Developer for ${years} years. I started at Ogilvy maintaining international platforms, and since 2022 at Eunoia Digital I have been building web and mobile applications with React, Next.js and NestJS. Over time I have ended up with the problems others avoid: a 3DS payment that fails intermittently, data that does not match between SAP and the website, a bug that only shows up in production.`,
+      `I also trained in offensive security (Cisco Ethical Hacker), because whoever integrates payments and business systems has to know how they are attacked. That led to ${statex}, where I audit and secure web applications and APIs.`,
+      'Lately I have been working on giving AI models access to company data without exposing what they should not see.',
+      `Outside work I build ${primerDown}, a digital archive of American football in Spain.`,
+    ],
+    experienceEyebrow: 'Career',
+    viewCv: 'View full CV',
     educationEyebrow: 'Education',
     educationTitle: 'Technical foundations and continuous learning.',
-    ctaTitle: 'Looking for full-stack experience for your team or product?',
-    ctaText: 'I can contribute to a specific delivery or join the ongoing evolution of an application.',
-    ctaButton: 'Get in touch',
-    viewCv: 'View full CV',
+    closing: 'Native Spanish and Catalan, English [PENDIENTE: nivel]. Barcelona, open to remote.',
+    seeCases: 'See cases',
+    contact: 'Contact',
   },
 }[locale];
 ---
@@ -68,67 +86,27 @@ const t = {
   <header class="page-intro container">
     <p class="eyebrow">{t.eyebrow}</p>
     <h1>{t.heading}</h1>
-    <div class="page-intro__footer">
-      <p class="lede">{t.lead}</p>
-      <p class="meta-line"><span>Barcelona</span><span>{t.languages}</span></p>
-    </div>
   </header>
 
-  <section class="profile-section" aria-labelledby="profile-title">
-    <div class="container profile-grid">
-      <div>
-        <p class="eyebrow">{t.profileEyebrow}</p>
-        <h2 id="profile-title">{t.profileTitle}</h2>
-      </div>
+  <section class="profile-section" aria-label={t.eyebrow}>
+    <div class="container about-layout">
       <div class="profile-copy">
-        {profileCopy.map((paragraph) => <p>{paragraph}</p>)}
+        {t.body.map((paragraph) => <p set:html={paragraph} />)}
       </div>
-    </div>
-  </section>
 
-  <section class="experience-section" aria-labelledby="experience-title">
-    <div class="container">
-      <header class="section-header">
-        <p class="eyebrow">{t.experienceEyebrow}</p>
-        <h2 id="experience-title">{t.experienceTitle}</h2>
-      </header>
-      <ol class="experience-list">
-        {experience.map((item, index) => (
-          <li>
-            <p class="experience-number">{String(index + 1).padStart(2, '0')}</p>
-            <div>
-              <p class="experience-period">{item.period}</p>
-              <h3>{item.company}</h3>
-              <p class="experience-role">{item.role}</p>
-            </div>
-            <div>
-              <p>{item.summary}</p>
-              <ul aria-label={t.technologiesAt(item.company)}>
-                {item.technologies.map((technology) => <li>{technology}</li>)}
-              </ul>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="stack-section" aria-labelledby="stack-title">
-    <div class="container">
-      <header class="section-header">
-        <p class="eyebrow">{t.stackEyebrow}</p>
-        <h2 id="stack-title">{t.stackTitle}</h2>
-      </header>
-      <div class="stack-grid">
-        {stackGroups.map((group) => (
-          <section>
-            <h3>{group.title}</h3>
-            <ul>
-              {group.items.map((item) => <li>{item}</li>)}
-            </ul>
-          </section>
-        ))}
-      </div>
+      <aside class="about-side" aria-labelledby="experience-title">
+        <h2 id="experience-title" class="eyebrow">{t.experienceEyebrow}</h2>
+        <ul class="experience-lines">
+          {experience.map((item) => (
+            <li>
+              <span>{item.company} · {item.role}</span>
+              <span class="experience-period">{item.period}</span>
+            </li>
+          ))}
+        </ul>
+        <a class="text-link" href={localePath('cv', locale)}>{t.viewCv}</a>
+        <p class="closing">{t.closing.replace(/ \[PENDIENTE:[^\]]*\]/, '')}</p>
+      </aside>
     </div>
   </section>
 
@@ -150,14 +128,10 @@ const t = {
   </section>
 
   <section class="about-cta">
-    <div class="container cta-grid">
-      <h2>{t.ctaTitle}</h2>
-      <div>
-        <p>{t.ctaText}</p>
-        <div class="cta-actions">
-          <a class="button button--accent" href={localePath('contact', locale)}>{t.ctaButton}</a>
-          <a class="text-link" href={localePath('cv', locale)}>{t.viewCv}</a>
-        </div>
+    <div class="container">
+      <div class="cta-actions">
+        <a class="button button--accent" href={localePath('projects', locale)}>{t.seeCases}</a>
+        <a class="text-link" href={localePath('contact', locale)}>{t.contact}</a>
       </div>
     </div>
   </section>
@@ -165,59 +139,67 @@ const t = {
 
 <style>
   .profile-section,
-  .experience-section,
-  .stack-section,
   .education-section {
     padding-block: var(--section-space);
     border-top: 1px solid var(--line);
   }
 
-  .profile-grid,
   .education-grid {
     display: grid;
     gap: clamp(3rem, 8vw, 7rem);
   }
 
-  .profile-grid h2,
-  .education-grid h2,
-  .section-header h2 {
+  .education-grid h2 {
     max-width: 11ch;
   }
 
   .profile-copy {
     display: grid;
     gap: 1.5rem;
-    max-width: 42rem;
-    color: var(--muted);
     font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   }
 
-  .section-header {
-    margin-bottom: clamp(3rem, 7vw, 6rem);
+  .profile-copy p {
+    max-width: 42rem;
   }
 
-  .experience-list {
-    margin: 0;
-    padding: 0;
+  .profile-copy :global(a) {
+    color: var(--accent);
+    text-underline-offset: 0.2em;
+  }
+
+  .about-layout {
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .about-side {
+    align-self: start;
+    padding-top: 1.25rem;
     border-top: 1px solid var(--ink);
+  }
+
+  .about-side .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .experience-lines {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+    padding: 0;
     list-style: none;
   }
 
-  .experience-list > li {
+  .experience-lines li {
     display: grid;
-    gap: 1.5rem;
-    padding-block: clamp(2.5rem, 6vw, 4rem);
-    border-bottom: 1px solid var(--line);
+    gap: 0.15rem;
   }
 
-  .experience-number,
-  .experience-period,
-  .experience-role,
-  .cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem 2rem;
+  .experience-period {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
   }
 
   .education-section article > p {
@@ -226,78 +208,6 @@ const t = {
     font-weight: 750;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-  }
-
-  .experience-number,
-  .experience-role {
-    color: var(--accent);
-  }
-
-  .experience-list h3 {
-    margin-top: 0.75rem;
-    font-size: clamp(2.3rem, 5vw, 4.2rem);
-  }
-
-  .experience-role {
-    margin-top: 0.8rem;
-  }
-
-  .experience-list > li > div:last-child > p {
-    max-width: 40rem;
-    color: var(--muted);
-  }
-
-  .experience-list ul,
-  .stack-grid ul {
-    margin: 1.5rem 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .experience-list ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .experience-list ul li {
-    padding: 0.35rem 0.6rem;
-    border: 1px solid var(--line);
-    font-size: 0.68rem;
-    font-weight: 650;
-  }
-
-  .stack-section {
-    background: var(--ink);
-    color: #f7f4ee;
-  }
-
-  .stack-section .eyebrow {
-    color: #c77b6d;
-  }
-
-  .stack-grid {
-    display: grid;
-    gap: 2.5rem;
-  }
-
-  .stack-grid section {
-    padding-top: 1.25rem;
-    border-top: 1px solid #514940;
-  }
-
-  .stack-grid h3 {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    font-weight: 750;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .stack-grid li {
-    padding-block: 0.55rem;
-    border-bottom: 1px solid #39342d;
-    color: #cfc7bc;
   }
 
   .education-section article {
@@ -313,41 +223,32 @@ const t = {
 
   .about-cta {
     padding-block: var(--section-space);
-    background: #eee9e0;
+    background: #e9ecea;
   }
 
-  .cta-grid {
-    display: grid;
-    gap: 2.5rem;
-  }
-
-  .cta-grid h2 {
-    max-width: 11ch;
-  }
-
-  .cta-grid p {
-    max-width: 32rem;
-    color: var(--muted);
-  }
-
-  .cta-grid .button {
+  .closing {
     margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
   }
 
   @media (min-width: 52rem) {
-    .profile-grid,
-    .education-grid,
-    .cta-grid {
+    .about-layout {
+      grid-template-columns: minmax(0, 1fr) 17rem;
+    }
+
+    .education-grid {
       grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.72fr);
       align-items: start;
-    }
-
-    .experience-list > li {
-      grid-template-columns: 3rem minmax(18rem, 0.65fr) minmax(23rem, 1fr);
-    }
-
-    .stack-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>
